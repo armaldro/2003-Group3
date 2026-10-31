@@ -6,12 +6,12 @@ Restaurant Rush is a turn-based restaurant management game played on the command
 
 ## Group Members
 
-| Name (as on matric card) | Matric No. | Lab Group | Role |
-| ------------------------ | ---------- | --------- | ---- |
-| _TBC_                    |            | COMP1     |      |
-| _TBC_                    |            | COMP1     |      |
-| _TBC_                    |            | COMP1     |      |
-| _TBC_                    |            | COMP1     |      |
+| Name | Lab Group | Responsibilities |
+| ---- | --------- | ---------------- |
+| Muhamad Rifqi bin Zulkiflie | COMP1 | Customers (Regular, VIP, Critic) and satisfaction; UML class diagram |
+| Muhammad Danial Haziq bin Burhan | COMP1 | Menu items, ComboMeal, Order, Chef, Cashier and pricing; design discussion |
+| Muhammad Kenz s/o Jafar | COMP1 | Tables, Waiter, Host, console display and input; testing and functional evidence |
+| Teo Soon How | COMP1 | Turn sequence, scoring and Happy Hour timing; stage tags, README and report |
 
 ## The Game
 
