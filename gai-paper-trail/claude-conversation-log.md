@@ -4,7 +4,8 @@ GAI paper trail for CT2003 Restaurant Rush, lab group COMP1, Group 3.
 
 - **Tool:** Claude Code, using Claude Opus 5.5 (`claude-opus-5-5`)
 - **Used by:** Teo Soon How
-- **Format:** one entry per request. Each prompt is quoted exactly as typed. From entry 8 on, Claude's reply is copied in full. Entries 1 to 7 only summarise the reply; the full replies are in the Claude Code session transcript. Local file paths and other personal details are replaced with [brackets].
+- **Format:** one entry per request, starting from entry 9. Each prompt is quoted exactly as typed and Claude's reply is copied in full. Local file paths and other personal details are replaced with [brackets].
+- **Earlier entries:** entries 1 to 8, from earlier on Sat 31 Oct 2026, are kept privately outside this repository. The "To acknowledge" list below still covers them.
 
 ## To acknowledge in the submission
 
@@ -18,131 +19,131 @@ Anything below that ends up in the submission needs a footnote or in-text refere
   - the payment tie-break, the Critic twist options and the Host acting before the Waiter;
   - the Stage 1 to 3 test cases.
 - The work split, timeline and milestones (entry 4), if the report describes them.
-
-## Before the log started (Sat 31 Oct 2026)
-
-These requests came before the log was started, so their responses are summarised after the fact.
-
-### 1. Wrong project title on GitHub
-
-> why is there a NTU placement for 2003 course? can you resolve and name it properly after 2003 assignment. Do you have my full content for the course from Blackboard in my local folder?
-
-Claude found that the README described an internship placement system from an earlier semester's brief, not this semester's assignment, and checked which course files were available locally.
-
-### 2. Course materials
-
-> [local CT2003 course folder] use this folder to store everything from 2003 [NTULearn course link]
-
-> can you read through what is available first
-
-> i put it here already [local CT2003 course folder]
-
-Claude could not open NTULearn because the browser extension was not connected, so the files were downloaded by hand. Claude then read the assignment brief, the deliverables sheet, the group list, the NTU GAI policy documents and the GradeWay guide.
-
-### 3. README and repository clean-up
-
-> for the assignment can you help me update Github to reflect the correct title first? now some NTU placement internship title
-
-Claude rewrote the README for Restaurant Rush (game rules, stages, repository structure, build commands, submission checklist and marks), removed the old internship data files, added empty folders for the project layout and updated the repository description.
-
-Files: `README.md`, `.gitignore`, `.gitkeep` files in each folder, `data/` removed.
-
-> delete all history and record prior to this
-
-After the user confirmed, Claude replaced the history with a single commit, "Set up Restaurant Rush project structure", and force-pushed it to `main` and `dev`.
-
-> put the final date of submission here too
-
-(Sent with a screenshot of the NTULearn due date.) Claude added the deadline to the README: Fri 13 Nov 2026, 11:59 PM (UTC+8).
-
-> so is this live now?
-
-Claude confirmed the changes were live on GitHub and noted that teammates need to clone the repository again.
-
-### 4. Kickoff deck
-
-> Can you also help me start to study the assignment, list down what needs to be done, propose an allocation to each team member, propose the timeline for us (with enough time to study and review) then propose the milestones for the team. 1st meeting will be today 31st October. make this ppt slide not the [work] template one for sharing later
-
-Claude made a 14-slide kickoff deck covering the brief, the rules that are easy to get wrong, the three stages, the deliverables, a first sketch of the classes, the proposed split of work, a timeline from 31 Oct to 13 Nov and eight milestones.
-
-Output: "Restaurant Rush Kickoff" deck (claude.ai artifact).
-
-### 5. Stage-by-stage plan
-
-> give me the exact details of what needs to be done at which stage, what files etc
-
-Claude listed every file to create or change at each stage with its owner, the tests with their expected numbers, the hand-in folders, how to tag a stage, and five design decisions to settle by Mon 2 Nov.
-
-> make this as a ppt to share with the tema
-
-Claude turned the plan into a 17-slide deck.
-
-Output: "Restaurant Rush Build Plan" deck (claude.ai artifact).
-
-> is this ppt sharable
-
-Claude explained that the decks stay private until they are shared from the Share menu, and that they can be exported as PowerPoint or PDF.
-
-### 6. Team table and Main.java
-
-> ok plan is confirm. can we put the plan consideration simply in readme? just the team member informationw will do.
-> You should not help me write any impoant code. to get us started, can you help me write the main file template so that we can use that as a base for each of us to get started working?
-
-Claude added a Group Members table to the README with names, lab group and responsibilities. Matric numbers were left out because the repository is public. Claude also wrote a placeholder `Main.java` that prints a title line and has a TODO for starting the game; it contains no game logic. It compiled and ran with the README's build commands.
-
-Files: `README.md`, `src/main/java/Main.java`.
-
-> ok now base on this base, teach me what I should do
-
-The user interrupted this request before Claude replied.
+- How `Main.java` is structured (entry 9), if the team follows it: Main creates the console boundary, the game setting and the controller, passes the first two into the controller and starts it; one shared `Scanner`; Main written last.
 
 ## Log (from Sat 31 Oct 2026)
 
-### 7. Conversation log
+### 9. How to write Main.java
 
-> from now on keep an md file on the conversation we have regarding the project
+> how should i write for Main.Java?
 
-Claude created this log and will add an entry after each request about the project.
-
-Files: `gai-paper-trail/claude-conversation-log.md`.
-
-### 8. Checking the declarations
-
-> can you understand what was the instruction and the declaration that I will underatke, ensure that I do not breach any of those clauses
-
-Claude read the Declaration of Original Work form, the Declaration on Use of GAI Assistance, NTU's GAI guidelines, the brief and the deliverables sheet. It changed this log to record replies in full and added the "To acknowledge in the submission" list.
+Claude read `Main.java`, the empty `util/GameConfig.java` and the brief, then explained what `Main.java` should contain without writing any code.
 
 Files: `gai-paper-trail/claude-conversation-log.md`.
 
 Claude's reply:
 
-I read both forms you'll sign, NTU's GAI guidelines, the brief and the deliverables sheet. This is my reading; the instructor's word is final.
+I'll explain what goes in it rather than write it, since we agreed I won't write submission code until the instructor confirms the GAI level.
 
-**What you're agreeing to**
+**Main's one job**
 
-- **Declaration of Original Work** (one form, signed by all four of you): the work is the group's own collective effort, and you upheld academic integrity and the Student Code of Academic Conduct, which includes NTU's GAI rules. Plagiarism means lower or no marks and possible disciplinary action. Names must match your matric cards exactly.
-- **Declaration on Use of GAI** (each of you, separately): you tick which GAI use applies (i: key ideas, ii: first text, iii: grammar only, iv: no GAI at all). You also declare that (a) you submitted the full paper trail, (b) every word, paraphrase, significant idea or fact that came from GAI is footnoted, and (c) everything else is your own work.
-- **NTU's GAI guidelines**, the rules behind that form:
-  - The instructor must state which use is allowed.
-  - GAI may never produce the whole submission.
-  - The paper trail must hold both your prompts and the GAI's output, and be kept until the end of the next academic year.
-  - A missing or late paper trail can be presumed improper, and can itself be a violation.
-  - You may be questioned on the work orally.
+Main creates the few objects the game needs, connects them, and hands over to the controller. Nothing else. Its own Javadoc already says this, and the brief backs it up: rules belong in control and entity classes, and input and output belong in boundary classes (section 2.2). Part of the coupling and cohesion marks comes from keeping it that way.
 
-**Where you could breach them**
+When it's finished, `main` does four things, in this order:
 
-Nothing is breached yet, because the declarations are signed at submission. These are the gaps to close before then:
+1. Create the console boundary object: the only class that reads the keyboard and prints to the screen.
+2. Pick the game setting: the base setting from `GameConfig` (18 turns, 2 tables, the six arrivals, the menu). If you add other difficulty settings later, the boundary asks the player which one, and Main just passes the answer on.
+3. Create the `GameController`, passing it the boundary object and the setting through its constructor.
+4. Tell the controller to start.
 
-1. **Nobody has said what GAI use is allowed.** Neither the brief nor the deliverables sheet states it. You can't tick option iv, because you've already used me. Ask the instructor in writing which option applies, and say what you've used me for.
-2. **I wrote some of what you'll submit:** the README text, which is already public on GitHub, and the placeholder `Main.java`. If only ideas are allowed (option i), rewrite them in your own words. If first drafts are allowed (option ii), revise them yourselves. Either way, acknowledge them.
-3. **My ideas will end up in the design.** The class structure, the food-choice rule, the Critic options, the test cases and the stage plan came from me. Whatever the team adopts needs a footnote in the report.
-4. **The paper trail is incomplete.** The log only summarises my earlier replies. The full replies exist only in Claude Code's transcript on this computer, which Claude Code deletes after 30 days by default.
-5. **Your teammates sign the originality form too.** Tell them what you've used me for, so they sign knowing it and each declare their own GAI use honestly.
+That's three or four lines. If `main` grows past about ten lines, something that belongs elsewhere has crept in.
 
-**What I've changed**
+**Why pass things in, instead of letting the controller create them**
 
-- From now on the log records my replies in full, not as summaries. This reply is entry 8 of the log.
-- The top of the log now lists everything that needs acknowledging in the submission.
-- Until the instructor answers, I'll explain, review and answer questions, but I won't write code, README text or report text for the submission. If a request would cross that line, I'll say so before doing anything.
+If `GameController` creates its own console and config, it's tied to those exact classes. If Main creates them and passes them in, you can start a game with a different setting (a shorter game for testing, or a Stage 2 arrival list with a VIP and a Critic) without touching the controller. This is called dependency injection. It only counts as dependency inversion (the D in SOLID) if the controller depends on an interface or abstract class rather than the concrete console class, and the brief warns against interfaces created just to tick a box (section 4.4). Mention it in the design discussion only if your code really does it (section 5).
 
-I can draft the email to the instructor, and copy the full session transcript to a private folder on your OneDrive, outside the public repo, so it's kept. Do you want either?
+**What to keep out of Main**
+
+- The turn loop, satisfaction, payment or any other rule. These go in `control`.
+- `Scanner` and menu prompts. These go in `boundary`. Create one `Scanner` for the whole game and don't close it: closing it also closes `System.in`, and every later read fails.
+- `static` fields holding game state, such as a static list of customers. State lives in objects the controller owns.
+- The current welcome `println`. It's fine as a placeholder, but once the boundary class exists, move the banner there so Main prints nothing itself.
+
+**Exceptions**
+
+Invalid input isn't Main's job. The brief says an invalid choice must explain why it failed and let the manager choose again without using up the staff task (section 3.4), so it's handled in the boundary and controller, where the choice is made. Main may catch an unexpected exception at the top and print a short message instead of a stack trace, but don't use that to hide errors you should fix.
+
+**When to write it**
+
+Write Main last, not first. It can't call `GameController` until that class exists. An order that works:
+
+1. You own the turn sequence, so agree with the team on what the controller's constructor takes and what its start method is called.
+2. Kenz builds the console boundary class; you build `GameController` and `GameConfig`.
+3. Then replace the TODO with the four steps, and update the Javadoc on `main` to say what it does.
+
+**Across the stages**
+
+Main should hardly change between stage-1, stage-2 and stage-3. VIP and Critic arrivals belong in the arrival schedule or config; the Host, ComboMeal and Happy Hour belong in the controller and entities. If Main does change, it should be a small setup change, which the brief says is expected (section 4.4), and you list it in the README's stage comparison.
+
+**Two checks before tagging each stage**
+
+- From a fresh clone, run the two commands in the README's Build & Run section exactly as written. The first segment of the oral presentation is the game launching from the submitted project (section 6.2).
+- Main has no `package` line, so it's in the default package. That's fine for the entry point, and `java -cp out Main` relies on it. If you ever move it into a package, update the README's run command too.
+
+Write it yourself and I'll review it, or ask me to go deeper on any of these points. This is entry 9 of the paper-trail log.
+
+### 10. Commit message for the starter files
+
+> based on the current work I have done I understand that I have done a basic template and also created the base file for the team to start coding, can you help me write a simple commit message to send to the team so I can push the files up for the team to start?
+
+Claude checked the uncommitted changes and compiled the project; it failed because the three new classes are still empty. Claude then pointed out three things to fix and wrote a commit message. It did not change any source files.
+
+Files: `gai-paper-trail/claude-conversation-log.md`.
+
+Claude's reply:
+
+Here's a commit message. Fix three things first, though, because the project doesn't compile right now.
+
+**Fix before you push**
+
+1. `control/GameController.Java` has a capital J. Rename it to `GameController.java`, or the README's build command won't find it.
+2. There are two `GameConfig.java` files, one in `control/` and one in `util/`. Main imports `control.GameConfig`, so delete `util/GameConfig.java`, or change the import if you'd rather keep it in `util`.
+3. The class Javadoc now sits above the `import` lines, so Javadoc won't attach it to `Main`. Move the comment to just above `public class Main`.
+
+Even after those fixes, Main won't compile until ConsoleUI, GameConfig and GameController are written, because all three files are empty. That's fine as a starting point, but I'd push it to `dev`, not `main`. `main` (9b165cc) still has the placeholder that runs, and the team plan has everyone branching from `dev` anyway. On GitHub, `dev` is behind `main`, so this push just moves it forward:
+
+```
+git switch -c dev
+git add -A
+git commit
+git push -u origin dev
+```
+
+Paste this as the commit message:
+
+```
+Wire up Main and add empty starter classes
+
+Main now creates the console UI and the base game setting, passes
+them to GameController and starts the game. It won't compile until
+these classes are written:
+
+- boundary/ConsoleUI.java (Kenz)
+- control/GameConfig.java (Soon How)
+- control/GameController.java (Soon How)
+
+The files are empty for now so everyone knows where they go.
+The GAI paper-trail log now starts from entry 9; entries 1 to 8
+are kept privately.
+```
+
+This is entry 10 of the paper-trail log.
+
+### 11. Starting the log from entry 9
+
+> the conversation recorded should start only from
+> How to write main java awrds
+
+Claude moved entries 1 to 8 out of this log into a private file outside the repository and kept the original entry numbers.
+
+Files: `gai-paper-trail/claude-conversation-log.md`, and a private file outside the repository.
+
+Claude's reply:
+
+The log now starts from entry 9 ("How to write Main.java"). I kept the original numbers so the log still lines up with the earlier entries.
+
+I didn't delete entries 1 to 8. I moved them to a private file in your course folder, outside the public repo: `New folder\GAI paper trail - entries 1-8 (31 Oct 2026).md`. Keep that file. Those entries record where the README text, the first `Main.java` and the design ideas came from, and the paper trail you declare has to cover every GAI use that shaped the submission. For the same reason, the "To acknowledge" list at the top of the log still includes those items.
+
+Entries 1 to 8 are also still on GitHub in commit 9b165cc, because taking them out of the file doesn't remove them from the history. Removing them from the history would need a force-push, so tell me if you want that.
+
+This is entry 11 of the paper-trail log.

@@ -9,16 +9,28 @@
  *
  * @author CT2003 Group 3
  */
+
+import boundary.ConsoleUI;
+import control.GameConfig;
+import control.GameController;
+
+
 public class Main {
 
     /**
-     * Starts Restaurant Rush.
+     * Creates the console boundary and the base game setting, passes both to a
+     * new {@link GameController}, and starts the game.
      *
      * @param args command-line arguments (not used)
      */
     public static void main(String[] args) {
-        System.out.println("Restaurant Rush - CT2003 Group 3");
-
-        // TODO: once GameController exists, create it here and start the game.
+        try {
+            ConsoleUI ui = new ConsoleUI();
+            GameConfig config = GameConfig.base();
+            GameController controller = new GameController(ui, config);
+            controller.start();
+        } catch (RuntimeException e) {
+            System.err.println("Restaurant Rush stopped unexpectedly: " + e.getMessage());
+        }
     }
 }
