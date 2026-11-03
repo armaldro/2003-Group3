@@ -165,4 +165,13 @@ public abstract class Customer {
         this.state = CustomerState.LEFT;
     }
 
+    /**
+     * Returns the price the customer have to pay
+     * 
+     * @param priceCents the standard price of the food
+     * @return the price of the order
+     */
+    public int applyDiscount(int priceCents) {
+        return priceCents;
+    }
 }
