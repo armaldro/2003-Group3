@@ -14,4 +14,15 @@ public abstract class Customer {
     private Order order;
     private int servedTurn;
     private int readyToPayTurn;
+
+    /**
+     * This creates a customer who just arrived and is waiting for a table.
+     * 
+     * @param id
+     */
+    public Customer(int id) {
+        this.id = id;
+        this.satisfaction = 100;
+        this.state = CustomerState.WAITING; 
+    }
 }
