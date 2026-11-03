@@ -112,4 +112,17 @@ public abstract class Customer {
         this.state = CustomerState.READY_TO_PAY;
     }
 
+    /**
+     * Records that the customer has paid
+     */
+    public void markPaid() {
+        this.state = CustomerState.PAID;
+    }
+
+    /**
+     * Records that the customer has left
+     */
+    public void leave() {
+        this.state = CustomerState.LEFT;
+    }
 }
