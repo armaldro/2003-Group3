@@ -31,4 +31,15 @@ public final class Money {
         int dollars = value / 100;
         return String.format("$%d.%02d", dollars, cents);
     }
+
+    /**
+     * percentOf method: returns an integer of the percent of an input value
+     * e.g. 10% of 100 cents = 10
+     * @param cents the input amount in cents
+     * @param pct the percentage of cents to return
+     * @return amount obtained from percentage of cents
+     */
+    public static int percentOf(int cents, int pct) {
+        return (int) Math.round(cents * (pct / 100.0));
+    }
 }
