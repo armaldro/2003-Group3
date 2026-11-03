@@ -1,5 +1,8 @@
 package entity;
 
+import java.io.Serial;
+import java.util.ServiceLoader;
+
 import enums.CustomerState;
 
 /**
@@ -52,6 +55,42 @@ public abstract class Customer {
      */
     public CustomerState getState() {
         return state;
+    }
+
+    /**
+     * Returns the table the customer is seated at
+     * 
+     * @return the customers table
+     */
+    public Table getTable() {
+        return table;
+    }
+
+    /**
+     * Returns the order the customer placed
+     * 
+     * @return the order of the customer
+     */
+    public Order getOrder() {
+        return order;
+    }
+
+    /**
+     * Returns the turn the customer got served
+     * 
+     * @return the turn customer is served
+     */
+    public int getServedTurn() {
+        return servedTurn;
+    }
+
+    /**
+     * Returns the turn the customer is ready to pay
+     * 
+     * @return the turn customer is ready to pay
+     */
+    public int getReadyToPayTurn() {
+        return readyToPayTurn;
     }
 
     /**
@@ -125,4 +164,5 @@ public abstract class Customer {
     public void leave() {
         this.state = CustomerState.LEFT;
     }
+
 }
