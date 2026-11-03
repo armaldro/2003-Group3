@@ -3,7 +3,8 @@ package entity;
 import enums.CustomerState;
 
 /**
- * Customer who visits the restaurant, this tracks thier satisfaction , id, and state.
+ * Customer who visits the restaurant, this tracks thier satisfaction , id, and
+ * state.
  */
 public abstract class Customer {
 
@@ -23,7 +24,7 @@ public abstract class Customer {
     public Customer(int id) {
         this.id = id;
         this.satisfaction = 100;
-        this.state = CustomerState.WAITING; 
+        this.state = CustomerState.WAITING;
     }
 
     /**
@@ -34,6 +35,7 @@ public abstract class Customer {
     public int getId() {
         return id;
     }
+
     /**
      * Returns the customer satisfaction
      * 
@@ -42,6 +44,7 @@ public abstract class Customer {
     public int getSatisfaction() {
         return satisfaction;
     }
+
     /**
      * Returns the customer state
      * 
@@ -58,5 +61,15 @@ public abstract class Customer {
      */
     public abstract int getSatisfactionLoss();
 
-    
+    /**
+     * Reduces the customer's satisfaction by the loss per turn
+     * never go below 0
+     */
+    public void loseSatisfaction() {
+        satisfaction = satisfaction - getSatisfactionLoss();
+        if (satisfaction < 0) {
+            satisfaction = 0;
+        }
+    }
+
 }
