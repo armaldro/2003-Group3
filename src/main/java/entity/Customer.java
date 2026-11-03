@@ -50,4 +50,13 @@ public abstract class Customer {
     public CustomerState getState() {
         return state;
     }
+
+    /**
+     * Returns the amount of satisfaction lost each turn of not being served
+     * 
+     * @return the amount of satisfaction lost.
+     */
+    public abstract int getSatisfactionLoss();
+
+    
 }
