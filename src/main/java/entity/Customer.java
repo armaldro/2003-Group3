@@ -25,4 +25,29 @@ public abstract class Customer {
         this.satisfaction = 100;
         this.state = CustomerState.WAITING; 
     }
+
+    /**
+     * Returns the customer id
+     * 
+     * @return the customer id
+     */
+    public int getId() {
+        return id;
+    }
+    /**
+     * Returns the customer satisfaction
+     * 
+     * @return the customer satisfaction
+     */
+    public int getSatisfaction() {
+        return satisfaction;
+    }
+    /**
+     * Returns the customer state
+     * 
+     * @return the customer state
+     */
+    public CustomerState getState() {
+        return state;
+    }
 }
