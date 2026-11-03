@@ -72,4 +72,44 @@ public abstract class Customer {
         }
     }
 
+    /**
+     * Seats the customers in the given table
+     * 
+     * @param table the table the customer is seated in
+     */
+    public void seat(Table table) {
+        this.table = table;
+        this.state = CustomerState.SEATED;
+    }
+
+    /**
+     * Records the order placed by the customer
+     * 
+     * @param order the food the customer ordered
+     */
+    public void placeOrder(Order order) {
+        this.order = order;
+        this.state = CustomerState.ORDERED;
+    }
+
+    /**
+     * Records that the customer has been served and is eating
+     * 
+     * @param turn the turn the customer was served
+     */
+    public void markServed(int turn) {
+        this.servedTurn = turn;
+        this.state = CustomerState.EATING;
+    }
+
+    /**
+     * Records that the customer have finished eating and is ready to pay
+     * 
+     * @param turn the turn the customer is ready to pay
+     */
+    public void markReadyToPay(int turn) {
+        this.readyToPayTurn = turn;
+        this.state = CustomerState.READY_TO_PAY;
+    }
+
 }
