@@ -6,6 +6,7 @@ CT2003 Restaurant Rush, lab group COMP1, Group 3.
 - **Used by:** Muhammad Danial Haziq bin Burhan
 - **Scope:** my part (Money, menu items, Order, Chef, Cashier, pricing).
 - **Format:** verbatim. Each prompt is exactly as typed; each Claude reply is copied in full, text only. Tool calls (file reads, commands) are not reproduced. File paths of the sandbox and attached-file paths appear as typed.
+- **Instructor decision (as relayed by Danial, 4 Nov 2026):** after Danial emailed Dr Li Fang, she approved the uses he asked about (GAI-generated starter code, design suggestions, help with bugs, and so on) and said only a FULL communication log with the AI must be provided. The written reply should be kept and cited in the declaration. Before this reply, Claude was used for explanation and review only, apart from one starter skeleton that was later reverted.
 - **Omitted:** automatic system/context messages that Claude Code attaches to a prompt (e.g. email, date, environment notes). These were not typed by me.
 
 ## Summary of GAI use
@@ -957,6 +958,696 @@ Write your answers in plain bullets like you did for `Money`, then write the cla
 I can help with that, since it's a record of what happened and not content for your submission. The one rule is that it has to be **verbatim and complete**. It must contain your exact prompts and my exact replies, with nothing summarized or tidied up, because the policy uses it to verify your declaration. So I'll extract it from the session transcript instead of retyping it. First I'll check what the transcript looks like.
 
 The full transcript is available. I'll check its structure, then extract it with a script so nothing is retyped.
+
+I've generated your paper trail from the session transcript with a script, so the text is exactly what was said and nothing was retyped. It's pushed to `gai-paper-trail/danial-claude-log.md` on your branch. Pull the branch to open it in VS Code.
+
+## What's in it
+
+- A header covering the tool, who used it, and what the format means.
+- 19 requests, each with your exact prompt followed by my full reply, including the skeleton I generated and the revert.
+- No automatic system messages, which you didn't type. The header says they were removed.
+
+## What you need to do
+
+1. **Write the "Summary of GAI use" section yourself, in your own words.** I left a placeholder, and the honest version is short. Cover what I generated (the starter skeleton, which was later reverted) and what was explanation and review of code you wrote. I've deliberately not written this for you, because the declaration has to be yours and it must match the log.
+2. **Read through it once.** You're the one declaring it's accurate, so check that nothing looks wrong. One example: Request 2 shows your message with text about me reading the PDFs. That is exactly what was in your message, so I left it as is.
+3. **Regenerate it at the end of each session.** The file is a snapshot. Anything you ask me later isn't in it yet, and the last few lines of this conversation aren't either. Ask me to rebuild it when you finish a stretch of work, and the same script will do it.
+4. **Check the format.** The NTU guidelines recommend a Word document for the trail. I've given you Markdown. Whether the course accepts Markdown is a question for Dr Li, since you asked about format indirectly. If Word is required, converting is easy and I can do it with `pandoc` if you ask.
+
+## Things I haven't done
+
+- The footnote or in-text acknowledgement for anything from me that ends up in your submission. Right now that's nothing in your code, since you wrote `Money` yourself. If you adopt my design suggestions in your report, such as the cohesion points or the `-Integer.MIN_VALUE` edge case, cite them.
+- The signed declaration, which is yours alone. Tick the boxes after Dr Li replies.
+
+Meanwhile, `MenuItem` is next. Try the five questions from my last reply first.
+
+---
+
+## Request 20
+
+**Prompt (Danial):**
+
+> you pushed the md file to main? also, what is the command to create a new branch, add my MoneyCheck and Money.java, and push to dev?
+
+**Claude's reply:**
+
+No. I pushed the paper trail to `claude/nifty-curie-tn8ng0`, the branch I was told to work on. Nothing went to `main` or `dev`. You can confirm on GitHub by switching the branch dropdown. To get the file into your own branch, see the end.
+
+## Commands
+
+Start from an up-to-date `dev`, make a branch, add your two files, commit and push:
+
+```bash
+git fetch origin
+git checkout -b danial/money-util origin/dev
+```
+
+Move your check file somewhere trackable first. `testing/` is the folder meant for this:
+
+```bash
+mkdir -p testing
+mv scratch/MoneyCheck.java testing/MoneyCheck.java
+```
+
+Then add, commit and push:
+
+```bash
+git add src/main/java/util/Money.java testing/MoneyCheck.java
+git commit -m "Add Money.format utility and its check"
+git push -u origin danial/money-util
+```
+
+## Getting it into `dev`
+
+That pushes your **branch**, not `dev` itself. The usual flow is to open a pull request from `danial/money-util` into `dev` on GitHub and have a teammate look at it. That's safer for a shared project, and it gives you a record of reviews, which helps the "GitHub evidence" marks.
+
+If your team agrees to push straight to `dev` instead, run this after the commit:
+
+```bash
+git checkout dev
+git pull origin dev
+git merge danial/money-util
+git push origin dev
+```
+
+## Things to check
+
+- **Run `git status` first.** Make sure only your two files are staged. Don't stage `out/`, which `.gitignore` already covers, or the `scratch/` folder.
+- **`MoneyCheck` has no `package` line.** If it sits in `testing/` and ever moves under `src/main/java`, the layout will need rethinking. For now, compile it with `javac -d out src/main/java/util/Money.java testing/MoneyCheck.java`.
+- **Is `dev` the right base?** The older log says `dev` exists, so I assumed it's your integration branch. If your team treats `main` as that branch, swap the names.
+
+## The paper trail file
+
+It's on my branch, not yours. To bring it into your branch without merging my whole branch:
+
+```bash
+git fetch origin claude/nifty-curie-tn8ng0
+git checkout origin/claude/nifty-curie-tn8ng0 -- gai-paper-trail/danial-claude-log.md
+git add gai-paper-trail/danial-claude-log.md
+git commit -m "Add Danial's GAI paper trail"
+```
+
+That ends up in your PR too. Fill in the summary section before you commit it, if you can.
+
+---
+
+## Request 21
+
+**Prompt (Danial):**
+
+> error: Your local changes to the following files would be overwritten by checkout:
+>         src/main/java/Main.java
+> Please commit your changes or stash them before you switch branches.
+> Aborting
+
+**Claude's reply:**
+
+Git is protecting you. You have uncommitted edits to `src/main/java/Main.java`, and `origin/dev` has a different version of that file. Switching would overwrite your edits, so it stopped.
+
+## 1. Look at what changed
+
+```bash
+git status
+git diff src/main/java/Main.java
+```
+
+Did you edit `Main.java` on purpose? You may have changed the team table or the TODO, or your editor might have changed line endings. Decide which case it is.
+
+## 2. Pick one option
+
+**A. Keep the edits and carry them to the new branch:**
+```bash
+git stash
+git checkout -b danial/money-util origin/dev
+git stash pop
+```
+If `stash pop` reports a conflict in `Main.java`, tell me and we'll go through it. Then stage only your Money files, and leave `Main.java` out unless the edit belongs in this commit.
+
+**B. Commit the edits first on the branch you're on:**
+```bash
+git add src/main/java/Main.java
+git commit -m "Update Main.java"
+```
+Only do this if the change is deliberate.
+
+**C. Throw the edits away.** Only if you're sure they're accidental. This one is destructive and can't be undone:
+```bash
+git restore src/main/java/Main.java
+```
+
+I'd start with A, since it's reversible.
+
+## 3. Then carry on
+
+Once you're on `danial/money-util`, run the add, commit and push steps from before. Run `git status` before committing, so you know exactly which files are staged.
+
+Paste the output of `git diff src/main/java/Main.java` if you're unsure what the change is, and I'll help you decide.
+
+---
+
+## Request 22
+
+**Prompt (Danial):**
+
+> lets move on to menuItem
+
+**Claude's reply:**
+
+Good. Before writing any code, I need your answers to the five questions from last time. They lead to the design choices you'll have to defend in the report. Here they are again with prompts to think through.
+
+## Answer these first, in bullets
+
+1. **What does a `MenuItem` know?** The brief gives you three facts. What are the types, given your cents rule?
+2. **What can change after construction?** Should a price ever change mid-game? What keyword makes a field unchangeable, and what does that mean for setters?
+3. **Subclasses or not?** What would a `Salad` subclass do that a `MenuItem` named "Salad" can't? If the answer is "nothing", what does that tell you about the design? Compare with `Customer`, where Regular, VIP and Critic really do behave differently.
+4. **Invalid input:** what should happen if someone builds an item with a negative price, zero prep units or a blank name? Which exception fits a bad argument, and where does the check go?
+5. **Stage 3 readiness:** a `ComboMeal` has a name, a price and a unit count too. What does that suggest about how `MenuItem` should look now, and what should be `private` versus accessible to a subclass? Don't write the combo, just design `MenuItem` so it won't need rewriting.
+
+## Extra points to think about
+
+- **`toString()`:** the player will see menu items on screen. Should `MenuItem` format its own price, or should the display layer do it? Remember your answer about who calls `Money`.
+- **Equality:** two `MenuItem` objects with the same name, are they "the same"? Will anything compare them, for example the Chef matching orders to dishes? If not, you don't need `equals()`, and you can say why.
+- **Where do the three dishes live?** Something has to create Salad, Burger and Pasta and hold them. That's `Menu`, which comes next. For now, keep `MenuItem` free of any knowledge about the menu.
+
+## Then write the class
+
+Once your bullets are down, write `MenuItem` with Javadoc on the class, constructor, and each public method, using `@param`, `@return` and `@throws` where they apply. Then extend your check file with a few cases:
+- a valid item (does `getPriceCents()` return what you passed?)
+- each kind of invalid input (does it throw what you expect?)
+
+Paste your bullets and the code together, and I'll review them the same way as `Money`.
+
+---
+
+## Request 23
+
+**Prompt (Danial):**
+
+> package entity;
+>
+> /**
+>   entity class to create menu items
+> */
+> public class MenuItem {
+>
+>     private String name;
+>     private int price;
+>     private int prepUnits;
+>
+>     public MenuItem(String name, int price, int prepUnits) {
+>         this.name = name;
+>         this.price = price;
+>         this.prepUnits = prepUnits;
+>     }
+>     
+>     public String getName() {
+>         return this.name;
+>     }
+>
+>     public int getPrice() {
+>         return this.price;
+>     }
+>
+>     public int prepUnits() {
+>         return this.prepUnits;
+>     }
+> }
+>
+>
+> is this correct for a starter?
+
+**Claude's reply:**
+
+It's a good start, and it compiles. The structure is right: private fields, a constructor and getters is proper encapsulation. A reviewer would raise these points, most important first.
+
+## 1. Inconsistent getter name (`prepUnits()`)
+The other getters are `getName()` and `getPrice()`, but this one is `prepUnits()`. Java naming convention, which the brief marks, says getters are `getX`. Check your last method against that rule. Anything calling it later will also expect one pattern.
+
+## 2. The fields can be changed
+Your answer to question 2 isn't here yet. Should a menu item's price ever change once it's created? If not, which keyword makes a field unchangeable, and what does it do to your design? Think about what a `ComboMeal` needs to rely on when it reads these values.
+
+## 3. No validation
+`new MenuItem("", -5, 0)` is accepted today, and it would break the game later: a dish with zero prep units, for example, could never be served correctly. Which values are invalid, and which exception should the constructor throw? Answer question 4 from my earlier list.
+
+## 4. `price` hides its unit
+The same issue as `Money`: is it dollars or cents? The name should say, and so should the Javadoc.
+
+## 5. Javadoc is missing
+You have a class comment but nothing on the constructor or methods, and the class comment lacks the ` * ` line prefixes. Documentation is marked, so each public method needs a summary plus `@param`, `@return` and `@throws` where they apply.
+
+## 6. Smaller things
+- There's no `toString()`. Who prints a menu item for the player, and what should it look like? Remember your answer about who calls `Money`.
+- `this.` in the getters is fine, but you used it inconsistently with the constructor style. Pick one habit.
+
+## Still open from last time
+You haven't answered the five questions yet, in particular:
+- **Subclasses or not?** Why would Salad, Burger and Pasta be separate classes, or not?
+- **Stage 3 readiness:** what makes `MenuItem` easy to extend with `ComboMeal` later?
+
+Write a few bullets on those, update the class, and paste both. Then add checks to your check file for a valid item and for each bad input, and tell me what they print.
+
+---
+
+## Request 24
+
+**Prompt (Danial):**
+
+> 2. i think price should be changeable so that combomeal can add up the prices easily
+> 3. i dont think salad burger and pasta need to be separate classes because there is no distinct methods that each can have, what do you think?
+>
+>
+>
+> ```java
+> package entity;
+>
+> /**
+>  * entity class to create menu items
+>  */
+> public class MenuItem {
+>
+>     private String name;
+>     private int price;
+>     private int prepUnits;
+>
+>     /**
+>      * @param name the name of the item
+>      * @param price the price of the item in cents
+>      * @param prepUnits the number of each item available
+>      */
+>     public MenuItem(String name, int price, int prepUnits) {
+>         if (name == "") {
+>             System.out.println("name cannot be empty");
+>             return;
+>         }
+>         if (price < 0) {
+>             System.out.println("price cannot be negative");
+>             return;
+>         }
+>         if (prepUnits < 1) {
+>             System.out.println("must have at least 1 prep unit");
+>             return;
+>         }
+>         this.name = name;
+>         this.price = price;
+>         this.prepUnits = prepUnits;
+>     }
+>     
+>     /**
+>      * @return the name of the dish
+>      */
+>     public String getName() {
+>         return name;
+>     }
+>
+>     /**
+>      * @return the price of the dish
+>      */
+>     public int getPrice() {
+>         return price;
+>     }
+>
+>     /**
+>      * @return the number of dishes available
+>      */
+>     public int getPrepUnits() {
+>         return prepUnits;
+>     }
+> }
+>
+> ```
+
+**Claude's reply:**
+
+Your reasoning on question 3 is right, but question 2's reasoning has a gap, and the constructor has a real bug.
+
+## Your answers
+
+**Q3, no subclasses:** I agree, and your reasoning is the right one. Use inheritance when types behave differently, and these three differ only in data. Compare with the Stage 2 customers, where Regular, VIP and Critic really do behave differently. Use that contrast in your design discussion.
+
+**Q2, mutable price:** I'd push back. You said the price should be changeable so `ComboMeal` can add prices. Does adding two prices require changing either one? A combo only needs to **read** the components through `getPrice()`. Think about what could go wrong if price were changeable:
+- A shared `MenuItem` (the Pasta every customer orders) could have its price changed under orders already in progress. How does that fit the brief's "price is locked when the order is taken"?
+- Happy Hour is a pricing policy applied when the order is taken. Does it need to modify the dish itself?
+
+So what does `final` buy you here? You'd still have getters, and no setters. Decide again with that in mind.
+
+## Constructor bugs
+
+**1. Invalid input leaves a broken object.**
+`return` inside a constructor doesn't cancel construction. `new MenuItem("", -5, 0)` still produces an object, with `name` as `null` and the numbers at `0`. The caller has no idea. Instead of printing and returning, what should the constructor do so that no object is created at all? You did the same reasoning for `Money` with negative values.
+
+**2. Printing from an entity.**
+The brief says the UI only displays and rules live in domain classes. A constructor that prints to the console breaks that separation. How else can it report the problem to the caller?
+
+**3. `name == ""` doesn't test what you think.**
+In Java, `==` on Strings compares references, not contents. Look up how to compare string contents, and also what happens with `null`, and with a name made only of spaces.
+
+**4. `price < 0` allows a price of 0.**
+Is a free dish valid in this game? Decide, and make the check match your decision.
+
+## Javadoc
+
+- `@param prepUnits` says "the number of each item available" and `getPrepUnits` says "number of dishes available". Both are wrong: prep units are the **units of Chef work** needed to prepare it. This matters, because a wrong comment misleads teammates.
+- No summary sentences on the methods, and no `@throws` once you add exceptions.
+- Say the unit for the price in `getPrice`'s `@return`.
+
+## Still open
+
+- **Naming:** `price` still hides its unit. You documented it, but the name could say it too.
+- **`toString()`:** still missing. Decide who prints a dish and what it looks like.
+
+## Next step
+
+Fix the constructor with your decisions on the points above, update the Javadoc, and decide on `final`. Then extend your check file to build each kind of invalid item and see what happens. If your tests pass for the wrong reason, say, because nothing throws, that's the signal. Paste it back when ready.
+
+---
+
+## Request 25
+
+**Prompt (Danial):**
+
+> package entity;
+>
+> /**
+>  * entity class to create menu items
+>  */
+> public class MenuItem {
+>
+>     private final String name;
+>     private final int price;
+>     private int prepUnits;
+>
+>     /**
+>      * @param name the name of the item
+>      * @param price the price of the item in cents
+>      * @param prepUnits units of Chef work needed to prepare the dish
+>      */
+>     public MenuItem(String name, int price, int prepUnits) {
+>         if (name == null || name.isBlank()) {
+>             throw new IllegalArgumentException("name cannot be empty");
+>         }
+>         if (price <= 0) {
+>             throw new IllegalArgumentException("price cannot be negative or free");
+>         }
+>         if (prepUnits < 1) {
+>             throw new IllegalArgumentException("must have at least 1 prep unit");
+>         }
+>
+>         this.name = name;
+>         this.price = price;
+>         this.prepUnits = prepUnits;
+>     }
+>     
+>     /**
+>      * @return the name of the dish
+>      */
+>     public String getName() {
+>         return name;
+>     }
+>
+>     /**
+>      * @return the price of the dish
+>      */
+>     public int getPrice() {
+>         return price;
+>     }
+>
+>     /**
+>      * @return the unit of chef work needed to prep the dish
+>      */
+>     public int getPrepUnits() {
+>         return prepUnits;
+>     }
+> }
+
+**Claude's reply:**
+
+This is much better. The constructor now stops bad input from creating an object, and `isBlank()` plus the null check is the right way to test the name. Here's what remains.
+
+## Still to fix
+
+**1. `prepUnits` isn't `final`.**
+You made `name` and `price` final but left this one open. Is there any reason a dish's prep units should change after it's created? If not, it should match the others. Think about what a reviewer asks when one field out of three is treated differently, and what `ComboMeal` relies on when it sums units.
+
+**2. The Javadoc still doesn't document the exceptions.**
+Your constructor now throws `IllegalArgumentException` in three cases. A caller reading the docs can't see that. Which tag documents it, and what should it say for each condition?
+
+**3. Missing summary sentences.**
+Each Javadoc comment jumps straight to tags. Add a one-line description first, then a blank line, then the tags. That's what shows up in the generated HTML index.
+
+**4. Units and names.**
+- The `price` field and `getPrice()` still don't show the unit in their names. You've documented cents on the constructor, but not on `getPrice()`'s `@return`. Someone calling `getPrice()` has to hunt for it.
+- The message "price cannot be negative or free" reads oddly. Think about what the person debugging would want to see: ideally the invalid value as well.
+
+**5. No `toString()` yet.**
+Decide: who shows a dish to the player, and what does it look like? Remember your own answer about who calls `Money`. If the boundary layer does the formatting, you may not need `toString()` here at all. Say which, and why.
+
+## Check it works
+
+You haven't told me your test results. Add these to your check file, since an exception that never fires would pass silently:
+- valid input: do the getters return what you passed in?
+- `null`, `""` and `"   "` for the name
+- price `0` and `-1`
+- prep units `0`
+
+For each invalid case, catch `IllegalArgumentException` and confirm the message. Also try the extreme: what happens with a huge price such as `Integer.MAX_VALUE`? Does it matter for your game?
+
+## Where this leaves you
+
+Once those are fixed, `MenuItem` is done. Next comes `Menu`, which creates Salad, Burger and Pasta and decides who owns the "which customer orders what" rule. Ask Rifqi that before you start. Paste the updated class and your test results when ready.
+
+---
+
+## Request 26
+
+**Prompt (Danial):**
+
+> package entity;
+>
+> /**
+>  * entity class to create menu items
+>  */
+> public class MenuItem {
+>
+>     /**
+>      *  fields declared when a MenuItem is created. fields are final so that they cannot be edited once created
+>      * 
+>      * @field name the name of the item
+>      * @field price the price of the item in cents
+>      * @field units of chef work needed to prepare the dish
+>      */
+>     private final String name;
+>     private final int price;
+>     private final int prepUnits;
+>
+>     /**
+>      * a constructor for MenuItem. Takes in the name of the dish, the price as well as how much work is needed to prepare it
+>      * 
+>      * @param name the name of the item
+>      * @param price the price of the item in cents
+>      * @param prepUnits units of Chef work needed to prepare the dish
+>      * @throws IllegalArgumentException if name is null, price is negative or 0, or prepUnits is less than 1
+>      */
+>     public MenuItem(String name, int price, int prepUnits) {
+>         if (name == null || name.isBlank()) {
+>             throw new IllegalArgumentException("name cannot be empty");
+>         }
+>         if (price <= 0) {
+>             throw new IllegalArgumentException("price cannot be negative or 0");
+>         }
+>         if (prepUnits < 1) {
+>             throw new IllegalArgumentException("must have at least 1 prep unit");
+>         }
+>
+>         this.name = name;
+>         this.price = price;
+>         this.prepUnits = prepUnits;
+>     }
+>     
+>     /**
+>      * getName returns the name of the dish
+>      * 
+>      * @return the name of the dish
+>      */
+>     public String getName() {
+>         return name;
+>     }
+>
+>     /**
+>      * getPrice returns the price of the dish
+>      * 
+>      * @return the price of the dish in cents
+>      */
+>     public int getPrice() {
+>         return price;
+>     }
+>
+>     /**
+>      * getPrepUnits returns the unit of chef work needed to prep the dish
+>      * 
+>      * @return the unit of chef work needed to prep the dish
+>      */
+>     public int getPrepUnits() {
+>         return prepUnits;
+>     }
+> }
+
+**Claude's reply:**
+
+I'll check one suspicious tag against the real Javadoc tool before telling you about it.
+
+The logic and exception handling are now done. The Javadoc has one real problem, which I checked with the Javadoc tool.
+
+## Problems
+
+**1. `@field` isn't a Javadoc tag.**
+I tested it on a copy of your field comment. With private members included, the Javadoc tool reports `error: unknown tag: field` for each `@field` line. This is a real error and would show up when you generate the docs for submission. The README's Javadoc command doesn't include private members, so you may not see it by default, but don't rely on that.
+
+Also, a `/** */` block above `private final String name;` documents **only that one field**. Your block is describing three, so the other two get no comment. You have two clean options, and you should choose:
+- Use a normal `//` comment above the group of fields, and skip Javadoc for private fields. Most projects do this, since private members don't appear in the generated docs by default.
+- Give each field its own short `/** */` comment.
+
+**2. The `@throws` text doesn't match the code.**
+It says "name is null", but your check also rejects blank names. Make the sentence say what the code does. You can also say it as three conditions on separate lines.
+
+## Style
+
+- **The summaries repeat the method name** ("getName returns the name of the dish"). Convention is to start with a verb phrase, such as "Returns the name of the dish", and not to restate the method name, which the signature already shows. Then drop the duplicate sentence in `@return`.
+- **The summaries and `@return` lines say the same thing twice.** One clear sentence plus the tag is enough. Keep the unit in `@return`, since the name still doesn't carry it.
+
+## Open decisions
+
+- **Naming:** the `price` field and `getPrice()` still don't show the unit. You documented cents, so it's a style call, but be able to justify it. Consistency with how you wrote `Money` is a good argument either way.
+- **`toString()`:** you haven't said whether the dish shows itself or the boundary prints it. Say which, and why, because this goes straight into your design discussion.
+- **Test results:** I still haven't seen your checks for invalid input. Did every bad value throw the exception with the message you expect? Tell me what happened, especially for `"   "`, price `0` and prep units `0`.
+
+## Next step
+
+Fix the `@field` lines and the `@throws` wording, then tell me your test results and your `toString()` decision. After that `MenuItem` is done, and `Menu` is next. Before starting it, ask Rifqi who owns the rule that decides which dish a customer orders.
+
+---
+
+## Request 27
+
+**Prompt (Danial):**
+
+> <!-- reply 1 -->
+> > Naming: the price field and getPrice() still don’t show the unit. You documented cents, so it’s a style call, but be able to justify it. Consistency with how you wrote Money is a good argument either way.
+>
+> i dont understand what you mean by this
+
+**Claude's reply:**
+
+I mean that the name `price` doesn't tell a reader what unit the number is in, and you may want it to.
+
+## The problem
+
+Look at this call in someone else's code:
+
+```java
+int p = item.getPrice();
+```
+
+Is `p` 15 (dollars) or 1500 (cents)? The method name doesn't say. They have to find your Javadoc to know. If they guess wrong, a Burger costs $1500 or $0.15, and nothing crashes, so the bug is easy to miss.
+
+## Two ways to handle it
+
+1. **Put the unit in the name.** Call the field `priceCents` and the getter `getPriceCents()`. Now the call reads `item.getPriceCents()`, and nobody can mistake it. This is common practice when a number has a unit.
+2. **Keep `price` and rely on documentation.** That works if the whole project agrees that every price is in cents, and everyone remembers it.
+
+## Why it matters for you
+
+The brief says all money is stored as integer cents. Your teammates will write `Customer`, `Cashier` and the display code, all of which touch prices. A name that carries the unit catches mix-ups before they happen. It also explains your decision about `Money.format(value)`, which has the same issue: `value` is cents, but the name doesn't say.
+
+## What I'm asking you to decide
+
+Pick option 1 or 2, and have a one-sentence reason ready, since someone might ask in the presentation. There's no wrong answer. It's a naming decision, and I'm only pointing out that the choice affects whether other people misuse your class.
+
+If you choose option 1, remember to rename the constructor parameter, the field and the getter together, and update your check file.
+
+---
+
+## Request 28
+
+**Prompt (Danial):**
+
+> import entity.MenuItem;
+>
+> public class menuItemCheck {
+>     public static void main(String[] args) {
+>         // create MenuItem object
+>         MenuItem burger = new MenuItem("burger", 500, 1);
+>
+>         // Test getName method
+>         String actualName = burger.getName();
+>         String nameResult = actualName.equals("burger") ? "OK " : "FAIL ";
+>         System.out.println(nameResult + "burger.getName() = " + actualName + " expected: burger");
+>
+>         // Test getPriceCents method
+>         int actualPriceCents = burger.getPriceCents();
+>         int priceResult = actualPriceCents.equals(500) ? "OK " : "FAIL ";
+>         System.out.println(priceResult + "burger.getPriceCents() = " + actualPriceCents + " expected: 500");
+>
+>         // Test getPrepUnits method
+>         int actualPrepUnits = burger.getPrepUnits();
+>         int PrepUnitResult = actualPrepUnits.equals(1) ? "OK " : "FAIL ";
+>         System.out.println(PrepUnitResult + "burger.getPrepUnits() = " + actualPriceCents + " expected: 1");
+>
+>     }
+> }
+
+**Claude's reply:**
+
+Good, you've gone with `getPriceCents()`, and a test per getter is the right idea. As written it won't compile, and one line would give a wrong result even if it did.
+
+## Compile errors
+
+**1. `actualPriceCents.equals(500)` on an `int`.**
+`int` is a primitive, so it has no methods. `.equals` only exists on objects like `String`. How do you compare two ints for equality? You already know the answer from everyday code. The same mistake appears in the prep-units test.
+
+**2. `int priceResult = ... ? "OK " : "FAIL "`.**
+You're assigning a `String` to an `int` variable. What type should the result variable be? Look at how you declared `nameResult`, which is correct.
+
+## Logic bug
+
+**3. The last print shows the wrong variable.**
+```java
+"burger.getPrepUnits() = " + actualPriceCents
+```
+It prints `actualPriceCents`, not the prep units. This bug is nasty because the code would compile, and the line would print a misleading value, such as 500, next to a PASS or FAIL decided by a different variable. Find where the wrong variable is used.
+
+## Style
+
+- **Class name:** `menuItemCheck` starts with a lowercase letter. Java classes use `UpperCamelCase`, and the file name must match the class name exactly, so rename both the file and class together.
+- **Variable names:** you wrote `PrepUnitResult` with a capital P while the others start lowercase. Be consistent.
+- **Repeated code:** you've written the same compare-and-print three times. If you want, think about a small helper method that takes a label, the actual value and the expected value. That's optional for now.
+- **Test data:** the brief says Burger costs $15.00, which is 1500 cents. Using the real value, even in a test, makes the result easier to compare against the spec.
+
+## What's missing
+
+You haven't tested the invalid inputs yet. Those are the interesting part, because the exceptions are new behaviour. Add checks for:
+- `null`, `""` and `"   "` as the name
+- price `0` and `-1`
+- prep units `0`
+
+For each, you want to see an `IllegalArgumentException` and the right message. How can you run code that is expected to throw and still keep the test going? Look up `try`/`catch`. Also decide what should be printed if **no** exception happens, since that's the failure case.
+
+## Next step
+
+Fix the compile errors, then compile and run it. Tell me what prints. Then add the invalid-input tests and tell me what those print. If any case surprises you, paste the output and we'll work out why together.
+
+---
+
+## Request 29
+
+**Prompt (Danial):**
+
+> My professor has replied and to all the points i listed, she says ok and that i only have to provide FULL communication log with AI. 
+>
+> this means you can generate starter code, give design suggestions, help with bugs, etc. but remember to log every convo we have in a md file !
+
+**Claude's reply:**
+
+Good news. I'll update your log now, so it covers everything up to this message and notes the instructor's decision.
 
 ---
 
