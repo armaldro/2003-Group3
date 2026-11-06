@@ -1,3 +1,7 @@
+import boundary.ConsoleUI;
+import control.GameConfig;
+import control.GameController;
+
 /**
  * Entry point for Restaurant Rush, a turn-based restaurant management game
  * played on the command line.
@@ -9,12 +13,6 @@
  *
  * @author CT2003 Group 3
  */
-
-import boundary.ConsoleUI;
-import control.GameConfig;
-import control.GameController;
-
-
 public class Main {
 
     /**
