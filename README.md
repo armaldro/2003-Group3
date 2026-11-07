@@ -73,6 +73,7 @@ _To be filled in when `stage-3` is tagged: new files, existing files changed or 
 ├── docs/javadoc/         Generated Javadoc HTML
 ├── diagrams/             UML class diagram (Visual Paradigm project + exported images)
 ├── report/               PDF report
+│   └── reflections/      Each member's individual reflection, one file per member (merged into the report)
 ├── forms/                Signed Declaration of Original Work and Declarations on Use of GAI
 ├── testing/              Test notes, including reproducible victory and defeat runs
 └── gai-paper-trail/      Prompts and outputs from any GAI use (required by the NTU GAI policy)
@@ -104,7 +105,8 @@ One zip per group. The brief names it `LABGroup_AssignmentGrp.zip` (for us, `COM
 - [ ] Source code with build and run instructions, and Javadoc
 - [ ] README with the repository URL and the stage comparisons
 - [ ] Tags `stage-1`, `stage-2` and `stage-3` on runnable commits
-- [ ] PDF report: final class diagram, design discussion, functional evidence and reflections
+- [ ] PDF report: final class diagram, design discussion and functional evidence
+- [ ] Individual reflection from each member in the report, drafted in `report/reflections/`: Rifqi, Danial, Kenz, Soon How
 - [ ] Signed Declaration of Original Work
 - [ ] Each member's Declaration on Use of GAI Assistance, plus the paper trail
 - [ ] Oral presentation of about 15 minutes, with every member presenting a part
