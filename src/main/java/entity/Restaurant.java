@@ -1,11 +1,11 @@
 package entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import enums.CustomerState;
 import enums.OrderStatus;
 import util.InvalidActionException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The restaurant: its tables, the waiting queue, every customer who has arrived,
@@ -32,7 +32,9 @@ public class Restaurant {
      */
     public Restaurant(int tableCount, Menu menu) {
         this.menu = menu;
-        // TODO 14: add tableCount new Table objects, numbered from 1
+        for (int i = 1; i <= tableCount; i++) {
+            tables.add(new Table(i));
+        }
     }
 
     /**
@@ -41,24 +43,37 @@ public class Restaurant {
      * @param customer the customer who arrived
      */
     public void addArrival(Customer customer) {
-        // TODO 15: add to waitingQueue AND to customers (customers keeps everyone, for the end-of-game score)
-        throw new UnsupportedOperationException("TODO: Restaurant.addArrival");
+        waitingQueue.add(customer);
+        customers.add(customer);
     }
 
     /**
      * Seats a queued customer at a free table. This is the only method that
-     * seats anyone, so the Waiter (and the Host in Stage 3) both call it.
+     * seats anyone, so the Waiter or future Host both call it.
+     *
+     * <p>Every rule is checked before anything changes, so a refused seating
+     * leaves the queue, the table and the customer exactly as they were.
      *
      * @param customer the customer to seat
      * @param table    the table to use
-     * @throws InvalidActionException if the customer is not waiting in the queue, or the table is occupied
+     * @throws InvalidActionException if the customer is not waiting in the queue,
+     *                                no table is given, or the table is occupied
      */
     public void seat(Customer customer, Table table) throws InvalidActionException {
-        // TODO 16: check the customer is in waitingQueue; if not, throw with a reason
-        // TODO 17: check table.isFree(); if not, throw with a reason
-        // TODO 18: link both sides: table.seat(customer) and customer.seat(table)
-        // TODO 19: remove the customer from waitingQueue
-        throw new UnsupportedOperationException("TODO: Restaurant.seat");
+        if (!waitingQueue.contains(customer)) {
+            throw new InvalidActionException("That customer is not waiting for a table.");
+        }
+        if (table == null) {
+            throw new InvalidActionException("Choose a table to seat the customer at.");
+        }
+        if (!table.isFree()) {
+            throw new InvalidActionException("Table " + table.getNumber() + " is already occupied by customer "
+                    + table.getOccupant().getId() + ".");
+        }
+
+        table.seat(customer);
+        customer.seat(table);
+        waitingQueue.remove(customer);
     }
 
     /**
@@ -85,28 +100,53 @@ public class Restaurant {
         return List.copyOf(customers);
     }
 
-    /** @return the tables nobody is sitting at */
+    /** @return the tables nobody is sitting at, in number order */
     public List<Table> freeTables() {
-        // TODO 20: loop over tables, keep the ones where isFree() is true
-        return new ArrayList<>();
+        List<Table> result = new ArrayList<>();
+        for (Table table : tables) {
+            if (table.isFree()) {
+                result.add(table);
+            }
+        }
+        return result;
     }
 
-    /** @return seated customers who have not ordered yet (state SEATED) */
+    /** @return seated customers who have not ordered yet (state SEATED), in arrival order */
     public List<Customer> customersToTakeOrder() {
-        // TODO 21
-        return new ArrayList<>();
+        List<Customer> result = new ArrayList<>();
+        for (Customer customer : customers) {
+            if (customer.getState() == CustomerState.SEATED) {
+                result.add(customer);
+            }
+        }
+        return result;
     }
 
-    /** @return customers whose order is READY to be served */
+    /** @return customers whose order is READY to be served, in arrival order */
     public List<Customer> customersToServe() {
-        // TODO 22: state ORDERED and getOrder().getStatus() == OrderStatus.READY
-        return new ArrayList<>();
+        List<Customer> result = new ArrayList<>();
+        for (Customer customer : customers) {
+            if (customer.getState() == CustomerState.ORDERED
+                    && customer.getOrder().getStatus() == OrderStatus.READY) {
+                result.add(customer);
+            }
+        }
+        return result;
     }
 
-    /** @return orders the Chef can work on (status RECEIVED or NOT_READY) */
+    /** @return orders the Chef can work on (status RECEIVED or NOT_READY), in arrival order */
     public List<Order> ordersToCook() {
-        // TODO 23: look through customers who are ORDERED
-        return new ArrayList<>();
+        List<Order> result = new ArrayList<>();
+        for (Customer customer : customers) {
+            if (customer.getState() != CustomerState.ORDERED) {
+                continue;
+            }
+            OrderStatus status = customer.getOrder().getStatus();
+            if (status == OrderStatus.RECEIVED || status == OrderStatus.NOT_READY) {
+                result.add(customer.getOrder());
+            }
+        }
+        return result;
     }
 
     /** @return the menu */
