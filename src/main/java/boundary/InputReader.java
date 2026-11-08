@@ -38,13 +38,26 @@ public class InputReader {
      * @throws IllegalStateException if the input runs out (e.g. a replay file is too short)
      */
     public int readChoice(String prompt, int min, int max) {
-        // TODO 24: loop forever:
-        //   print the prompt
-        //   if !scanner.hasNextLine(): throw new IllegalStateException("Input ended before the game finished")
-        //   read the line and trim it
-        //   try Integer.parseInt(line); catch NumberFormatException -> print "Please enter a number" and continue
-        //   if out of range -> print "Please enter a number from min to max" and continue
-        //   otherwise return it
-        throw new UnsupportedOperationException("TODO: InputReader.readChoice");
+        while (true) {
+            System.out.print(prompt);
+            if (!scanner.hasNextLine()) {
+                throw new IllegalStateException("Input ended before the game finished");
+            }
+            String line = scanner.nextLine().trim();
+
+            int choice;
+            try {
+                choice = Integer.parseInt(line);
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a number.");
+                continue;
+            }
+
+            if (choice < min || choice > max) {
+                System.out.println("Please enter a number from " + min + " to " + max + ".");
+                continue;
+            }
+            return choice;
+        }
     }
 }
