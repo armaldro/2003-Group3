@@ -27,6 +27,11 @@ public class Waiter extends Staff {
         super("Waiter");
     }
 
+    /**
+     * Returns this staff member's role.
+     *
+     * @return {@code "Waiter"}
+     */
     @Override
     public String getRole() {
         return "Waiter";
@@ -34,7 +39,7 @@ public class Waiter extends Staff {
 
     /**
      * Seats a queued customer at a free table. The seating itself goes through
-     * {@link Restaurant#seat(Customer, Table)}, which the Host will reuse in Stage 3.
+     * {@link Restaurant#seat(Customer, Table)}.
      *
      * @param restaurant the restaurant that owns the queue and the tables
      * @param customer   the queued customer to seat
@@ -42,8 +47,9 @@ public class Waiter extends Staff {
      * @throws InvalidActionException if the Waiter has already acted, or the seating breaks a rule
      */
     public void seat(Restaurant restaurant, Customer customer, Table table) throws InvalidActionException {
-        // TODO 6: checkCanAct(); then restaurant.seat(customer, table); then markActed()
-        throw new UnsupportedOperationException("TODO: Waiter.seat");
+        checkCanAct();
+        restaurant.seat(customer, table);
+        markActed();
     }
 
     /**
@@ -55,11 +61,14 @@ public class Waiter extends Staff {
      * @throws InvalidActionException if the Waiter has already acted, or the customer is not SEATED
      */
     public void takeOrder(Customer customer, Order order) throws InvalidActionException {
-        // TODO 7: checkCanAct()
-        // TODO 8: if the customer is not SEATED, throw with a reason
-        //         (hint: compare customer.getState() with CustomerState.SEATED)
-        // TODO 9: customer.placeOrder(order); then markActed()
-        throw new UnsupportedOperationException("TODO: Waiter.takeOrder");
+        checkCanAct();
+        if (customer.getState() != CustomerState.SEATED) {
+            throw new InvalidActionException("Customer " + customer.getId()
+                    + " cannot order: they are " + customer.getState() + ", not SEATED.");
+        }
+
+        customer.placeOrder(order);
+        markActed();
     }
 
     /**
@@ -71,10 +80,24 @@ public class Waiter extends Staff {
      *                                or the order is not READY
      */
     public void serve(Customer customer, int turn) throws InvalidActionException {
-        // TODO 10: checkCanAct()
-        // TODO 11: no order yet? throw. Order not READY? throw (say how many units are left)
-        // TODO 12: customer.getOrder().markServed(); customer.markServed(turn); markActed()
-        throw new UnsupportedOperationException("TODO: Waiter.serve");
+        checkCanAct();
+        Order order = customer.getOrder();
+        if (order == null) {
+            throw new InvalidActionException("Customer " + customer.getId() + " has not ordered yet.");
+        }
+        if (order.getStatus() != OrderStatus.READY) {
+            String dish = order.getItem().getName();
+            if (order.getStatus() == OrderStatus.RECEIVED || order.getStatus() == OrderStatus.NOT_READY) {
+                throw new InvalidActionException("Customer " + customer.getId() + "'s " + dish
+                        + " is not ready: " + order.getUnitsLeft() + " unit(s) left to cook.");
+            }
+            throw new InvalidActionException("Customer " + customer.getId() + "'s " + dish
+                    + " cannot be served: it is already " + order.getStatus().getLabel() + ".");
+        }
+
+        order.markServed();
+        customer.markServed(turn);
+        markActed();
     }
 
     /**
@@ -83,7 +106,7 @@ public class Waiter extends Staff {
      * @throws InvalidActionException if the Waiter has already acted this turn
      */
     public void waitTurn() throws InvalidActionException {
-        // TODO 13: checkCanAct(); markActed()
-        throw new UnsupportedOperationException("TODO: Waiter.waitTurn");
+        checkCanAct();
+        markActed();
     }
 }
