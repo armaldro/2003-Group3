@@ -26,7 +26,7 @@ public class Order {
      * @param item       the dish ordered
      * @param priceCents the price locked now, in cents
      * @throws IllegalArgumentException if item is null
-     * @throws IllegalArgumentException if price is <= 0 
+     * @throws IllegalArgumentException if price is {@code <= 0} 
      */
     public Order(MenuItem item, int priceCents) {
 
@@ -48,31 +48,40 @@ public class Order {
 
     // ----- getters (simple) -----
 
-    /** @return the dish ordered */
+    /** 
+     * returns the dish ordered
+     * @return the dish ordered */
     public MenuItem getItem() {
         
         return item;
     }
 
-    /** @return the locked price in cents */
+    /**
+     * returns the locked price in cents
+     *  @return the locked price in cents */
     public int getPriceCents() {
         
         return priceCents;
     }
 
-    /** @return how many preparation units are done */
+    /** 
+     * returns how many prep units are done
+     * @return how many preparation units are done */
     public int getUnitsDone() {
         
         return unitsDone;
     }
 
-    /** @return the current status */
+    /** 
+     * returns the current order status 
+     * @return the current status */
     public OrderStatus getStatus() {
         
         return status;
     }
 
     /**
+     * return how many prep units are still left
      * @return how many preparation units are still left
      */
     public int getUnitsLeft() {

@@ -6,6 +6,12 @@ package entity;
 public class Chef {
 
     /**
+     * Creates a chef. A chef holds no state: the controller decides which
+     * order it works on each turn
+     */
+    public Chef() {
+    }
+    /**
      * Method to cook one unit of an Order per call
      * A null order will be caught by Order class so no checks required in this class
      * Order status must be RECEIVED or NOT_READY
