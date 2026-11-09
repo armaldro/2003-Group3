@@ -13,6 +13,12 @@ import java.util.List;
 public class Cashier {
 
     /**
+     * Creates a cashier. A cashier holds no state: the controller calls
+     * {@link #collectPayment(List, int)} once per turn.
+     */
+    public Cashier() {
+    }
+    /**
      * Collects payment from at most one customer this turn.
      *
      * <p>If two customers became ready on the same turn, the one earlier in

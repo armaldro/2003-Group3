@@ -32,7 +32,9 @@ public enum OrderStatus {
         this.label = label;
     }
 
-    /** @return the text to show the manager */
+    /**
+     * returns the text to show the manager
+     *  @return the text to show the manager */
     public String getLabel() {
         return label;
     }
