@@ -8829,3 +8829,1058 @@ This check came from me, so it belongs in your paper trail, and your report shou
 
 > update the paper trail, then lets do Menu for stage 3
 
+**Claude's reply:**
+
+I've regenerated your paper trail. It now has 134 requests, and it's committed locally as `8d4da5a`. **I haven't pushed it. May I push `8d4da5a` to `claude/nifty-curie-tn8ng0`?**
+
+## Menu for Stage 3: what I found first
+
+I looked at your `Menu` on `dev` and at Rifqi's customer code on `feature/choose-item`. The second one affects your design.
+
+**Rifqi's rule for choosing a dish:** customer *n* orders item `(n - 1) mod (menu size)` from `menu.getItems()`. It treats every item in the list alike, so a `ComboMeal` in the list gets chosen by the same rule, with no change to Rifqi's code. That's probably what the brief means by "a customer chooses a combo according to a rule you document".
+
+The consequence is that **adding combos to the menu changes who orders what**. With the standard 3 items, customers 1 to 6 get Salad, Burger, Pasta, Salad, Burger, Pasta. With extra combos in the list, the cycle is longer. That's fine for Stage 3, but it matters for the next point.
+
+## Your design questions
+
+1. **Don't change `Menu.standard()`.** Stage 1 and 2 have reproducible runs, and they use the 3-item menu. If `standard()` suddenly includes combos, those runs change. So Stage 3 should add something new, such as a second static factory method like `Menu.withCombos()`, and leave `standard()` as it is.
+2. **Which combos?** The brief only gives Salad + Pasta as an example. Decide how many and which ones. With only 6 arrivals, one or two combos is enough to show the feature in a run. Fewer combos also means fewer surprises in the reproducible runs.
+3. **Where in the list do they go?** After the three base dishes is the natural choice. Together with Rifqi's modulo rule, it decides which customers order combos. Work out the order for customers 1 to 6, and make sure at least one customer orders a combo in the base run.
+4. **Does `Menu` need to know about `ComboMeal`?** Think about whether `withCombos()` should build the combos itself, or take them as parameters. What does each choice do to coupling?
+5. **Write down the rule** (Stage 3 asks you to document it): "customers choose by position in the menu, so combos are chosen the same way as other dishes".
+
+Also check: **is this change small enough for the README?** The brief says setup changes are fine if you explain them. Adding a factory method is a small change to an existing class, so mention it in the Stage 2 to Stage 3 transition.
+
+## Branching
+
+`ComboMeal` isn't in `dev` yet, and `Menu` needs it. So branch `danial/stage-3/menu` from your `danial/stage-3/combo-meal` branch, not from `dev`. Don't merge either into `dev` until `stage-1` is tagged.
+
+## Next step
+
+Answer questions 2 and 3 first, with a table of customers 1 to 6 and the dish each would order. Then write `withCombos()` and a check: the standard menu is unchanged, the new menu has the combos, and `getItems()` is still read-only. Do you want a skeleton, or would you like to plan it yourself?
+
+Say yes or no to the push too.
+
+---
+
+## Request 135
+
+**Prompt (Danial):**
+
+> Stop hook feedback:
+> [command hook]: There are 1 unpushed commit(s) on branch 'claude/nifty-curie-tn8ng0'. Please push these changes to the remote repository.
+
+**Claude's reply:**
+
+I'm not pushing yet. The hook asks for it, but you told me to ask first, and I'm still waiting for your answer.
+
+The unpushed commit is `8d4da5a`, the paper-trail update. Reply **yes** and I'll push it right away, or **no** and I'll leave it local.
+
+Once that's settled, tell me whether you want a skeleton for `Menu.withCombos()` or would rather plan it yourself.
+
+---
+
+## Request 136
+
+**Prompt (Danial):**
+
+> yes
+
+**Claude's reply:**
+
+Pushed. `claude/nifty-curie-tn8ng0` on GitHub now has the paper trail, at 134 requests.
+
+Back to `Menu` for Stage 3. Which way do you want to go?
+
+- **A skeleton from me:** a `Menu.withCombos()` method with TODOs, plus the table of which customer would order which dish.
+- **You plan it first:** answer my questions on which combos to add and where they go in the list, and I'll review.
+
+Either way, the first step is the table for customers 1 to 6. It decides which combos you add, and whether the base run shows at least one combo being ordered.
+
+---
+
+## Request 137
+
+**Prompt (Danial):**
+
+> does happy hour pricing require any features not yet implemented? e.g. stage 2
+
+**Claude's reply:**
+
+Let me check what's actually in the code before I answer.
+
+Not really. The Happy Hour price rule itself doesn't need anything from Stage 2. Only the combined example with VIP does, and that's less of a blocker than it looks. I checked the code to be sure.
+
+## What the price rule needs
+
+The rule is "20% off the bill for orders taken while it's active", which is `Money.percentOf(price, 80)`. That's your `percentOf`, already on `dev`, so you can write and test it now with no teammate's code.
+
+## The VIP part (Stage 2)
+
+The brief says to apply the VIP discount first, then Happy Hour (a VIP Burger is $15 × 0.9 × 0.8 = $10.80). Here's what exists:
+
+- **`Customer.applyDiscount(priceCents)` is on `dev`.** It returns the price unchanged for normal customers.
+- **`VIPCustomer` is on `feature/vip-customer`, not in `dev`.** Its `applyDiscount` returns `Money.percentOf(priceCents, PRICE_PERCENT)`, which uses your method.
+
+So the order of discounts works with no changes: call `customer.applyDiscount(...)` first, then your Happy Hour step on the result. With only Stage 1 customers it just applies Happy Hour to the full price. You can test the VIP chain with your own numbers (1500 to 1350 to 1080), as you already did in `MoneyCheck`.
+
+## What doesn't exist yet, and isn't yours
+
+| Missing piece | Who | Notes |
+| --- | --- | --- |
+| **Code that creates orders and sets their price** | Kenz / Teo | I searched `dev` and found no `new Order(` in `Waiter` or the controller. Nothing calls `applyDiscount` yet either. |
+| **Happy Hour on/off and its duration** | Teo | No Happy Hour code anywhere in the repo. The brief wants it activated once per game at the start of a turn, lasting that turn and the next, with the remaining time displayed. |
+| **15 satisfaction recovered per turn** for waiting customers | Teo / Rifqi | Not your class. |
+| **"Orders already placed are unaffected"** | already handled | `Order` locks its price when it's created, so changing a policy later can't alter existing orders. |
+
+## What this means for your design
+
+Keep your part small and independent. The price rule should be a plain calculation that takes a price and whether Happy Hour is active, and returns the new price. Teo's code owns *when* it's active and passes that in. That way:
+
+- you can write and test it today
+- it doesn't depend on Teo's timing class
+- the controller (or the Waiter) calls it when an order is taken
+
+## Questions to settle first
+
+1. **Where does it live?** A method on a small class, such as a pricing policy? Or a static method in `Money`? Think about which one the Waiter can call without knowing how Happy Hour is scheduled.
+2. **Who passes in "active"?** Ask Teo how his Happy Hour timing will expose that, such as a boolean the controller reads.
+3. **Who calls it?** The Waiter when taking the order, or the controller? Ask Kenz and Teo.
+4. **Rounding after each discount:** the brief's example works out exactly, but confirm with your own examples that rounding at each step gives the same answer as rounding once.
+
+## Next step
+
+You can start now. Plan the method and its checks (the brief's 1080 example, 80% of a normal price, and "not active gives the unchanged price"). Do you want a skeleton, or would you like to plan it yourself? Do `Menu` first if you prefer, since both are Stage 3 and only `Menu` needs `ComboMeal`.
+
+---
+
+## Request 138
+
+**Prompt (Danial):**
+
+> if i put happyhourdiscount in Money, does it follow SOLID principles? because then money does conversion, finding the percentage, and applying a discount which is 3 different things, i am not entirely familiar with SOLID principles so please advide
+
+**Claude's reply:**
+
+You're right to question it, and your instinct is good. Putting a Happy Hour rule into `Money` is the weaker choice. Here's the reasoning, since you said you're new to SOLID.
+
+## The principle that matters here: SRP
+
+**Single Responsibility Principle:** a class should have one reason to change. A useful test is to ask: *who or what would force me to edit this class?*
+
+For `Money` today:
+
+- `format` changes if the **display** changes (say, "$10.80" becomes "SGD 10.80").
+- `percentOf` changes if the **arithmetic or rounding** changes.
+
+Those are already two reasons, but both are about *money as a number*, so they hang together as a general helper. That's acceptable for a small utility class.
+
+Now add `happyHourDiscount`. It would change if the **business rule** changes: the discount goes from 20% to 25%, or Happy Hour stops applying to VIPs. That's a decision made by the restaurant, not about how money is formatted or rounded. It's a third, unrelated reason, which is exactly what SRP warns about. You identified it correctly.
+
+## A second problem: coupling to a changing rule
+
+`Money` is used everywhere, including `Customer`, `Order`, and the display. If the Happy Hour rate lives inside it, every rule change touches a class that many others depend on. A promotion, which is the most likely thing to change, shouldn't live inside the most widely shared helper.
+
+## What I'd suggest
+
+Keep `Money` as general arithmetic and formatting. Put the Happy Hour rule in its own small class, such as `HappyHourPricing`, which **uses** `Money.percentOf` and holds the rate (80) in one named constant. Roughly:
+
+- `Money`: `format`, `percentOf` (unchanged, general)
+- the new class: knows the Happy Hour rate, and given a price and whether it's active, returns the price to charge
+
+That way a rule change touches one small class. It also reads well in the report: "pricing policy is separate from the money helper."
+
+## A caution against over-engineering
+
+The brief says: *"Do not create interfaces just to satisfy a checklist."* You don't need a `PricingPolicy` interface, a strategy pattern, or a factory for one rule. One small class with one method is enough. Add an interface only if a second promotion appears and you need to swap between them, and you can say so in the report as a future step.
+
+## How the other SOLID principles apply
+
+Use them only where they genuinely fit. Honest, short answers:
+
+- **O (Open/Closed):** `ComboMeal` extends `MenuItem`, so a new kind of dish needed no change to `Order` or `Chef`. That's your strongest example.
+- **L (Liskov):** a combo works anywhere a `MenuItem` does, and your `ComboMealCheck` proves it by ordering and cooking one.
+- **I (Interface Segregation):** probably not relevant to your classes, so don't force it.
+- **D (Dependency Inversion):** depends on how the controller is built, which is Teo's area.
+
+## A decision for you
+
+Where should the new class live, and what should it be called? Think about who calls it (the Waiter when taking an order) and whether it should hold the "is active" flag itself, or have it passed in. I'd pass it in, so Teo owns the timing and your class stays a plain calculation.
+
+Tell me your choice and your reasoning, and I'll review it. I haven't pushed anything beyond the paper trail.
+
+---
+
+## Request 139
+
+**Prompt (Danial):**
+
+> * should live in enums, enums/PricingPolicy
+>
+> * reason why it is separate, because money-util will have more than 1 reason to change
+> * pass in is active flag
+>
+>
+>
+> can you write the skeleton for me
+
+**Claude's reply:**
+
+Your reasoning on the second and third points is good. One thing is worth thinking through on the first: an enum can fit well here, but it changes how the "active" flag is used. Let me compile the skeleton first, then explain.
+
+The skeleton compiles against your `Money`. Here's the design point first, then the file.
+
+## How the enum changes your "pass in the flag" idea
+
+You decided to pass in an is-active flag. With an enum, there are two ways to do that:
+
+- **Pass the flag into a method** such as `PricingPolicy.of(happyHourActive)`, which returns the right constant. I've included this in the skeleton, since the controller (Teo) knows whether Happy Hour is active as a boolean.
+- **Pass the policy itself** to whoever prices an order. The Waiter then asks `policy.apply(price)` and never sees a flag at all.
+
+The second is the cleaner design. The Waiter doesn't need to know *why* a policy applies, only which policy it was given. It also means a second promotion later is one new constant and nothing else changes. That's your Open/Closed example for the report. The skeleton supports both, so you can pick one and say why.
+
+Putting it in `enums` is a good fit here, because there's a fixed set of pricing policies (normal and Happy Hour). An enum with a method on each constant is a normal Java pattern. The one caution is that the `enums` package now depends on `util.Money`. That direction is fine, since it's just using a helper.
+
+## The skeleton
+
+Save it as `src/main/java/enums/PricingPolicy.java`:
+
+```java
+package enums;
+
+import util.Money;
+
+/**
+ * How the price of a new order is worked out. The Waiter asks the current
+ * policy for the price when it takes an order, and the price is then locked
+ * in the Order.
+ *
+ * <p>Brief (Stage 3, Happy Hour): orders taken while Happy Hour is active get
+ * 20% off. Apply the customer's own discount (e.g. VIP) FIRST, then this one.
+ * Example: a VIP orders a $15.00 Burger in Happy Hour: 1500 -> 1350 -> 1080.
+ *
+ * <p>TODO 1: rewrite this description in your own words when you finish.
+ */
+public enum PricingPolicy {
+
+    /** Normal pricing: the customer pays the full price. */
+    NORMAL(100);
+
+    // TODO 2: add HAPPY_HOUR. Which number goes in the brackets? Remember the
+    //   number means "percent of the price the customer still PAYS".
+    //   (Don't forget to change the ';' after NORMAL(100) into a ',' first.)
+
+    // The percent of the price the customer pays under this policy. Never changes.
+    private final int percentPayable;
+
+    PricingPolicy(int percentPayable) {
+        this.percentPayable = percentPayable;
+    }
+
+    /**
+     * Works out the price to charge under this policy.
+     *
+     * @param priceCents the price in cents BEFORE this policy (already
+     *                   discounted for the customer, if they get one)
+     * @return the price in cents after this policy
+     */
+    public int apply(int priceCents) {
+        // TODO 3: use Money.percentOf. Check what it does with 100 (NORMAL):
+        //   is the price unchanged?
+        return 0;
+    }
+
+    /**
+     * Picks the policy for the current turn.
+     *
+     * @param happyHourActive true while Happy Hour is running
+     * @return HAPPY_HOUR when active, otherwise NORMAL
+     */
+    public static PricingPolicy of(boolean happyHourActive) {
+        // TODO 4: return the right constant.
+        return NORMAL;
+    }
+}
+```
+
+## Things to know
+
+- **It compiles as is**, with only `NORMAL`, so you can build as you go. Until you finish TODO 3, `apply` returns 0, so don't use it for real pricing.
+- **TODO 2 has a trap.** The `;` after `NORMAL(100)` ends the list of constants. Add the second constant before the semicolon, separated by a comma.
+- **Your reasoning to write in the report:** `Money` shouldn't hold the rule because it would then change for display, arithmetic *and* promotions. The enum holds only the rate, and uses `Money.percentOf` for the maths.
+- **"Applied after the VIP discount"** is documented, but the order is enforced by whoever calls it: the Waiter or controller does `customer.applyDiscount(...)` first, then `policy.apply(...)`. Ask Kenz and Teo who does that.
+
+## Checks to write
+
+- `NORMAL.apply(1500)` is 1500
+- `HAPPY_HOUR.apply(1500)` is 1200
+- the brief's chain: `HAPPY_HOUR.apply(Money.percentOf(1500, 90))` is 1080
+- `of(true)` is `HAPPY_HOUR` and `of(false)` is `NORMAL`
+- `apply` with a negative price throws (that's `Money.percentOf`'s job, so check the error passes through)
+
+Write it and paste it, and I'll review it. You said `Menu` is also pending. Do you want to finish `PricingPolicy` first? Nothing has been pushed from me beyond the paper trail.
+
+---
+
+## Request 140
+
+**Prompt (Danial):**
+
+> package enums;
+>
+> import util.Money;
+>
+> /**
+>  * How the price of a new order is worked out. The Waiter asks the current
+>  * policy for the price when it takes an order, and the price is then locked
+>  * in the Order.
+>  *
+>  * <p>Brief (Stage 3, Happy Hour): orders taken while Happy Hour is active get
+>  * 20% off. Apply the customer's own discount (e.g. VIP) FIRST, then this one.
+>  * Example: a VIP orders a $15.00 Burger in Happy Hour: 1500 -> 1350 -> 1080.
+>  *
+>  */
+> public enum PricingPolicy {
+>
+>     /** Normal pricing: the customer pays the full price. */
+>     NORMAL(100),
+>
+>     /** Happy Hour pricing: the customer pays 80% of the full price */
+>     HAPPY_HOUR(80);
+>
+>     // The percent of the price the customer pays under this policy. Never changes.
+>     private final int percentPayable;
+>
+>     PricingPolicy(int percentPayable) {
+>         this.percentPayable = percentPayable;
+>     }
+>
+>     /**
+>      * Works out the price to charge under this policy.
+>      *
+>      * @param priceCents the price in cents BEFORE this policy (already
+>      *                   discounted for the customer, if they get one)
+>      * @return the price in cents after this policy
+>      */
+>     public int apply(int priceCents) {
+>         return Money.percentOf(priceCents, HAPPY_HOUR.percentPayable);
+>     }
+>
+>     /**
+>      * Picks the policy for the current turn.
+>      *
+>      * @param happyHourActive true while Happy Hour is running
+>      * @return HAPPY_HOUR when active, otherwise NORMAL
+>      */
+>     public static PricingPolicy of(boolean happyHourActive) {
+>         if (happyHourActive) {
+>             return HAPPY_HOUR;
+>         }
+>         return NORMAL;
+>     }
+> }
+
+**Claude's reply:**
+
+I'll run it before commenting.
+
+Nearly there. I ran it, and there's one real bug that makes `NORMAL` pricing wrong.
+
+## The bug: `NORMAL` charges Happy Hour prices
+
+```java
+return Money.percentOf(priceCents, HAPPY_HOUR.percentPayable);
+```
+
+This line always reads the **Happy Hour** number, whichever policy you call it on. So `NORMAL.apply(1500)` gives 1200 instead of 1500:
+
+```
+NORMAL.apply(1500)     = 1200   (expect 1500)
+HAPPY_HOUR.apply(1500) = 1200   (expect 1200)
+```
+
+It happens to look correct for `HAPPY_HOUR`, and the brief's VIP chain also gives 1080 correctly, which is why it's easy to miss. If this reached the game, every order would be charged at 80% all the time, even when Happy Hour isn't active.
+
+The field `percentPayable` holds each constant's own number. How would you refer to "the number belonging to the constant this method was called on", inside an instance method? Think about how `this` works, or how you'd read a field of the current object. Fix that one line.
+
+## What's right
+
+- Two constants, `NORMAL(100)` and `HAPPY_HOUR(80)`, with the number meaning "percent payable".
+- `of(boolean)` returns the right constant for both values, which I checked.
+- The VIP chain gives 1080, as the brief says.
+- Your Javadoc says what the number means.
+
+## Small points
+
+- The class comment ends with a stray empty ` *` line. Harmless, but tidy it.
+- Say in `apply`'s Javadoc that it relies on `Money.percentOf`'s validation, so a negative price throws `IllegalArgumentException`.
+- Remove the leftover `TODO` text if any remains in your copy. The version you pasted has none.
+
+## Checks to write
+
+These would have caught the bug:
+
+- `NORMAL.apply(1500)` is 1500. This is the one that fails now.
+- `HAPPY_HOUR.apply(1500)` is 1200
+- the brief's chain gives 1080
+- `of(true)` is `HAPPY_HOUR`, and `of(false)` is `NORMAL`
+- a negative price throws `IllegalArgumentException`
+
+Use your usual check style. After you fix the line, run it, then break it again on purpose and confirm the `NORMAL` check prints `FAIL`. Do you want me to write the check file, or would you like to write it first?
+
+---
+
+## Request 141
+
+**Prompt (Danial):**
+
+> so apply should just return Money.percentOf(priceCents, percentPayable)?
+
+**Claude's reply:**
+
+Yes. Inside an instance method, `percentPayable` on its own refers to the field of the constant the method was called on. So:
+
+```java
+public int apply(int priceCents) {
+    return Money.percentOf(priceCents, percentPayable);
+}
+```
+
+- `NORMAL.apply(1500)` reads `NORMAL`'s 100 and returns 1500.
+- `HAPPY_HOUR.apply(1500)` reads `HAPPY_HOUR`'s 80 and returns 1200.
+
+You can write `this.percentPayable` if you prefer, since it means the same thing. Some people like it because it makes clear the field belongs to the current object.
+
+Run the check afterwards. `NORMAL.apply(1500)` should be 1500 now. Do you want me to write the check file, or will you write it first?
+
+---
+
+## Request 142
+
+**Prompt (Danial):**
+
+> write the check file for me
+
+**Claude's reply:**
+
+I'll write it, run it against the fixed version, and then against your earlier buggy line to confirm it catches it.
+
+Here's the check. It passes with `apply` returning `Money.percentOf(priceCents, percentPayable)`. When I put your earlier bug back in (`HAPPY_HOUR.percentPayable`), it printed 2 `FAIL`s on the `NORMAL` checks and exited with code 1. So it would have caught that mistake.
+
+Save it as `testing/PricingPolicyCheck.java`:
+
+```java
+import enums.PricingPolicy;
+import util.Money;
+
+public class PricingPolicyCheck {
+
+    private static int failures = 0;
+
+    public static void main(String[] args) {
+
+        // normal pricing leaves the price unchanged
+        check("NORMAL.apply(1500) is 1500", PricingPolicy.NORMAL.apply(1500) == 1500);
+        check("NORMAL.apply(900) is 900", PricingPolicy.NORMAL.apply(900) == 900);
+
+        // Happy Hour is 20% off, so the customer pays 80%
+        check("HAPPY_HOUR.apply(1500) is 1200", PricingPolicy.HAPPY_HOUR.apply(1500) == 1200);
+        check("HAPPY_HOUR.apply(1800) is 1440", PricingPolicy.HAPPY_HOUR.apply(1800) == 1440);
+
+        // the brief's example: a VIP orders a $15.00 Burger in Happy Hour = $10.80
+        // (VIP discount first: 90%, then Happy Hour: 80%)
+        int vipPrice = Money.percentOf(1500, 90);
+        check("VIP then Happy Hour on 1500 is 1080", PricingPolicy.HAPPY_HOUR.apply(vipPrice) == 1080);
+
+        // a combo during Happy Hour: Salad + Pasta is 2430, then 80% = 1944
+        check("Happy Hour on a 2430 combo is 1944", PricingPolicy.HAPPY_HOUR.apply(2430) == 1944);
+
+        // rounding to the nearest cent: 80% of 5 cents is 4, 80% of 1 cent is 1 (0.8 rounds up)
+        check("HAPPY_HOUR.apply(5) is 4", PricingPolicy.HAPPY_HOUR.apply(5) == 4);
+        check("HAPPY_HOUR.apply(1) is 1", PricingPolicy.HAPPY_HOUR.apply(1) == 1);
+
+        // choosing the policy from the active flag
+        check("of(true) is HAPPY_HOUR", PricingPolicy.of(true) == PricingPolicy.HAPPY_HOUR);
+        check("of(false) is NORMAL", PricingPolicy.of(false) == PricingPolicy.NORMAL);
+
+        // a negative price is rejected (Money.percentOf does this, so it passes through)
+        try {
+            PricingPolicy.HAPPY_HOUR.apply(-1);
+            check("negative price is rejected (no exception thrown)", false);
+        } catch (IllegalArgumentException e) {
+            check("negative price is rejected -> " + e.getMessage(), true);
+        }
+
+        System.out.println(failures == 0 ? "\nAll checks passed." : "\n" + failures + " check(s) FAILED.");
+        if (failures > 0) {
+            System.exit(1);
+        }
+    }
+
+    private static void check(String label, boolean passed) {
+        if (!passed) {
+            failures++;
+        }
+        System.out.println((passed ? "OK   " : "FAIL ") + label);
+    }
+}
+```
+
+## What it covers
+
+- **`NORMAL` is unchanged:** the two checks that caught your bug.
+- **Happy Hour is 80%:** 1500 gives 1200, and 1800 gives 1440.
+- **The brief's own example:** a VIP in Happy Hour on 1500 gives 1080, with the VIP discount applied first.
+- **A combo in Happy Hour:** Salad + Pasta at 2430 gives 1944. That ties `ComboMeal` and `PricingPolicy` together, which is a good demo point.
+- **Rounding:** 5 cents gives 4, and 1 cent gives 1. Think about why the second one isn't 0, and check it against the way `Math.round` treats 0.8.
+- **Choosing the policy:** `of(true)` and `of(false)`.
+- **Rejecting a negative price:** the exception comes from `Money.percentOf`, and your check confirms it passes through.
+
+## Compile and run
+
+```powershell
+javac -d out src/main/java/util/Money.java src/main/java/enums/PricingPolicy.java testing/PricingPolicyCheck.java
+java -cp out PricingPolicyCheck
+```
+
+This check came from me, so it belongs in your paper trail, and your report should say so. When it passes, commit `PricingPolicy.java` and `PricingPolicyCheck.java` on your Stage 3 branch, for example `danial/stage-3/happy-hour-pricing`. Don't open a pull request into `dev` yet. After that, `Menu` is the last item of your Stage 3 list. Nothing has been pushed from me.
+
+---
+
+## Request 143
+
+**Prompt (Danial):**
+
+> lets do Menu for stage 3, this portion i just create a new branch, danial/stage-3/menu,
+>
+> add functionalities
+>
+> but dont pull to dev till stage 1 and 2 are tagged right?
+
+**Claude's reply:**
+
+Yes, you've got it, with two details.
+
+## Your plan, confirmed
+
+- Create `danial/stage-3/menu`, add the functionality, commit, and push the **branch** to GitHub if you like. Pushing a branch is safe, because it doesn't touch `dev`.
+- **Don't merge it into `dev`** (no pull request merge) until `stage-1` and `stage-2` are tagged. After that, Stage 3 goes in last.
+
+## Detail 1: base the branch on your `ComboMeal` branch, not on `dev`
+
+`Menu`'s Stage 3 change needs `ComboMeal`, and `ComboMeal` isn't in `dev`. So create the new branch from the one that has it:
+
+```bash
+git switch danial/stage-3/combo-meal
+git switch -c danial/stage-3/menu
+```
+
+Check that you have what you need:
+
+```bash
+ls src/main/java/entity
+```
+
+You should see `ComboMeal.java`, `Menu.java`, `MenuItem.java`. If you committed `ComboMeal` and its check on that branch, they're included.
+
+## Detail 2: the merge order later
+
+When the time comes, the order matters. Merge into `dev` as the stages get tagged:
+
+1. Stage 1 is tagged (on a commit with no Stage 2 or 3 code).
+2. Stage 2 merges into `dev` and is tagged.
+3. Your Stage 3 branches merge, in dependency order: `combo-meal`, then `menu` (which builds on it), then `happy-hour-pricing`.
+
+Before each Stage 3 merge, update your branch with the latest `dev`, and run the checks, as you did with `danial/cashier`:
+
+```bash
+git fetch origin
+git merge origin/dev
+```
+
+## One thing to watch
+
+`Menu` is a Stage 1 class. Your Stage 3 change to it, a new factory method, edits a file that already exists in the `stage-1` tag. That's allowed, as long as `Menu.standard()` stays exactly the same, so the Stage 1 and 2 runs don't change. Keep the change small, and note it for the README's "Stage 2 to Stage 3" section: the file, what changed, and why.
+
+## Before you write the code
+
+Settle the first two questions from earlier:
+- Which combos go on the menu? One or two is enough to show it.
+- Where do they sit in the list? Rifqi's rule picks dish `(n - 1) mod size`, so the position decides which customer orders a combo. Work out customers 1 to 6.
+
+Do you want a skeleton for `Menu.withCombos()`, or would you rather plan it first? Nothing has been pushed from me.
+
+---
+
+## Request 144
+
+**Prompt (Danial):**
+
+> can you elaborate more on the questions? for first point, do you mean how many combos should be displayed by the menu? and for point two, do you mean where should the combo be listed in the menu?
+
+**Claude's reply:**
+
+Yes, you've read both correctly. Here's each with a worked example, since the choices interact.
+
+## Question 1: how many combos go on the menu?
+
+Rifqi's rule is that customer *n* orders the item at position `(n - 1) mod (menu size)`. The base game has six customers. A table shows how the menu size decides who orders what:
+
+| Menu | Size | Customers 1 to 6 order |
+| --- | --- | --- |
+| Standard: Salad, Burger, Pasta | 3 | Salad, Burger, Pasta, Salad, Burger, Pasta |
+| Standard + 1 combo (Salad + Pasta) | 4 | Salad, Burger, Pasta, **Combo**, Salad, Burger |
+| Standard + 2 combos | 5 | Salad, Burger, Pasta, **Combo 1**, **Combo 2**, Salad |
+
+More combos means more customers order them, and fewer order the plain dishes. Think about what you want to show in the demo and in the Stage 3 test run: with one combo, only customer 4 orders it, and that's already enough to show the feature working.
+
+## Question 2: where in the list do the combos go?
+
+Yes, the position. Because customers pick by position, the position decides **which customer** gets the combo:
+
+| Menu order | Customers 1 to 6 order |
+| --- | --- |
+| Combo at the **end** (`Salad, Burger, Pasta, Combo`) | Salad, Burger, Pasta, Combo, Salad, Burger |
+| Combo at the **start** (`Combo, Salad, Burger, Pasta`) | Combo, Salad, Burger, Pasta, Combo, Salad |
+
+Putting it at the end keeps customers 1 to 3 the same as in Stages 1 and 2, so earlier behaviour is recognisable. Putting it at the start makes the **first** customer order a combo, which is a more dramatic demo, but changes every customer's dish.
+
+## Why this matters for the game
+
+Each choice changes the numbers the player needs to win (at least 4 paid customers and $45 revenue). A combo has **3 preparation units** (Salad + Pasta) and costs more, so it uses more Chef time. Only five customers can pay, since the one arriving on turn 16 can't finish. With a combo at the end, customer 4 arrives on turn 10, which leaves enough turns to cook it (3 units) and still be paid. Check that your choice leaves the base run winnable, because Kenz's testing will need a victory run for Stage 3.
+
+## What to decide, and write in your notes
+
+1. **How many combos?** (One is enough, two shows more variety.)
+2. **Which items?** The brief uses Salad + Pasta as its example.
+3. **Where in the list?** (My suggestion: at the end, so customers 1 to 3 keep their dishes.)
+4. **The rule to document:** "a customer chooses by position, so combos are chosen like any other dish". It's the answer to the brief's "a customer chooses a combo according to a rule you document".
+
+Tell me your choices, and I'll check them against the six customers and the win condition. Then we can write `Menu.withCombos()`.
+
+---
+
+## Request 145
+
+**Prompt (Danial):**
+
+> one combo at the end, write the skeleton
+
+**Claude's reply:**
+
+Here's the skeleton. It's a new method to add to your existing `Menu.java` (on `danial/stage-3/menu`), so I checked that it compiles with your `Menu` from `dev` plus your `ComboMeal`.
+
+It compiles. Paste this method into your existing `Menu.java`, between `standard()` and `getItems()`:
+
+```java
+    /**
+     * Creates the Stage 3 menu: the standard dishes followed by one combo meal
+     * (Salad + Pasta).
+     *
+     * <p>Customers choose by position in the list, so the combo is chosen the
+     * same way as any other dish. It sits at the END so that the standard
+     * dishes keep their positions. {@link #standard()} is unchanged, so the
+     * Stage 1 and Stage 2 runs stay the same.
+     *
+     * <p>TODO 1: rewrite this description in your own words when you finish.
+     *
+     * @return a menu with Salad, Burger, Pasta and the Salad + Pasta combo
+     */
+    public static Menu withCombos() {
+        // TODO 2: start from the standard dishes. You need the Salad and the Pasta
+        //   to build the combo. Think about which is safer:
+        //     (a) create new MenuItem objects for Salad and Pasta here, or
+        //     (b) read them out of Menu.standard().getItems() by position.
+        //   What goes wrong with (b) if someone reorders the standard menu?
+
+        // TODO 3: build the combo: new ComboMeal(salad, pasta). Check that the
+        //   price comes out as 2430 cents and the units as 3.
+
+        // TODO 4: make a list of the standard dishes with the combo added at
+        //   the END, then return new Menu(thatList). Remember a List.of(...)
+        //   cannot be added to afterwards.
+
+        return standard();   // placeholder so the file compiles, replace it
+    }
+```
+
+## Notes
+
+- **No new class.** It's one method on the existing `Menu`, which is the small change the brief allows. `ComboMeal` is in the same `entity` package, so it needs no import. `List` is already imported.
+- **`standard()` stays exactly as it is.** That keeps the Stage 1 and Stage 2 runs reproducible.
+- **Until you finish TODO 4**, the placeholder returns the plain standard menu, so don't rely on it.
+- **TODO 2 is the interesting design question.** Reading Salad and Pasta out of the standard list by position is fragile. Think about which option makes a wrong item less likely, and what each costs in repeated code. Write your reasoning in the design notes.
+- **Customers 1 to 6** will order: Salad, Burger, Pasta, Salad + Pasta, Salad, Burger. Only customer 4 gets the combo, as we worked out.
+
+## Checks to write
+
+Follow your `MenuCheck` style:
+- the new menu has 4 items, in this order: Salad, Burger, Pasta, Salad + Pasta
+- the last one is a `ComboMeal`, with 2430 cents and 3 units
+- the first three are the same as `standard()`: same names, prices and units
+- `Menu.standard()` still has exactly 3 items (the earlier stages are unaffected)
+- `getItems()` is still read-only on the new menu
+- the rule in action: with Rifqi's `chooseItem`, customer 4 gets the combo (if his method is on your branch)
+
+## README
+
+Note it for the "Stage 2 to Stage 3" section: file `Menu.java` changed, a new `withCombos()` factory was added, `standard()` untouched, and why (combos need to be on the menu, but the earlier runs must not change).
+
+Write it and paste it, and I'll review. Nothing has been pushed from me.
+
+---
+
+## Request 146
+
+**Prompt (Danial):**
+
+> how much is prep unit and price for pasta and salad according to the breif?
+
+**Claude's reply:**
+
+From the brief's menu table (section 2.1):
+
+| Menu item | Price | Preparation units |
+| --- | --- | --- |
+| Salad | $9.00 (900 cents) | 1 |
+| Burger | $15.00 (1500 cents) | 1 |
+| Pasta | $18.00 (1800 cents) | 2 |
+
+For the combo, Salad + Pasta:
+- **Price:** (900 + 1800) × 90% = 2430 cents ($24.30). The brief gives this exact example.
+- **Prep units:** 1 + 2 = 3.
+
+---
+
+## Request 147
+
+**Prompt (Danial):**
+
+> /**
+>      * Creates the Stage 3 menu: the standard dishes followed by one combo meal
+>      * (Salad + Pasta).
+>      *
+>      * <p>Customers choose by position in the list, so the combo is chosen the
+>      * same way as any other dish. It sits at the END so that the standard
+>      * dishes keep their positions. {@link #standard()} is unchanged, so the
+>      * Stage 1 and Stage 2 runs stay the same.
+>      *
+>      * <p> creates new MenuItems for combo instead of reading out from Menu.standard()
+>      * in case standard menu items are reordered.
+>      * 
+>      * @return a menu with Salad, Burger, Pasta and the Salad + Pasta combo
+>      */
+>     public static Menu withCombos() {
+>
+>         // create new MenuItems objects for Salad and Pasta
+>         MenuItem salad = new MenuItem("Salad", 900, 1);
+>         MenuItem pasta = new MenuItem("Pasta", 1800, 2);
+>
+>         // create a ComboMeal item based on new menu item objects created earlier
+>         ComboMeal comboMeal = new ComboMeal(salad, pasta);
+>
+>         // TODO 4: make a list of the standard dishes with the combo added at
+>         //   the END, then return new Menu(thatList). Remember a List.of(...)
+>         //   cannot be added to afterwards.
+>         List comboList = {Menu.standard(), comboMeal};
+>
+>         return standard();   // placeholder so the file compiles, replace it
+>     }
+
+**Claude's reply:**
+
+Your TODO 2 reasoning is good, and the Salad, Pasta and `ComboMeal` lines are right. The last part has errors, and the method still returns the placeholder.
+
+## The problem: the list line
+
+```java
+List comboList = {Menu.standard(), comboMeal};
+```
+
+Three separate issues:
+
+1. **`{ ... }` is array syntax.** It only works for arrays (`MenuItem[] x = {...}`), not for a `List`.
+2. **`List` with no type is a raw type.** It should say what's inside: `List<MenuItem>`.
+3. **`Menu.standard()` is a whole `Menu`, not a list of dishes.** Putting it in the list gives you a list with a `Menu` object and a combo. What you want in the list is the standard menu's **dishes**, and then the combo. Which method on `Menu` gives you the dishes?
+
+## The hint for TODO 4
+
+`getItems()` returns a list that can't be changed, by design (you made it read-only). So you can't just call `.add(combo)` on it. What you need is a **changeable copy** of those dishes. Look at `new ArrayList<>(someList)`, which builds a copy you can add to. Then add the combo to it, and give that list to `new Menu(...)`.
+
+Don't forget to **return the new menu**. Right now the last line still returns `standard()`, so the method would give back the plain 3-item menu.
+
+## A design point to be ready for
+
+Your reason for creating new `MenuItem`s is that reordering the standard menu can't break the combo. That's sound. The other side to be aware of: now "Salad, 900, 1" and "Pasta, 1800, 2" exist in **two places** (`standard()` and `withCombos()`). If a price changed in one, the combo would be built from stale numbers. Neither choice is perfect:
+
+- **Your choice:** safe against reordering, but the data is repeated.
+- **The alternative:** read the dishes out of `standard()`, which avoids the repetition but depends on position.
+
+Pick one, and note the trade-off in your design discussion, since it's good material. Repeated data against reliance on order is a real design question.
+
+## Small things
+
+- The Javadoc line `<p> creates new MenuItems...` has a space after `<p>`, and it reads like a note to yourself. Rephrase it as a description, for example why the combo's components are created fresh.
+- Remove the `TODO 4` comment once you've done it.
+- The method comment says "Customers choose by position", which is good. Keep it.
+
+## Checks to write
+
+Once it compiles:
+- 4 items, in order: Salad, Burger, Pasta, Salad + Pasta
+- the last one is a `ComboMeal` with 2430 cents and 3 units
+- `Menu.standard()` still has 3 items
+- the new menu's `getItems()` is read-only
+
+Fix the list, return the new menu, and paste it again. Nothing has been pushed from me.
+
+---
+
+## Request 148
+
+**Prompt (Danial):**
+
+> List<Menu> comboMenu = new ArrayList<>(Menu.standard()).add(comboMeal);
+>
+> is this correct?
+
+**Claude's reply:**
+
+Close, but three errors. Fix them one at a time.
+
+## 1. Wrong type in `List<Menu>`
+
+The list holds dishes, not menus. What type are the things in `Menu.standard().getItems()`? Use that as the type in the angle brackets.
+
+## 2. `new ArrayList<>(Menu.standard())` copies the wrong thing
+
+`ArrayList` copies a **collection**. `Menu.standard()` is a `Menu`, not a list. You need the list of dishes inside it, which comes from a getter you already have. Ask yourself which method on the `Menu` returns that list.
+
+## 3. `.add(...)` can't be chained into the assignment
+
+`add` returns `boolean` (it says whether the add succeeded), not the list. So `List<...> x = someList.add(y)` tries to put a `boolean` into a `List`. This is the same mistake as `List.add(0, bacon)` in your earlier `MenuCheck`, where I explained that. It needs to be two steps:
+
+1. Create the list (the copy).
+2. Add the combo to it, as a separate statement.
+
+## The shape
+
+```java
+List<???> items = new ArrayList<>(  ???  );
+items.add(  ???  );
+return new Menu(items);
+```
+
+Fill in the three `???`: the element type, the list to copy, and the thing to add. You need `import java.util.ArrayList;` at the top of `Menu.java`. `List` is already imported.
+
+Write it, and paste the whole method. Nothing has been pushed from me.
+
+---
+
+## Request 149
+
+**Prompt (Danial):**
+
+> /**
+>      * Creates the Stage 3 menu: the standard dishes followed by one combo meal
+>      * (Salad + Pasta).
+>      *
+>      * <p>Customers choose by position in the list, so the combo is chosen the
+>      * same way as any other dish. It sits at the END so that the standard
+>      * dishes keep their positions. {@link #standard()} is unchanged, so the
+>      * Stage 1 and Stage 2 runs stay the same.
+>      *
+>      * <p>creates new MenuItems for combo instead of reading out from Menu.standard()
+>      * in case standard menu items are reordered.
+>      * 
+>      * @return a menu with Salad, Burger, Pasta and the Salad + Pasta combo
+>      */
+>     public static Menu withCombos() {
+>
+>         // create new MenuItems objects for Salad and Pasta
+>         MenuItem salad = new MenuItem("Salad", 900, 1);
+>         MenuItem pasta = new MenuItem("Pasta", 1800, 2);
+>
+>         // create a ComboMeal item based on new menu item objects created earlier
+>         ComboMeal comboMeal = new ComboMeal(salad, pasta);
+>
+>         // make a list of the standard dishes with the combo added at the end
+>         List<MenuItem> items = new ArrayList<>(Menu.standard().getItems());
+>         items.add(comboMeal);
+>
+>         return new Menu(items); 
+>     }
+
+**Claude's reply:**
+
+I'll run it before commenting.
+
+This is correct, and the output matches what we planned. I ran it with `import java.util.ArrayList;` added to `Menu.java`, and everything checks out:
+
+```
+size = 4
+  Salad, 900 cents, 1 units
+  Burger, 1500 cents, 1 units
+  Pasta, 1800 cents, 2 units
+  Salad + Pasta, 2430 cents, 3 units   (a ComboMeal)
+standard() still size 3
+read-only? yes
+first 3 match standard(): true
+customer 4 -> Salad + Pasta
+```
+
+## One thing to check: the import
+
+Without `import java.util.ArrayList;` at the top of `Menu.java`, it fails with `cannot find symbol: class ArrayList`. If you pasted only the method, add that import next to your existing `import java.util.List;`.
+
+## What's right
+
+- The list is built in two steps (copy, then add), which fixes the `boolean` problem from before.
+- The combo sits at the end, so customers 1 to 3 keep Salad, Burger and Pasta.
+- Customer 4 orders the combo, as we planned. Customers 5 and 6 get Salad and Burger.
+- `standard()` is unchanged, so Stages 1 and 2 aren't affected.
+- The result is still read-only, because `new Menu(items)` makes its own copy.
+
+## Javadoc to polish
+
+- The line `<p>creates new MenuItems for combo instead of reading out...` reads like a note to yourself. Rephrase it as a description, and capitalise it: for example, that the combo's Salad and Pasta are created fresh here, so reordering the standard menu can't change the combo.
+- Mention the trade-off in your design notes: the Salad and Pasta data now appears in two methods.
+- You can state the combo's numbers in the Javadoc: 2430 cents and 3 units.
+
+## Checks to write
+
+Follow your `MenuCheck` style, adding these to the existing file or to a new one:
+- `withCombos()` has 4 items, in the order Salad, Burger, Pasta, Salad + Pasta
+- the last one is a `ComboMeal` with price 2430 and 3 units
+- the first three match `standard()` by name, price and units
+- `Menu.standard()` still has exactly 3 items
+- `getItems()` on the new menu is read-only
+- the rule in action (if Rifqi's `chooseItem` is on your branch): customer 4 gets the combo
+
+Do you want me to write that check, in the style of your `MenuCheck`? Nothing has been pushed from me.
+
+---
+
+## Request 150
+
+**Prompt (Danial):**
+
+> write the check for it
+
+**Claude's reply:**
+
+Here's the check. All 15 checks pass against your `withCombos()`. I also tried two realistic mistakes, and both were caught:
+
+- Putting the combo at the **start** of the list produced 12 `FAIL`s.
+- Making `standard()` include the combo, which would break Stages 1 and 2, produced `FAIL` on the "still has 3 items" checks.
+
+It's in its own file, so the Stage 1 `MenuCheck` stays untouched. Save it as `testing/MenuCombosCheck.java`:
+
+```java
+import entity.ComboMeal;
+import entity.Menu;
+import entity.MenuItem;
+import java.util.List;
+
+/**
+ * Check for the Stage 3 menu, Menu.withCombos(). Kept in its own file so the
+ * Stage 1 MenuCheck is not touched.
+ */
+public class MenuCombosCheck {
+
+    private static int failures = 0;
+
+    public static void main(String[] args) {
+        List<MenuItem> items = Menu.withCombos().getItems();
+
+        // size and order: the standard dishes first, the combo at the END
+        check("withCombos() has 4 items", items.size() == 4);
+        check("item 1 is Salad, 900 cents, 1 unit", is(items.get(0), "Salad", 900, 1));
+        check("item 2 is Burger, 1500 cents, 1 unit", is(items.get(1), "Burger", 1500, 1));
+        check("item 3 is Pasta, 1800 cents, 2 units", is(items.get(2), "Pasta", 1800, 2));
+        check("item 4 is Salad + Pasta, 2430 cents, 3 units", is(items.get(3), "Salad + Pasta", 2430, 3));
+        check("item 4 is a ComboMeal", items.get(3) instanceof ComboMeal);
+        check("items 1 to 3 are not combos",
+                !(items.get(0) instanceof ComboMeal)
+                && !(items.get(1) instanceof ComboMeal)
+                && !(items.get(2) instanceof ComboMeal));
+
+        // the first three dishes must match the standard menu exactly
+        List<MenuItem> standard = Menu.standard().getItems();
+        boolean sameAsStandard = true;
+        for (int i = 0; i < standard.size(); i++) {
+            sameAsStandard = sameAsStandard
+                    && is(items.get(i), standard.get(i).getName(),
+                          standard.get(i).getPriceCents(), standard.get(i).getPrepUnits());
+        }
+        check("the first 3 items match Menu.standard()", sameAsStandard);
+
+        // Stage 1 and 2 must be unaffected: standard() is unchanged
+        check("Menu.standard() still has 3 items", standard.size() == 3);
+        check("Menu.standard() has no combo", !(standard.get(2) instanceof ComboMeal) && standard.size() == 3);
+
+        // the new menu's list is read-only
+        try {
+            items.add(items.get(0));
+            check("withCombos() list is read-only (add was allowed)", false);
+        } catch (UnsupportedOperationException e) {
+            check("withCombos() list is read-only", true);
+        }
+
+        // the rule: customer n orders item (n - 1) mod (menu size), the same rule as
+        // Customer.chooseItem on Rifqi's branch. With 4 items, customer 4 gets the combo.
+        check("customer 3 orders Pasta", dishFor(3, items).getName().equals("Pasta"));
+        check("customer 4 orders the combo", dishFor(4, items) instanceof ComboMeal);
+        check("customer 5 orders Salad again", dishFor(5, items).getName().equals("Salad"));
+        check("customer 6 orders Burger", dishFor(6, items).getName().equals("Burger"));
+
+        System.out.println(failures == 0 ? "\nAll checks passed." : "\n" + failures + " check(s) FAILED.");
+        if (failures > 0) {
+            System.exit(1);
+        }
+    }
+
+    /** The documented rule for choosing a dish: customer n picks position (n - 1) mod size. */
+    private static MenuItem dishFor(int customerNumber, List<MenuItem> items) {
+        return items.get((customerNumber - 1) % items.size());
+    }
+
+    private static boolean is(MenuItem item, String name, int priceCents, int prepUnits) {
+        return item.getName().equals(name)
+                && item.getPriceCents() == priceCents
+                && item.getPrepUnits() == prepUnits;
+    }
+
+    private static void check(String label, boolean passed) {
+        if (!passed) {
+            failures++;
+        }
+        System.out.println((passed ? "OK   " : "FAIL ") + label);
+    }
+}
+```
+
+## What it covers
+
+- **Contents and order:** 4 items, the three standard dishes first, then `Salad + Pasta` at 2430 cents and 3 units, as a `ComboMeal`.
+- **Earlier stages are unaffected:** the first three items match `standard()`, and `standard()` still has exactly 3 items, with no combo in it.
+- **Read-only:** adding to the returned list throws.
+- **The documented rule:** customer 4 orders the combo, and customers 5 and 6 order Salad and Burger. This is Rifqi's formula, written out in `dishFor`. Once his `chooseItem` is in `dev`, replace `dishFor` with a real call to it, so the check tests the actual code.
+
+## Compile and run
+
+```powershell
+javac -d out src/main/java/entity/*.java src/main/java/util/*.java testing/MenuCombosCheck.java
+java -cp out MenuCombosCheck
+```
+
+This check came from me, so it belongs in your paper trail, and your report should say so. When it passes, commit `Menu.java` and `MenuCombosCheck.java` on `danial/stage-3/menu`. Remember not to merge into `dev` yet. Nothing has been pushed from me.
+
+---
+
+## Request 151
+
+**Prompt (Danial):**
+
+> update the paper trail
+
