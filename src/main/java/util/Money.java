@@ -37,9 +37,20 @@ public final class Money {
      * e.g. 10% of 100 cents = 10
      * @param cents the input amount in cents
      * @param pct the percentage of cents to return
+     * @throws IllegalArgumentException pct cannot be negative or more than 100%
+     * @throws IllegalArgumentException cents cannot be negative value
      * @return amount obtained from percentage of cents
      */
     public static int percentOf(int cents, int pct) {
+        if (pct < 0 || pct > 100) {
+            throw new IllegalArgumentException("percentage cannot be negative or more than 100");
+        }
+        if (cents < 0) {
+            throw new IllegalArgumentException("amount cannot be negative");
+        }
+        if (pct == 0) {
+            return 0;
+        }
         return (int) Math.round(cents * (pct / 100.0));
     }
 }
