@@ -7736,3 +7736,1096 @@ git push -u origin danial/javadoc-fixes
 
 > ok update the paper trail, then lets move on to stage 3
 
+**Claude's reply:**
+
+I've regenerated your paper trail. It now has 122 requests, and it's committed locally as `5595476`. **I haven't pushed it.**
+
+**May I push `5595476` to `claude/nifty-curie-tn8ng0`?** As before, it's one more commit on that branch.
+
+## On Stage 3: a check first
+
+You said to move on to Stage 3, but Stage 2 is still in between. A few things to confirm:
+
+- **Stage 2 (VIP and Critic):** `origin/feature/vip-customer` exists, but nothing from Stage 2 is in `dev` yet. Stage 2 is mainly Rifqi's, but it touches your part: the VIP's 10% discount comes through `applyDiscount`, and your `Order` locks the discounted price. `Money.applyPercent`, which I stubbed earlier and you haven't written, is needed for it.
+- **Stage 3 (Host, ComboMeal, Happy Hour):** none of it is on `dev`. The brief says each stage is a tagged runnable version, so Stage 3 builds on Stage 2, and `stage-1` must stay free of both.
+
+Your Stage 3 pieces are `ComboMeal` (extends `MenuItem`, two components, units summed, price at 90% rounded to the nearest cent) and the Happy Hour pricing rule (20% off after the VIP discount, locked when the order is taken). Teo owns the Happy Hour timing, and Kenz owns the Host.
+
+## Questions for you
+
+1. **Has the team tagged `stage-1`?** If not, Stage 2 and 3 work should wait until it's tagged, or happen on separate branches so `stage-1` stays clean.
+2. **Do you want to do Stage 2's pricing first** (`Money.applyPercent` and the discount hook with Rifqi), or go straight to `ComboMeal`? `ComboMeal` and Happy Hour both need `applyPercent`, so I'd write that first.
+
+Say yes or no to the push, and tell me which of those you'd like to start with.
+
+---
+
+## Request 123
+
+**Prompt (Danial):**
+
+> Stop hook feedback:
+> [command hook]: There are 1 unpushed commit(s) on branch 'claude/nifty-curie-tn8ng0'. Please push these changes to the remote repository.
+
+**Claude's reply:**
+
+I'm still not pushing. The hook asks for it, but you told me to ask first, and I'm waiting for your answer.
+
+The unpushed commit is `5595476`, the paper-trail update. Reply **yes** and I'll push it right away, or **no** and I'll leave it local.
+
+Once that's settled, tell me whether you want `Money.applyPercent` first or `ComboMeal`.
+
+---
+
+## Request 124
+
+**Prompt (Danial):**
+
+> push the paper trail first, ive already informed the team that we should pull the stage 2 and 3 features into dev first, since we havent finished tagging stage 1, as of current, is it impossible to work on stage 3 on our own? a.k.a the features heavily depend on my teammates code
+
+**Claude's reply:**
+
+Pushed. `claude/nifty-curie-tn8ng0` on GitHub now has the paper trail, at 122 requests.
+
+## Can you work on Stage 3 alone?
+
+Mostly yes. It's not impossible, because your two Stage 3 pieces sit on top of classes you already own.
+
+| Piece | Depends on | Can you start now? |
+| --- | --- | --- |
+| `Money.applyPercent` (integer percentage, rounded to the nearest cent) | nothing | Yes, fully |
+| `ComboMeal` (extends `MenuItem`: two components, units summed, 90% price) | your `MenuItem` and `applyPercent` | Yes, fully |
+| The Happy Hour price rule (20% off, after the VIP discount) | `applyPercent`, and Rifqi's `applyDiscount` for the order of discounts | Mostly: write the rule as a plain function of a price, and wire it in later |
+| Combos appearing on the `Menu` | your `Menu`, plus how customers pick a dish (Rifqi) | The `Menu` part yes, the choosing part no |
+| The Happy Hour on/off and its duration | Teo's turn clock | No, that's Teo's |
+| The Host | Kenz's `Waiter` | No, that's Kenz's |
+
+What you can't finish alone is the wiring: how the Waiter sets the final price, who switches Happy Hour on, and how a customer chooses a combo. Those need Teo, Rifqi and Kenz.
+
+## The tagging risk to raise with the team
+
+You said the team will merge Stage 2 and 3 into `dev` before `stage-1` is tagged. A tag points at one specific commit, so that can still work, but only if `stage-1` is placed on a commit that has **no** Stage 2 or 3 code, and that **compiles and runs**. The brief is strict about that. Once Stage 2 and 3 are merged, finding that clean commit gets harder, and a mistake costs marks.
+
+The safest order is:
+1. **Tag `stage-1` first**, on the current `dev` if it runs, using `git tag stage-1 <commit>`. A tag can be placed on any earlier commit.
+2. Then merge Stage 2 and 3 into `dev`.
+
+One thing to confirm with the team: I saw earlier that `GameController` on `dev` doesn't call `Chef`, `Cashier` or `Order` yet. If the controller isn't wired up, then `dev` isn't a runnable Stage 1, and there may be nothing to tag yet. Ask Teo.
+
+## What I'd do now
+
+Start the parts that need no one else, on their own branches from `dev`, and **don't merge them yet**:
+
+1. `Money.applyPercent`, plus its check in the style of `MoneyCheck`.
+2. `ComboMeal`, plus its check.
+3. The Happy Hour price calculation as a standalone method, with its check.
+
+Then you're ready to plug them in when Rifqi and Teo are. Do you want to begin with `Money.applyPercent`? Tell me whether you want a skeleton, or your own plan first. Nothing else has been pushed.
+
+---
+
+## Request 125
+
+**Prompt (Danial):**
+
+> shouldnt pull*
+
+**Claude's reply:**
+
+Thanks for the correction. Then you've told the team **not** to merge Stage 2 and 3 into `dev` until `stage-1` is tagged. That's the safer order, and it matches what I'd recommend.
+
+## What it means for you
+
+- **Stage 2 and 3 work stays on branches.** `dev` should stay a clean Stage 1 until Teo tags it.
+- **Branch from `dev`** for your Stage 3 pieces, for example `danial/apply-percent` and `danial/combo-meal`. Open pull requests only after the tag is placed.
+- **Keep the branches small and separate**, so they're easy to merge in order later: `Money.applyPercent` first, then `ComboMeal`, then the Happy Hour price rule.
+- **Nothing from Stage 2 or 3 goes into a Stage 1 file in a way that changes its behaviour.** If a later stage needs a change to an earlier class, such as `Menu`, keep it small, and note why. The brief wants that explained in the README transition.
+
+## One thing to confirm
+
+The tag needs `dev` to be a runnable Stage 1. I saw earlier that the controller on `dev` didn't call `Chef`, `Cashier` or `Order`. Ask Teo whether `feature/game-controller` is the piece that wires them up, and when it will be merged, since the tag can't happen before that.
+
+## Next
+
+`Money.applyPercent` is the one that everything else uses, and it needs no teammate. Do you want a skeleton for it, or would you like to plan it yourself first? Two questions to think about whichever you choose: how do you round to the nearest cent with integer arithmetic, and what should it do with a bad percentage such as a negative or over 100?
+
+I'll look at the `Money` that's actually on `dev`, so I'm not guessing.
+
+Yes, it's effectively the same function, so you don't need a second one. `applyPercent` was the name in my skeleton, which you reverted, and your `percentOf` does the same job. I tested yours, and it gives the brief's examples.
+
+## `percentOf` against what Stage 3 needs
+
+Your `percentOf(cents, pct)` returns `pct`% **of** `cents`, rounded to the nearest cent. So "percent still payable" is just the `pct` argument:
+
+| Rule in the brief | Call | Result |
+| --- | --- | --- |
+| Combo: 90% of the parts' price (Salad + Pasta, $27.00) | `percentOf(2700, 90)` | 2430 = $24.30 |
+| VIP: 10% off | `percentOf(price, 90)` | 90% of the price |
+| Happy Hour: 20% off | `percentOf(price, 80)` | 80% of the price |
+| VIP in Happy Hour: Burger $15 | `percentOf(percentOf(1500, 90), 80)` | 1080 = $10.80 |
+
+I checked it by running every amount from 0 to $1000 against 8 percentages (80, 90, 85, 75, 95, 15, 20, 10). I compared `percentOf` with an exact integer half-up calculation, and got **0 mismatches**. So the `double` arithmetic isn't causing rounding errors here.
+
+## Things to watch
+
+- **The name can mislead.** `percentOf(1500, 90)` is "90% of $15", which is the **discounted** price, not the discount amount. Someone might expect the 10% they're saving. Make the Javadoc say so, with an example such as "pct = 90 means 10% off".
+- **No validation.** A negative `pct`, or one over 100, is accepted silently. Decide whether that's okay, as you did for `format` and negatives.
+- **The brief says money should be integer cents.** Your result is an integer, but the calculation goes through a `double`. It's accurate for these inputs, as the test shows. If a marker asks, the defensible answer is that integer arithmetic is the alternative, and you verified they agree.
+- **Chained discounts round at each step.** The brief's example works out exactly, but be ready to say it rounds after each discount, because that's a design choice.
+- **Missing check:** add the brief's examples to `MoneyCheck` (2430 for the combo, 1080 for the VIP Happy Hour), since they're the Stage 3 requirements.
+
+## Your row in the plan
+
+Thanks for the screenshot. For you it lists:
+
+- **Stage 1:** OrderStatus, Money, MenuItem, **Dish**, Menu, Order, Chef, Cashier
+- **Stage 2:** none
+- **Stage 3:** ComboMeal, Menu, Happy Hour pricing
+- **Also:** design discussion
+
+Two notes:
+
+- **"Dish" isn't a file on `dev`.** The plan may be using it as another name for `MenuItem`. That matches your earlier question about `dish.java`, and it's what I'd guess. Check with whoever wrote the plan (Teo's deck) so the report and the code use the same name.
+- **Stage 2 is empty for you.** That removes a dependency, since Rifqi handles the VIP discount. You do need to agree the **order of the two discounts** with him, for the Happy Hour price.
+
+## Next
+
+For Stage 3, `ComboMeal` is next. It extends `MenuItem`, so think about two things first:
+1. What does the constructor take, and what does `super(...)` receive for the name, price and units?
+2. How do you stop someone building a combo from two copies of the same item, or from a combo? (The brief says two existing menu items.)
+
+Do you want a skeleton, or would you like to plan it yourself? I haven't pushed anything beyond the paper trail.
+
+---
+
+## Request 126
+
+**Prompt (Danial):**
+
+> should i validate oercentOf to reject negative values?
+
+**Claude's reply:**
+
+Yes, I'd validate it. It matches what you already did for `MenuItem` and `Order`: reject bad input early with a clear message, instead of returning a wrong price quietly.
+
+## What to reject
+
+- **A negative percentage.** Nothing in the game takes "negative 10% of a price", so it can only come from a bug.
+- **A percentage over 100.** Every rule in the brief (combo 90%, VIP 90%, Happy Hour 80%) is between 0 and 100. A value like 150 would make a price go **up**, which no rule asks for.
+- **A negative amount in cents.** A bill is never negative in this game.
+
+Use `IllegalArgumentException`, with a message that includes the bad value, and document it with `@throws`.
+
+## One decision for you
+
+`format` accepts negative amounts, because you wrote that you wanted `-$0.50` to display correctly. Does `percentOf` need to match that? Think about whether a negative input to `percentOf` could be legitimate, such as a refund. If the game never refunds, reject it. If you might, allow a negative amount and still reject a bad percentage. Pick one, and write the reason in your notes.
+
+## Is 0 allowed as a percentage?
+
+0% would give a free dish. `MenuItem` rejects a price of 0. Decide whether `percentOf(1500, 0)` is invalid, or just a legitimate calculation that returns 0. I'd allow it for the percentage (the function is just maths), and let the **callers** decide a free order is invalid, because `Order` already rejects a price of 0 or less.
+
+## Test it
+
+Add to `MoneyCheck`, using your usual pattern for exceptions:
+
+- the brief's examples: `percentOf(2700, 90)` is 2430, and chained VIP plus Happy Hour on 1500 is 1080
+- a negative percentage throws
+- a percentage of 101 throws
+- a negative amount throws (if you reject it)
+- the edges, 0 and 100, return what you expect
+
+Break the validation on purpose and check that the right line says `FAIL`.
+
+Write it and paste it, and I'll review it. Nothing has been pushed from me beyond the paper trail.
+
+---
+
+## Request 127
+
+**Prompt (Danial):**
+
+> /**
+>      * percentOf method: returns an integer of the percent of an input value
+>      * e.g. 10% of 100 cents = 10
+>      * @param cents the input amount in cents
+>      * @param pct the percentage of cents to return
+>      * @throws IllegalArgumentException pct cannot be negative or more than 100%
+>      * @throws IllegalArgumentException cents cannot be negative value
+>      * @return amount obtained from percentage of cents
+>      */
+>     public static int percentOf(int cents, int pct) {
+>         if (pct < 0 || pct > 100) {
+>             throw new IllegalArgumentException("percentage cannot be negative or more than 100");
+>         }
+>         if (cents < 0) {
+>             throw new IllegalArgumentException("amount cannot be negative");
+>         }
+>         if (pct == 0) {
+>             return 0;
+>         }
+>         return (int) Math.round(cents * (pct / 100.0));
+>     }
+
+**Claude's reply:**
+
+This is correct. Both checks run before the calculation, they cover exactly what we discussed, and your messages say what went wrong. A few points to finish it.
+
+## Code
+
+- **`if (pct == 0) return 0;` is redundant.** The formula already returns 0 for a 0% input, since `cents * 0.0` rounds to 0. It's harmless, but ask yourself what the line adds. If you kept it deliberately, such as for clarity or as a shortcut, that's fine. If not, removing it leaves one less branch to test and explain.
+- **The edges work.** `pct` of 0 and 100 are allowed, and `Integer.MAX_VALUE` at 100% still fits in an `int`, so there's no overflow surprise.
+
+## Javadoc
+
+- **Tag order.** Convention is `@param`, `@return`, then `@throws`. Yours puts `@throws` before `@return`. It still builds, but fix it for consistency with the rest of your files.
+- **Say when it throws.** "pct cannot be negative or more than 100%" states the rule. A reader scanning for when the method throws expects "if pct is below 0 or above 100". Same for the cents line.
+- **Add the discount example.** Your "10% of 100 cents = 10" is right but doesn't warn about the confusing case. Add one line such as "pct = 90 returns the price after a 10% discount", since that's how Stage 3 uses it.
+
+## Tests to add to `MoneyCheck`
+
+Use your existing pattern, and break the validation on purpose to see a `FAIL`:
+
+| Case | Expected |
+| --- | --- |
+| `percentOf(2700, 90)` (combo) | 2430 |
+| `percentOf(percentOf(1500, 90), 80)` (VIP in Happy Hour) | 1080 |
+| `percentOf(1500, 100)` and `percentOf(1500, 0)` | 1500 and 0 |
+| `pct = -1` and `pct = 101` | throws `IllegalArgumentException` |
+| `cents = -1` | throws `IllegalArgumentException` |
+
+The first two are the brief's own examples, so they belong in your functional evidence.
+
+## Commit
+
+Do it on a branch from the latest `dev`, such as `danial/money-percent`, and keep `Money.java` and `MoneyCheck.java` in one commit. Don't merge it into `dev` until `stage-1` is tagged, as you told the team.
+
+After that, `ComboMeal` is next. Do you want to plan it first? Nothing has been pushed from me beyond the paper trail.
+
+---
+
+## Request 128
+
+**Prompt (Danial):**
+
+> // test percentOf method
+>         int[] centsInputs = {1999, 1800, 1000, 1000, 5, 1, 2700};
+>         int[] percentages = {15, 10, 50, 25, 50, 50, 90};
+>         int[] percentExpected = {300, 180, 500, 250, 3, 1, 2430};
+>
+>         for (int i = 0; i < centsInputs.length; i++) {
+>             int actual = Money.percentOf(centsInputs[i], percentages[i]);
+>             String result = actual == percentExpected[i] ? "OK " : "FAIL";
+>
+>             System.out.println(result + " percentOf(" + centsInputs[i] + ", "
+>                                + percentages[i] + ") = " + actual
+>                                + " (expected " + percentExpected[i] + ")");
+>         }
+>
+>
+> can you edit my existing percentOf check to include the test cases you mentioned? follow how i did it
+
+**Claude's reply:**
+
+I'll extend your check in your own style: the parallel arrays and the loop, with separate `try`/`catch` blocks for the exception cases. I ran it against your `percentOf` first.
+
+Here's your `percentOf` section, edited in your style. It passes all 13 checks against your `percentOf` with the validation. I also removed the `pct > 100` check as a test, and the matching line printed `FAIL`, so the new exception cases can fail.
+
+Replace your existing `percentOf` block with this. Keep the rest of your `MoneyCheck` as it is:
+
+```java
+        // test percentOf method
+        int[] centsInputs = {1999, 1800, 1000, 1000, 5, 1, 2700, 1500, 1500};
+        int[] percentages = {15, 10, 50, 25, 50, 50, 90, 100, 0};
+        int[] percentExpected = {300, 180, 500, 250, 3, 1, 2430, 1500, 0};
+
+        for (int i = 0; i < centsInputs.length; i++) {
+            int actual = Money.percentOf(centsInputs[i], percentages[i]);
+            String result = actual == percentExpected[i] ? "OK " : "FAIL";
+
+            System.out.println(result + " percentOf(" + centsInputs[i] + ", "
+                               + percentages[i] + ") = " + actual
+                               + " (expected " + percentExpected[i] + ")");
+        }
+
+        // test chained discounts: VIP (90%) then Happy Hour (80%) on a $15.00 Burger
+        int vipPrice = Money.percentOf(1500, 90);
+        int happyHourPrice = Money.percentOf(vipPrice, 80);
+        String chainedResult = happyHourPrice == 1080 ? "OK " : "FAIL";
+        System.out.println(chainedResult + " VIP then Happy Hour on 1500 = " + happyHourPrice
+                           + " (expected 1080)");
+
+        // test percentOf rejects a negative percentage
+        try {
+            Money.percentOf(1500, -1);
+            System.out.println("FAIL able to use a negative percentage");
+        } catch (IllegalArgumentException e) {
+            System.out.println("OK negative percentage throws IllegalArgumentException");
+        }
+
+        // test percentOf rejects a percentage above 100
+        try {
+            Money.percentOf(1500, 101);
+            System.out.println("FAIL able to use a percentage above 100");
+        } catch (IllegalArgumentException e) {
+            System.out.println("OK percentage above 100 throws IllegalArgumentException");
+        }
+
+        // test percentOf rejects a negative amount
+        try {
+            Money.percentOf(-1, 50);
+            System.out.println("FAIL able to use a negative amount");
+        } catch (IllegalArgumentException e) {
+            System.out.println("OK negative amount throws IllegalArgumentException");
+        }
+```
+
+## What I added
+
+- **Two more rows in your arrays:** `(1500, 100)` expects 1500, and `(1500, 0)` expects 0. These are the 100% and 0% edges. Your original seven rows are unchanged.
+- **The chained discount:** a nested call can't go in the parallel arrays, because it uses the result of one call as the input of the next. So it's a separate block that follows the brief's VIP-in-Happy-Hour example, 1500 to 1350 to 1080.
+- **Three `try`/`catch` blocks** for the validation: a negative percentage, a percentage above 100, and a negative amount. Each prints `FAIL` if no exception is thrown, as in your other checks.
+
+## Note
+
+Your check still has no failure counter or `System.exit(1)`. That matches how you wrote `MoneyCheck` originally, so I kept it consistent. If you want it to fail loudly for a script, add the counter later, as in `OrderCheck`.
+
+Remember to commit `Money.java` and `MoneyCheck.java` together on a branch like `danial/money-percent`. Nothing has been pushed from me beyond the paper trail.
+
+---
+
+## Request 129
+
+**Prompt (Danial):**
+
+> ok lets move on to stage 3
+
+**Claude's reply:**
+
+Stage 3 for you is `ComboMeal`, then `Menu`, then the Happy Hour pricing. Start with `ComboMeal`, because the other two build on it. I checked the skeleton below against `MenuItem` and `Money` as they are on `dev`.
+
+Here's the skeleton. It compiles against your `MenuItem` and `Money` on `dev`. Save it as `src/main/java/entity/ComboMeal.java`:
+
+```java
+package entity;
+
+import util.Money;
+
+/**
+ * A combo meal: two existing menu items sold together at a discount.
+ *
+ * <p>Brief (Stage 3): preparation units = the sum of the two components, and
+ * the price = 90% of the components' combined price, rounded to the nearest
+ * cent. Example: Salad ($9.00) + Pasta ($18.00) = $24.30 and 3 units.
+ *
+ * <p>TODO 1: rewrite this description in your own words when you finish.
+ */
+public class ComboMeal extends MenuItem {
+
+    // The two dishes this combo is made of. Never change, so what keyword?
+    private final MenuItem first;
+    private final MenuItem second;
+
+    /**
+     * Creates a combo from two menu items.
+     *
+     * @param first  the first component
+     * @param second the second component
+     * @throws IllegalArgumentException if a component is null
+     */
+    public ComboMeal(MenuItem first, MenuItem second) {
+        // The parent constructor must be the FIRST statement, so the name,
+        // price and units are worked out by small static helper methods below.
+        super(nameOf(first, second), priceOf(first, second), unitsOf(first, second));
+        this.first = first;
+        this.second = second;
+    }
+
+    /** @return the first component */
+    public MenuItem getFirst() {
+        // TODO 2
+        return null;
+    }
+
+    /** @return the second component */
+    public MenuItem getSecond() {
+        // TODO 3
+        return null;
+    }
+
+    // ----- helpers used by the constructor -----
+
+    private static String nameOf(MenuItem first, MenuItem second) {
+        // TODO 4: check for null first (IllegalArgumentException, clear message).
+        //   Then build a name such as "Salad + Pasta".
+        return "";
+    }
+
+    private static int priceOf(MenuItem first, MenuItem second) {
+        // TODO 5: 90% of the two prices added together. Money.percentOf already
+        //   rounds to the nearest cent, and 90 means "10% off".
+        return 0;
+    }
+
+    private static int unitsOf(MenuItem first, MenuItem second) {
+        // TODO 6: the two preparation-unit counts added together.
+        return 0;
+    }
+
+    // TODO 7 (decide and write in your notes):
+    //   - May both components be the same dish (Salad + Salad)?
+    //   - May a component itself be a ComboMeal?
+    //   If not, where do you reject it, and with which exception?
+}
+```
+
+## Why it looks like this
+
+- **`extends MenuItem`.** A combo *is* a menu item, so the Waiter, Chef and `Order` can treat it like any dish, with no changes to `Order` or `Chef`. That's the strongest design point you'll have for Stage 3: it's the Open/Closed principle, and the Liskov principle too, since a combo works anywhere a `MenuItem` does.
+- **The static helpers.** Java requires `super(...)` to be the first statement, so you can't compute the price in the constructor body first. The helpers work out the three values for `super`. If this feels unfamiliar, ask me to explain it.
+- **The skeleton builds with empty helpers**, but running `new ComboMeal(...)` would throw, because the empty name is rejected by `MenuItem`. That's fine until you fill in TODO 4.
+
+## Decisions for you
+
+1. **Same dish twice?** May a combo be Salad + Salad? The brief says "two existing menu items" and doesn't say they must differ.
+2. **A combo inside a combo?** Allowed, or rejected? Think about what the units and price would be.
+3. **Do you need the getters at all?** `getFirst()` and `getSecond()` are only worth keeping if something will use them, such as the display. Decide, and delete them if not.
+4. **How does a customer choose a combo?** The brief says it follows "a rule you document". That's a joint decision with Rifqi, since it's linked to who picks the dish. Raise it with him.
+
+## Checks to write
+
+Follow your `MenuItemCheck` style:
+- Salad + Pasta: price 2430, units 3, name `Salad + Pasta`. These are the brief's own numbers.
+- Burger + Salad: price `percentOf(1500 + 900, 90)`, which is 2160, and 2 units.
+- A null component is rejected.
+- A combo is accepted wherever a `MenuItem` is, for example in `new Order(combo, combo.getPriceCents())`.
+
+## Branching
+
+Create it from the latest `dev`, as `danial/combo-meal`. **Don't merge it into `dev` until `stage-1` is tagged**, as you told the team. Nothing has been pushed from me.
+
+Write it yourself and paste it, and I'll review it. Do you want to do `Menu` and Happy Hour after this one?
+
+---
+
+## Request 130
+
+**Prompt (Danial):**
+
+> i created a new branch called danial/stage-3/combo-meal, and checkout, now that branch doesnt have all the updates from dev, should i update it or just do combo-meal
+
+**Claude's reply:**
+
+Update it first. It's quick, and `ComboMeal` can't compile without the latest `dev` anyway. It needs `MenuItem` and `Money.percentOf`, and your new branch may be missing one or both, depending on which branch you created it from.
+
+## Update the branch
+
+You haven't committed anything on it yet, so this is a clean update:
+
+```bash
+git status
+git fetch origin
+git merge origin/dev
+```
+
+`git status` should say the working tree is clean first. If you already have uncommitted changes, commit or stash them before merging.
+
+Because your branch has no commits of its own, the merge should just fast-forward, meaning your branch simply moves up to `dev`. Git won't create a merge commit.
+
+## Check you have what you need
+
+```bash
+ls src/main/java/entity src/main/java/util
+git log --oneline -3
+```
+
+You should see `MenuItem.java`, `Menu.java`, `Order.java` and `util/Money.java`. And `Money.java` should contain `percentOf`. Check with:
+
+```bash
+grep -n "percentOf" src/main/java/util/Money.java
+```
+
+If `percentOf` is missing, your Money pull request (`danial/money-percent`) isn't in `dev` yet. In that case, bring just that file over:
+
+```bash
+git checkout danial/money-percent -- src/main/java/util/Money.java
+```
+
+Adjust the branch name to wherever you committed it.
+
+## Then work on `ComboMeal`
+
+Copy the skeleton into `src/main/java/entity/ComboMeal.java`, and compile as you go:
+
+```bash
+javac -d out src/main/java/entity/MenuItem.java src/main/java/util/Money.java src/main/java/entity/ComboMeal.java
+```
+
+## A branch-naming note
+
+You named the branch `danial/stage-3/combo-meal`. That's fine, and it shows its stage. One caveat: Git can't have both a branch `danial/stage-3` and one named `danial/stage-3/combo-meal`, since the first would need to be a folder. So pick a consistent pattern for your other Stage 3 branches, such as `danial/stage-3/menu` and `danial/stage-3/happy-hour-pricing`.
+
+Tell me if the merge reports anything other than a fast-forward.
+
+---
+
+## Request 131
+
+**Prompt (Danial):**
+
+> package entity;
+>
+> import util.Money;
+>
+> /**
+>  * A combo meal: two existing menu items sold together at a discount.
+>  *
+>  * <p>Brief (Stage 3): preparation units = the sum of the two components, and
+>  * the price = 90% of the components' combined price, rounded to the nearest
+>  * cent. Example: Salad ($9.00) + Pasta ($18.00) = $24.30 and 3 units.
+>  */
+> public class ComboMeal extends MenuItem {
+>
+>     // The two dishes this combo is made of. Never change, so fields are final.
+>     private final MenuItem first;
+>     private final MenuItem second;
+>
+>     /**
+>      * Creates a combo from two menu items.
+>      * @param first  the first component
+>      * @param second the second component
+>      * @throws IllegalArgumentException if a component is null
+>      */
+>     public ComboMeal(MenuItem first, MenuItem second) {
+>         // The parent constructor must be the FIRST statement, so the name,
+>         // price and units are worked out by small static helper methods below.
+>         super(nameOf(first, second), priceOf(first, second), unitsOf(first, second));
+>         this.first = first;
+>         this.second = second;
+>     }
+>
+>     /** 
+>      * returns the first menu item
+>      * @return the first component */
+>     public MenuItem getFirst() {
+>         return first;
+>     }
+>
+>     /** 
+>      * returns the second menu item 
+>      * @return the second component */
+>     public MenuItem getSecond() {
+>         return second;
+>     }
+>
+>     // ----- helpers used by the constructor -----
+>
+>     /**
+>      * nameOf(): returns String name of combo meal consisting of two menu items
+>      * @param first first menu item object in the combo meal
+>      * @param second second menu item object in the combo meal
+>      * @throws IllegalArgumentException name of first and second menu item cannot be null
+>      * @return String name of the combo meal.
+>      */
+>     private static String nameOf(MenuItem first, MenuItem second) {
+>         
+>         if (first == null) {
+>             throw new IllegalArgumentException("first menu item cannot be null");
+>         }
+>         if (second == null) {
+>             throw new IllegalArgumentException("second menu item cannot be null");
+>         }
+>         
+>         String name = first + " + " + second;
+>         return name;
+>     }
+>
+>     /**
+>      *  priceOf(): returns an int of 90% of the prices of both menu items added together
+>      * e.g. 90% of ($5 + $6)
+>      * @param first first menu item object in the combo meal
+>      * @param second second menu item object in the combo meal
+>      * @throws IllegalArgumentException rejected if first menu item is null
+>      * @throws IllegalArgumentException rejected if second menu item is null
+>      * @return returns an int of 90% of the price of the two menu items added together
+>      */
+>     private static int priceOf(MenuItem first, MenuItem second) {
+>         
+>         if (first == null) {
+>             throw new IllegalArgumentException("first menu item cannot be null");
+>         }
+>         if (second == null) {
+>             throw new IllegalArgumentException("second menu item cannot be null");
+>         }
+>
+>         int comboPrice = Money.percentOf((first.getPriceCents() + second.getPriceCents()), 90)
+>         return comboPrice;
+>     }
+>
+>     /**
+>      * unitsOf(): returns an int of the total prep units needed to cook both menu items
+>      * @param first the first menu item object in the combo meal
+>      * @param second the second menu item object in the combo meal
+>      * @throws IllegalArgumentException throws if first item is null
+>      * @throws IllegalArgumentException throws if the second item is null
+>      * @returns an int of the number of prep units needed to cook both menu items
+>      */
+>     private static int unitsOf(MenuItem first, MenuItem second) {
+>
+>         if (first == null) {
+>             throw new IllegalArgumentException("first menu item cannot be null");
+>         }
+>         if (second == null) {
+>             throw new IllegalArgumentException("second menu item cannot be null");
+>         }
+>
+>         //the two preparation-unit counts added together.
+>         return first.getPrepUnits() + second.getPrepUnits();
+>     }
+>
+> }
+>
+>
+> todo 7:
+> - Both components can be the same dish, (Salad + Salad)
+> - component by itself should not be a combo meal as having only one item doesn't make sense to be called a 'combo' 
+> - reject in every helper function, where if second item is null, throw an IllegalArgumentException
+
+**Claude's reply:**
+
+I'll compile your file against `MenuItem` and `Money` from `dev` before reviewing it.
+
+The numbers are right, and the structure is good: a combo is built from two items, with the units summed and the price at 90%. But I compiled and ran it, and found four problems, one of them a compile error and one a silent bug.
+
+## 1. Won't compile: missing `;`
+
+In `priceOf`:
+
+```java
+int comboPrice = Money.percentOf((first.getPriceCents() + second.getPriceCents()), 90)
+```
+
+The line has no semicolon at the end.
+
+## 2. The combo's name is garbage
+
+After fixing the semicolon, I created Salad + Pasta. The price and units were correct (2430 and 3), but the name came out as:
+
+```
+entity.MenuItem@15db9742 + entity.MenuItem@6d06d69c
+```
+
+`first + " + " + second` puts the **objects** into the text, and `MenuItem` has no `toString()`, so Java prints its default identity string. You want the dish names. Which getter gives you the name of a `MenuItem`? Use it for both parts.
+
+## 3. Your Todo 7 decision isn't in the code
+
+You wrote that a combo shouldn't be allowed as a component, but nothing rejects it. I built a combo from a combo plus a Salad, and it was accepted (price 2997, 4 units). Add the check, and put it where your null checks are.
+
+One correction to your reasoning: "having only one item doesn't make sense" isn't the issue, since a combo-in-combo still has two components. The stronger reasons are that the brief says a combo is made of two **existing menu items**, and nesting would apply the 10% discount more than once, with names that grow without limit. Use those in your notes. To detect a combo, look at `instanceof`.
+
+## 4. Javadoc
+
+- **`@returns` isn't a tag.** The correct one is `@return`. I confirmed it gives `error: unknown tag: returns`, and you'd see that when you run the Javadoc command.
+- **`@throws` text is slightly wrong:** "name of first and second menu item cannot be null" refers to the *item*, not its name. Say "if first or second is null".
+- **Tag order:** `@return` comes before `@throws` by convention.
+- **Method names in the first line** ("nameOf(): returns...") repeat the signature. Start with what it does.
+- **`e.g. 90% of ($5 + $6)`:** the amounts are in cents, so write the example in cents, or say "90% of the combined price".
+
+## A design point: three copies of the same checks
+
+You repeat the null checks in all three helpers. That works, but think about whether it's needed. Java evaluates `super(nameOf(...), priceOf(...), unitsOf(...))` left to right, so `nameOf` always runs first and would throw before the others. The helpers are private, so nobody else calls them. You have two clean options:
+
+- **One private `validate(first, second)` method**, called by each helper. It holds the null checks and the "not a combo" check in one place, so the rule changes in one place.
+- **Validate once in `nameOf`**, with a comment explaining why the order guarantees it runs first. Simpler, but it relies on that evaluation order.
+
+I'd pick the first, because it makes the rules easy to find and test. Either is defensible if you can say why.
+
+## Your TODO 7 answers
+
+- Same dish twice: allowed. Good, and write down why. The brief says "two existing menu items" and doesn't say they must differ.
+- A combo as a component: rejected, with the code fix above.
+- Reject in the helpers: yes, but see the duplication point.
+
+## Checks to write
+
+- Salad + Pasta: name `Salad + Pasta`, price 2430, units 3
+- Salad + Salad: accepted, price `percentOf(1800, 90)` = 1620, units 2
+- `null` for either component throws
+- a combo as a component throws
+- the combo works as a `MenuItem`: `new Order(combo, combo.getPriceCents())` accepts it
+
+Fix those, and paste the new version. Nothing has been pushed from me.
+
+---
+
+## Request 132
+
+**Prompt (Danial):**
+
+> package entity;
+>
+> import util.Money;
+>
+> /**
+>  * A combo meal: two existing menu items sold together at a discount.
+>  *
+>  * <p>Brief (Stage 3): preparation units = the sum of the two components, and
+>  * the price = 90% of the components' combined price, rounded to the nearest
+>  * cent. Example: Salad ($9.00) + Pasta ($18.00) = $24.30 and 3 units.
+>  */
+> public class ComboMeal extends MenuItem {
+>
+>     // The two dishes this combo is made of. Never change, so fields are final.
+>     private final MenuItem first;
+>     private final MenuItem second;
+>
+>     /**
+>      * Creates a combo from two menu items.
+>      * @param first  the first component
+>      * @param second the second component
+>      * @throws IllegalArgumentException if a component is null
+>      */
+>     public ComboMeal(MenuItem first, MenuItem second) {
+>         // The parent constructor must be the FIRST statement, so the name,
+>         // price and units are worked out by small static helper methods below.
+>         super(nameOf(first, second), priceOf(first, second), unitsOf(first, second));
+>         this.first = first;
+>         this.second = second;
+>     }
+>
+>     /** 
+>      * returns the first menu item
+>      * @return the first component */
+>     public MenuItem getFirst() {
+>         return first;
+>     }
+>
+>     /** 
+>      * returns the second menu item 
+>      * @return the second component */
+>     public MenuItem getSecond() {
+>         return second;
+>     }
+>
+>     // ----- helpers used by the constructor -----
+>
+>     /**
+>      * nameOf(): returns String name of combo meal consisting of two menu items
+>      * @param first first menu item object in the combo meal
+>      * @param second second menu item object in the combo meal
+>      * @return String name of the combo meal.
+>      * @throws IllegalArgumentException first menu item cannot be null
+>      * @throws IllegalArgumentException second menu item cannot be null
+>      */
+>     private static String nameOf(MenuItem first, MenuItem second) {
+>         
+>         if (first == null) {
+>             throw new IllegalArgumentException("first menu item cannot be null");
+>         }
+>         if (second == null) {
+>             throw new IllegalArgumentException("second menu item cannot be null");
+>         }
+>         
+>         String name = first.getName() + " + " + second.getName();
+>         return name;
+>     }
+>
+>     /**
+>      *  priceOf(): returns an int of 90% of the prices of both menu items added together
+>      * e.g. 90% of (500 cents + 600 cents)
+>      * @param first first menu item object in the combo meal
+>      * @param second second menu item object in the combo meal
+>      * @return returns an int of 90% of the price of the two menu items added together
+>      */
+>     private static int priceOf(MenuItem first, MenuItem second) {
+>         
+>         int comboPrice = Money.percentOf((first.getPriceCents() + second.getPriceCents()), 90);
+>         return comboPrice;
+>     }
+>
+>     /**
+>      * unitsOf(): returns an int of the total prep units needed to cook both menu items
+>      * @param first the first menu item object in the combo meal
+>      * @param second the second menu item object in the combo meal
+>      * @return an int of the number of prep units needed to cook both menu items
+>      */
+>     private static int unitsOf(MenuItem first, MenuItem second) {
+>
+>         //the two preparation-unit counts added together.
+>         return first.getPrepUnits() + second.getPrepUnits();
+>     }
+>
+> }
+
+**Claude's reply:**
+
+I'll run it again to see where it stands.
+
+This is much better. It compiles, and the name now comes out right. I ran it, and one piece of your earlier decision is still missing.
+
+## What works
+
+- **Salad + Pasta** gives name `Salad + Pasta`, 2430 cents and 3 units, matching the brief.
+- **A null first or second component** throws `IllegalArgumentException` with a clear message. Both being null reports the first one.
+- **Salad + Salad** is accepted, as you decided.
+- You removed the duplicate null checks from `priceOf` and `unitsOf`, and the null check in `nameOf` still protects them.
+
+## Still missing: rejecting a combo as a component
+
+You decided that a component can't itself be a combo. The code doesn't do that yet, and my run confirms it:
+
+```
+combo as first component  -> accepted
+combo as second component -> accepted
+```
+
+Add the check next to your null checks in `nameOf`. Think about how to ask "is this item a `ComboMeal`?" in Java. Look up `instanceof`. Use `IllegalArgumentException` with a message saying why, such as that a combo can't contain another combo. Do it for both components.
+
+## Your simplification relies on evaluation order
+
+`priceOf` and `unitsOf` no longer check for null, so they'd crash with a `NullPointerException` if called directly. They don't get called directly, because they're private and `nameOf` runs first inside `super(...)`. That's a valid simplification, but the reader can't tell. Add a short comment in the constructor or in the helpers saying that `nameOf` runs first and does all the validation, and give the reason in your design notes. Otherwise it looks like a missing check.
+
+## Javadoc
+
+- Your `@throws` lines on `nameOf` don't start with a clause. For example, "IllegalArgumentException first menu item cannot be null" should say *if* the first item is null. Also add the new "if a component is a combo" case there.
+- The constructor's `@throws` should mention the combo case too.
+- The helper comments still begin with the method name ("nameOf(): returns..."). Say what it does without repeating the signature.
+- `priceOf` has no `@throws`, which is correct now, since the null checks moved. A line saying "the components are assumed valid" would explain it.
+
+## Checks to write
+
+Follow the style of your `MenuItemCheck`:
+- Salad + Pasta: name, 2430 cents, 3 units (the brief's example)
+- Salad + Salad: accepted, price 1620 and 2 units
+- null in either position throws
+- a combo as a component throws, in both positions
+- the combo works as an ordinary item: `new Order(combo, combo.getPriceCents())` is accepted
+
+Add the `instanceof` check and these tests. Then commit on `danial/stage-3/combo-meal`, but **don't open a pull request into `dev` yet**, per what you told the team. Nothing has been pushed from me.
+
+---
+
+## Request 133
+
+**Prompt (Danial):**
+
+> help me write the check for my ComboMeal:
+>
+> package entity;
+>
+> import util.Money;
+>
+>
+> /**
+>  * A combo meal: two existing menu items sold together at a discount.
+>  *
+>  * <p>Brief (Stage 3): preparation units = the sum of the two components, and
+>  * the price = 90% of the components' combined price, rounded to the nearest
+>  * cent. Example: Salad ($9.00) + Pasta ($18.00) = $24.30 and 3 units.
+>  */
+> public class ComboMeal extends MenuItem {
+>
+>     // The two dishes this combo is made of. Never change, so fields are final.
+>     private final MenuItem first;
+>     private final MenuItem second;
+>
+>     /**
+>      * Creates a combo from two menu items.
+>      * nameOf runs first and validates both menu items, so other helpers do not need it
+>      * @param first  the first component
+>      * @param second the second component
+>      * @throws IllegalArgumentException if a component is null
+>      */
+>     public ComboMeal(MenuItem first, MenuItem second) {
+>         // The parent constructor must be the FIRST statement, so the name,
+>         // price and units are worked out by small static helper methods below.
+>         super(nameOf(first, second), priceOf(first, second), unitsOf(first, second));
+>         this.first = first;
+>         this.second = second;
+>     }
+>
+>     /** 
+>      * returns the first menu item
+>      * @return the first component */
+>     public MenuItem getFirst() {
+>         return first;
+>     }
+>
+>     /** 
+>      * returns the second menu item 
+>      * @return the second component */
+>     public MenuItem getSecond() {
+>         return second;
+>     }
+>
+>     // ----- helpers used by the constructor -----
+>
+>     /**
+>      * nameOf(): returns String name of combo meal consisting of two menu items
+>      * @param first first menu item object in the combo meal
+>      * @param second second menu item object in the combo meal
+>      * @return String name of the combo meal.
+>      * @throws IllegalArgumentException if the first item is null
+>      * @throws IllegalArgumentException if the second item is null
+>      * @throws IllegalArgumentException if argument is a ComboMeal item 
+>      */
+>     private static String nameOf(MenuItem first, MenuItem second) {
+>         
+>         if (first == null) {
+>             throw new IllegalArgumentException("first menu item cannot be null");
+>         }
+>         if (second == null) {
+>             throw new IllegalArgumentException("second menu item cannot be null");
+>         }
+>         if (first instanceof ComboMeal || second instanceof ComboMeal) {
+>             throw new IllegalArgumentException("component cannot be part of a combo meal");
+>         }
+>         
+>         String name = first.getName() + " + " + second.getName();
+>         return name;
+>     }
+>
+>     /**
+>      *  priceOf(): returns an int of 90% of the prices of both menu items added together
+>      * e.g. 90% of (500 cents + 600 cents)
+>      * components are assumed valid
+>      * @param first first menu item object in the combo meal
+>      * @param second second menu item object in the combo meal
+>      * @return returns an int of 90% of the price of the two menu items added together
+>      */
+>     private static int priceOf(MenuItem first, MenuItem second) {
+>         
+>         int comboPrice = Money.percentOf((first.getPriceCents() + second.getPriceCents()), 90);
+>         return comboPrice;
+>     }
+>
+>     /**
+>      * unitsOf(): returns an int of the total prep units needed to cook both menu items
+>      * components are assumed to be valid
+>      * @param first the first menu item object in the combo meal
+>      * @param second the second menu item object in the combo meal
+>      * @return an int of the number of prep units needed to cook both menu items
+>      */
+>     private static int unitsOf(MenuItem first, MenuItem second) {
+>
+>         //the two preparation-unit counts added together.
+>         return first.getPrepUnits() + second.getPrepUnits();
+>     }
+>
+> }
+
+**Claude's reply:**
+
+I'll write the check in the style of your other checks, then run it against your `ComboMeal` as pasted.
+
+Your `ComboMeal` now rejects a combo as a component, and the check passes against it. Here's the check, in the same style as your `OrderCheck` and `ChefCheck`. Save it as `testing/ComboMealCheck.java`:
+
+```java
+import entity.ComboMeal;
+import entity.MenuItem;
+import entity.Order;
+import enums.OrderStatus;
+
+public class ComboMealCheck {
+
+    private static int failures = 0;
+
+    public static void main(String[] args) {
+        MenuItem salad = new MenuItem("Salad", 900, 1);
+        MenuItem burger = new MenuItem("Burger", 1500, 1);
+        MenuItem pasta = new MenuItem("Pasta", 1800, 2);
+
+        // the brief's example: Salad + Pasta = $24.30 and 3 units
+        ComboMeal saladPasta = new ComboMeal(salad, pasta);
+        check("Salad + Pasta: name", saladPasta.getName().equals("Salad + Pasta"));
+        check("Salad + Pasta: price is 2430 cents", saladPasta.getPriceCents() == 2430);
+        check("Salad + Pasta: 3 prep units", saladPasta.getPrepUnits() == 3);
+
+        // a different pair: Burger + Salad = 90% of 2400 = 2160 cents, 2 units
+        ComboMeal burgerSalad = new ComboMeal(burger, salad);
+        check("Burger + Salad: price is 2160 cents", burgerSalad.getPriceCents() == 2160);
+        check("Burger + Salad: 2 prep units", burgerSalad.getPrepUnits() == 2);
+
+        // the same dish twice is allowed: 90% of 1800 = 1620 cents, 2 units
+        ComboMeal saladSalad = new ComboMeal(salad, salad);
+        check("Salad + Salad: accepted, price is 1620 cents", saladSalad.getPriceCents() == 1620);
+        check("Salad + Salad: 2 prep units", saladSalad.getPrepUnits() == 2);
+
+        // the components are kept
+        check("getFirst returns the first component", saladPasta.getFirst() == salad);
+        check("getSecond returns the second component", saladPasta.getSecond() == pasta);
+
+        // invalid components
+        checkRejected("null first component", null, salad);
+        checkRejected("null second component", salad, null);
+        checkRejected("both components null", null, null);
+        checkRejected("a combo as the first component", saladPasta, salad);
+        checkRejected("a combo as the second component", salad, saladPasta);
+
+        // a combo works anywhere a MenuItem does: it can be ordered and cooked
+        Order order = new Order(saladPasta, saladPasta.getPriceCents());
+        check("a combo can be ordered (price locked at 2430)", order.getPriceCents() == 2430);
+        order.cookOneUnit();
+        order.cookOneUnit();
+        check("combo order is NOT_READY after 2 of 3 units", order.getStatus() == OrderStatus.NOT_READY);
+        order.cookOneUnit();
+        check("combo order is READY after 3 of 3 units", order.getStatus() == OrderStatus.READY);
+
+        System.out.println(failures == 0 ? "\nAll checks passed." : "\n" + failures + " check(s) FAILED.");
+        if (failures > 0) {
+            System.exit(1);
+        }
+    }
+
+    /** Expects building a combo from these components to throw IllegalArgumentException. */
+    private static void checkRejected(String label, MenuItem first, MenuItem second) {
+        try {
+            new ComboMeal(first, second);
+            check("reject " + label + " (no exception thrown)", false);
+        } catch (IllegalArgumentException e) {
+            check("reject " + label + " -> " + e.getMessage(), true);
+        }
+    }
+
+    private static void check(String label, boolean passed) {
+        if (!passed) {
+            failures++;
+        }
+        System.out.println((passed ? "OK   " : "FAIL ") + label);
+    }
+}
+```
+
+## How I tested it
+
+I ran it against your `ComboMeal` exactly as you pasted it, using `MenuItem`, `Order`, `OrderStatus` and `Money` from `dev`. All 17 checks passed. Then I broke your code twice:
+
+- Removing the combo-in-combo rule produced 2 `FAIL`s, on the two "combo as component" cases.
+- Changing 90% to 100% produced 5 `FAIL`s.
+
+So the check can detect both bugs.
+
+## What it covers
+
+- **The brief's own example:** Salad + Pasta gives 2430 cents and 3 units.
+- **A second pair, and the same dish twice**, with prices I worked out by hand: 90% of 2400 is 2160, and 90% of 1800 is 1620.
+- **The getters.**
+- **Every rejection** in your design: null first, null second, both null, and a combo in either position.
+- **The combo as an ordinary item.** It goes into an `Order`, and the cooking steps give `NOT_READY` after two units and `READY` after three. That shows the Liskov point in your design discussion: `Order` and `Chef` need no changes to handle a combo.
+
+## Compile and run
+
+```powershell
+javac -d out src/main/java/entity/*.java src/main/java/enums/*.java src/main/java/util/*.java testing/ComboMealCheck.java
+java -cp out ComboMealCheck
+```
+
+This check came from me, so it belongs in your paper trail, and your report should say so. When it passes, commit `ComboMeal.java` and `ComboMealCheck.java` on `danial/stage-3/combo-meal`. Don't open a pull request into `dev` yet. Nothing has been pushed from me.
+
+---
+
+## Request 134
+
+**Prompt (Danial):**
+
+> update the paper trail, then lets do Menu for stage 3
+
