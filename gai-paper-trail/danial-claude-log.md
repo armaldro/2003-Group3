@@ -9884,3 +9884,1639 @@ This check came from me, so it belongs in your paper trail, and your report shou
 
 > update the paper trail
 
+**Claude's reply:**
+
+I've regenerated your paper trail. It now has 151 requests, and it's committed locally as `07f90b9`. **I haven't pushed it.**
+
+**May I push `07f90b9` to `claude/nifty-curie-tn8ng0`?**
+
+## Reminders
+
+- **Your "Summary of GAI use" is still blank.** It has to be in your own words. By now it should cover three kinds of help:
+  - **Explanation and review** of code you wrote (the majority).
+  - **Skeletons I generated:** the first `Order`, `Cashier`, `ComboMeal`, `PricingPolicy` and the `Menu.withCombos()` method, each with TODOs for you to fill in.
+  - **Check files I wrote:** `MenuItemCheck`, `MenuCheck`'s copy test, `OrderCheck` helpers, `ChefCheck`, `CashierCheck`, `ComboMealCheck`, `PricingPolicyCheck` and `MenuCombosCheck`.
+- **Credit in the report.** Where my code or checks end up in your files, the report should say so, as the policy requires. The professor's reply asked only for the full log, but the declaration form still asks you to acknowledge generated text or ideas.
+- **The log lags by one reply.** This message isn't in it yet.
+
+## Where you are
+
+Your Stage 3 list is now covered in code, on their own branches:
+- `ComboMeal` on `danial/stage-3/combo-meal`
+- `Menu.withCombos()` on `danial/stage-3/menu`
+- `PricingPolicy` for Happy Hour pricing
+
+Say yes or no to the push. After that, the open items are the ones that need your teammates: wiring the price in when an order is taken, and the Happy Hour timing.
+
+---
+
+## Request 152
+
+**Prompt (Danial):**
+
+> Stop hook feedback:
+> [command hook]: There are 1 unpushed commit(s) on branch 'claude/nifty-curie-tn8ng0'. Please push these changes to the remote repository.
+
+**Claude's reply:**
+
+I'm holding off. The hook asks for a push, but you told me to ask first, and your answer to my question hasn't come yet.
+
+The unpushed commit is `07f90b9`, the paper-trail update. Reply **yes** and I'll push it right away, or **no** and I'll leave it local.
+
+---
+
+## Request 153
+
+**Prompt (Danial):**
+
+> yes
+
+**Claude's reply:**
+
+Pushed. `claude/nifty-curie-tn8ng0` on GitHub now has the paper trail, at 151 requests.
+
+Your own Stage 3 code is on your branches, not mine, so remember to commit and push those when you're ready, without merging into `dev` yet. Next, you could:
+
+- write your "Summary of GAI use" section
+- ask Teo and Kenz how the price gets set when an order is taken, so `PricingPolicy` can be wired in
+- start the design discussion notes
+
+Which one do you want to do?
+
+---
+
+## Request 154
+
+**Prompt (Danial):**
+
+> @"/root/.claude/uploads/97e97b25-89d5-52a2-9af3-74d41088f7eb/11055589-design_decisions.md" here is a brief pointers i took note of everytime we did a feature, it only includes features that we did together,  not including my teammates features and considerations. the brief states that the discussion should include:
+>
+> * a table of key abstractions and their responsibilities
+> * SRP, OCP, LSP, ISP, AND DIP only where genuinely reflected in code
+> * Trade-offs and alternative considerations
+> * how a players choice change a result
+>
+>
+> look at what i have so far, lets discuss it together afterwards
+
+**Claude's reply:**
+
+I read the whole file. As bullet notes, it's a good start, and it's honest about which features were yours. But it covers only part of what the brief asks for, and a few lines need fixing before they go in the report.
+
+## Against the brief's four requirements
+
+| Requirement | Status |
+| --- | --- |
+| Table of key abstractions and responsibilities | **Missing.** The notes explain decisions, but there's no table yet. |
+| SRP, OCP, LSP, ISP, DIP where genuinely reflected | **Mostly missing.** SRP appears (Happy Hour vs `Money`). Nothing names OCP or LSP, though your code already shows both. |
+| Trade-offs, and one alternative design | **Scattered.** Several choices have the trade-off implied, but none is written as "alternative considered, and why not". |
+| How the player's choices change a result | **Missing.** |
+
+## Things to correct
+
+1. **Lines 56 and 57 contradict each other.** Line 56 says to reject in every helper, and line 57 says only `nameOf()` validates, which is what your code does. Delete 56.
+2. **Line 21 doesn't match your enum.** It says `NOT_READY` is "the chef still cooking or just received the order". In your code, `RECEIVED` covers "just received", and `NOT_READY` only starts after the first unit. Also, the reason "differentiates waiter and chef" is weak. A state describes the order, not who acts on it. A stronger reason: the display can show the stage without arithmetic. Say honestly that the alternative is deriving "cooking started" from `unitsDone`.
+3. **Line 63 to 65 (Happy Hour):** it never says it's an **enum** (`PricingPolicy` with `NORMAL` and `HAPPY_HOUR`), or why. Be ready for the question: "Money itself has two jobs, formatting and arithmetic. Why is a third a problem?" Your honest answer is that formatting and arithmetic are both about numbers, but a promotion is a business rule that changes for different reasons.
+4. **Line 35** says Chef/Order "follows the brief rule" about READY dishes. Nothing enforces it yet. It depends on the controller (Teo). Say "the controller is expected to enforce it, to be confirmed".
+5. **The Money notes are out of date.** `format` accepts negatives, but `percentOf` now rejects them. Explain why they differ.
+6. **Line 16 to 17** describes Rifqi's customer design. Credit it to him, or move it out of your section.
+
+## Missing material you already have
+
+- **OCP:** `ComboMeal extends MenuItem`, so `Order` and `Chef` needed no changes. A new `PricingPolicy` constant is the same idea. Be honest that `Menu` was *extended* with `withCombos()`, not left untouched.
+- **LSP:** a combo works anywhere a `MenuItem` does, and `ComboMealCheck` proves it by ordering and cooking one.
+- **DIP, maybe:** `Cashier` works with the abstract `Customer`, not a specific type. Mention it only if you can defend it.
+- **ISP:** you have no interfaces. The brief says "only where genuinely reflected", so say it doesn't apply. That's better than forcing it.
+- **A design alternative:** `ComboMeal` as a subclass against a separate `Combo` class, or Happy Hour as a boolean in `Order`, or `Order` holding a `Customer`. Pick one and explain why you didn't choose it.
+- **Other trade-offs already decided:** `Menu.withCombos()` duplicates Salad and Pasta data (safe against reordering, but repeated), and `Chef` is a thin wrapper today.
+- **A unresolved integration point:** your classes throw `IllegalStateException`, and `dev` has an `InvalidActionException` in `util`, so the controller must handle both. Worth listing.
+
+## Player choices (missing)
+
+Ground it in what you built:
+- Which order the Chef advances: a Pasta costs 2 units, a combo costs 3.
+- Combo revenue: it's $24.30, but ties up the Chef for 3 turns.
+- When to switch Happy Hour on: 20% off orders taken for two turns, once per game. Does it help or hurt against the $45 revenue target?
+
+A short worked example with real numbers would be strong. It needs Teo's controller to be exact, so ask him for a run.
+
+## Attribution
+
+Several lines are close to my wording: the Chef responsibility block (lines 40 to 44), the combo-nesting reasons (line 55), and lines 27 and 30. That's fine under the professor's rule, but the declaration asks you to acknowledge text or ideas that came from the AI. Rewrite them in your own words, and footnote what remains. You'll also have to explain each one in the viva.
+
+## Questions for us to discuss
+
+1. Which alternative do you want to present, and why did you reject it?
+2. Do you want to defend `Money`'s two jobs, or admit it's a small trade-off?
+3. Which SOLID items do you honestly think apply?
+
+Do you want to start with the table of abstractions? Nothing has been pushed from me.
+
+---
+
+## Request 155
+
+**Prompt (Danial):**
+
+> design discussion should be included in PDF report and github repo, is md file the best format? or should it be in doc format?
+
+**Claude's reply:**
+
+Markdown is a good format for the repository. The PDF should come from a document your whole team can edit. One source of text feeds both.
+
+## How I'd handle it
+
+1. **Write your section in Markdown**, in the repo, for example `docs/design-discussion-danial.md`. GitHub renders it, tables work, and Git tracks every change. It also keeps your notes next to the code they describe.
+2. **Paste the finished text into the group report** (Word or Google Docs, whichever the team uses), and export it to PDF. The brief wants the design discussion in both places, so the content is the same and only the wrapper differs.
+3. **Keep the Markdown file as the source of truth**, so the two copies don't drift apart.
+
+## Why not a Word file in the repo
+
+- Git can't show what changed in a `.docx`, so teammates can't review it in a pull request.
+- Merge conflicts in a binary file are painful.
+- Markdown is plain text, so reviewing and merging are easy.
+
+## What to check with the team
+
+- **Who owns the report?** The README gives the report and README stage tags to Teo. Ask which tool the team is writing it in, and what headings it needs, so your section fits.
+- **Is there a shared structure?** The brief lists what the design discussion contains: the table, SOLID, trade-offs and alternatives, and player choices. If every member writes their own part, agree on the same headings so the parts join up.
+- **Where do the diagrams go?** The UML class diagram is Rifqi's. Your table of abstractions should use the same class names as his diagram.
+
+## Conversion tip
+
+If you want a Word or PDF copy from the Markdown, a tool called `pandoc` converts it in one command. Tables survive, but check the result, especially wide tables.
+
+Do you want to start the table of key abstractions now? I'd suggest the columns Class, Responsibility, Collaborates with, and Pattern or principle shown. You'd fill in `Money`, `MenuItem`, `ComboMeal`, `Menu`, `Order`, `OrderStatus`, `PricingPolicy`, `Chef` and `Cashier`. Nothing has been pushed from me.
+
+---
+
+## Request 156
+
+**Prompt (Danial):**
+
+> ok before that, the brief also states to include reflections, what should that entail? ive only kept track of design discussions but not a reflection
+
+**Claude's reply:**
+
+The brief only says the report includes "reflections". It doesn't say what they must contain, and it doesn't say whether they're per person or per group. The marking sheet says "Report structure and reflection" (under the 25-mark demonstration and report criterion). So ask Teo or the TA two things: is it individual or group, and is there a length or heading requirement? Until then, here's a sensible structure.
+
+## What a good reflection covers
+
+1. **What you learned about the design.** Specific insights, not "I learned a lot". For example: what `final` actually protects, why one class per reason to change matters, and when inheritance fits (`ComboMeal`) and when it doesn't (Salad, Burger and Pasta).
+2. **What went wrong, and how you fixed it.** Honest failures are the strongest material. Your own examples from this project:
+   - checks that couldn't fail, because they printed `OK` in both branches
+   - the `HAPPY_HOUR.percentPayable` bug that charged Happy Hour prices on every order
+   - a constructor that printed an error and returned, leaving a half-built object
+   - merge and branch problems: a detached HEAD, branches missing each other's files
+3. **What you'd do differently.** For example: merging branches into `dev` earlier, agreeing exception types with teammates sooner, or deciding who owns scoring before writing `Cashier`.
+4. **Teamwork and integration.** Where your classes met your teammates' (the `Customer` interface, who frees the table, who enforces the READY-this-turn rule), what you agreed, and what stayed open.
+5. **How you used AI, honestly.** What helped (explanations, reviews, generated tests), what you had to correct or verify, and how. The declaration form's optional questions are a good guide: *up to 5 key ideas you formulated that the AI alone could not have generated*, and *key facts the AI generated and how you verified them*.
+
+## Keep notes the way you did for the design
+
+Add a short running list as you work, with one line per event: what happened, what you learned. It's much easier than reconstructing it before the deadline. Your paper trail already holds the raw record, so you can search it for moments like those above.
+
+## What it shouldn't be
+
+- A list of what you built (that's the design discussion).
+- Generic praise or complaints.
+- Text from me. This section is about *your* experience, so it should be in your own words. I can help you find the moments and check the wording, but I won't write it.
+
+## Next
+
+Do you want to look at the list of candidate moments from our sessions, so you can pick which ones to reflect on? Or start the table of key abstractions first? Nothing has been pushed from me.
+
+---
+
+## Request 157
+
+**Prompt (Danial):**
+
+> lets work on the design discussion first, the team has agreed that each one of us should have a md file of design discussion based on the features we worked on individually, then we compile them together and include it into github and pdf report
+
+**Claude's reply:**
+
+That fits well. Each of you writes about your own classes, then you compile them. Here's a skeleton you can copy into `report/design-discussion-danial.md` (confirm the folder with the team, since the README doesn't say where it goes). Agree the same headings with your teammates too, so the files join up without rework.
+
+````markdown
+# Design Discussion: Danial
+
+Scope: Money, MenuItem, Menu, ComboMeal, Order, OrderStatus, Chef, Cashier,
+PricingPolicy. (Customers, Waiter, Host, Table and the controller are covered
+by teammates.)
+
+## 1. Key abstractions and their responsibilities
+
+| Class | Responsibility | Collaborates with | Stage |
+| ----- | -------------- | ----------------- | ----- |
+| Chef  | Does one preparation unit on an order it is given. Holds no state. | Order, controller | 1 |
+| Money |  |  | 1 |
+| MenuItem |  |  | 1 |
+| Menu |  |  | 1, 3 |
+| ComboMeal |  |  | 3 |
+| Order |  |  | 1 |
+| OrderStatus |  |  | 1 |
+| PricingPolicy |  |  | 3 |
+| Cashier |  |  | 1 |
+
+## 2. Design principles, only where the code genuinely shows them
+
+For each one: name the principle, point to the exact class or method, and say
+what would have gone wrong without it. Leave out any that do not apply.
+
+- **SRP:**
+- **OCP:**
+- **LSP:**
+- **ISP / DIP:** (include only if genuinely reflected; otherwise say they do
+  not apply and why)
+
+## 3. Trade-offs and one alternative design
+
+- Trade-offs I accepted (decision, what it cost):
+- **Alternative considered:** (what, why rejected)
+
+## 4. How the player's choices change the result
+
+(Use real numbers from the brief: which order the Chef advances, Pasta = 2
+units, combo = 3 units, when to switch on Happy Hour, the $45 and 4-customer
+targets.)
+
+## 5. Open points with teammates
+
+(Decisions still to agree, e.g. who enforces the READY-this-turn rule, who
+frees the table, exception handling.)
+
+## Acknowledgement of AI assistance
+
+(Footnote anything here that originated with Claude; see the paper trail.)
+````
+
+## How to fill it in
+
+- **Start with the table.** It anchors everything else, and the other sections refer back to it. I filled in the `Chef` row as an example of the length and tone: one clear sentence on what the class does, and who it works with. Do the rest yourself.
+- **Name the same classes as Rifqi's UML diagram**, so the table and the diagram agree.
+- **Point to code**, such as `ComboMeal` or `PricingPolicy.apply`, and to your checks (`ComboMealCheck`), when you make a claim.
+- **Write for someone who hasn't seen the code.** The marker reads the merged document, not the notes.
+- **Keep it short.** Each teammate's part adds up, so aim for about a page and a half.
+
+## Your old notes
+
+Use them as raw material, but in your own words. The attribution flags from my earlier review still apply to the lines that are close to my wording.
+
+Fill in the table first, and paste it here. We'll go through it row by row, and then do the principles section. Nothing has been pushed from me.
+
+---
+
+## Request 158
+
+**Prompt (Danial):**
+
+> right now the repo doesnt have a separate folder in the report folder for design discussions, currently it looks like
+>
+> report/ ----> reflections/
+>
+> under report theres only reflections folder, how do i create a folder for design discussion, include mine in it, then ppush it to github so that everyone can include their own too
+
+**Claude's reply:**
+
+Git doesn't track empty folders, so the folder only exists on GitHub once it has a file in it. Putting your file there creates it. Here's the whole flow, from the repo root.
+
+## 1. Start from the latest `dev`
+
+```bash
+git fetch origin
+git switch -c danial/design-discussion origin/dev
+```
+
+Check you're on the new branch with `git branch --show-current`. If Git complains about local changes, commit or stash them first.
+
+## 2. Create the folder and your file
+
+```bash
+mkdir -p report/design-discussion
+```
+
+Then create `report/design-discussion/danial.md` in VS Code, and paste the skeleton in. One file per person, named by first name, keeps it simple: `danial.md`, `rifqi.md`, `kenz.md`, `teo.md`.
+
+## 3. Add a template so everyone uses the same headings
+
+This is the part that makes compiling easy later. Add a second file, `report/design-discussion/TEMPLATE.md`, containing the same skeleton (the headings and the empty table), so teammates copy it instead of inventing their own layout. A short `README.md` in the folder can say "copy TEMPLATE.md to `<yourname>.md` and fill it in".
+
+## 4. Commit and push your branch
+
+```bash
+git add report/design-discussion/
+git status
+git commit -m "Add design discussion folder, template and Danial's section"
+git push -u origin danial/design-discussion
+```
+
+`git status` should list only the files under `report/design-discussion/`.
+
+## 5. Get it into `dev`, so everyone can see it
+
+Open a pull request from `danial/design-discussion` into `dev` on GitHub, and ask a teammate to merge it. Then everyone does `git fetch origin` and `git merge origin/dev` on their branches to receive the folder.
+
+This is a documentation change, not a stage feature, so it doesn't conflict with your agreement about waiting for the stage tags. One thing to mention to Teo: whatever is on `dev` when `stage-1` is tagged ends up in the tag, so the folder will be in it. That's harmless, since no Java code is affected.
+
+## Notes
+
+- Your draft doesn't need to be finished before you push. An early version with the table started is fine, and you can keep editing it in later commits.
+- Tell the team the file names and where the template lives, so nobody creates a separate folder.
+- Let me know if the `report/reflections/` folder is the right place for it to sit beside. The brief lists reflections as a separate part of the report, so a sibling folder like this one makes sense.
+
+Tell me how the push goes, and paste any error. Nothing has been pushed from me.
+
+---
+
+## Request 159
+
+**Prompt (Danial):**
+
+> show me the template then i push it to github
+
+**Claude's reply:**
+
+Here are the two files for `report/design-discussion/`. The template is generic, with no names or classes of yours, so every teammate can copy it unchanged.
+
+## `report/design-discussion/TEMPLATE.md`
+
+````markdown
+# Design Discussion: <your name>
+
+Scope: <list the classes you built, e.g. Money, MenuItem, ...>.
+(Classes owned by teammates are covered in their own files.)
+
+## 1. Key abstractions and their responsibilities
+
+<!-- One row per class. Use the same class names as the UML class diagram.
+     Responsibility: one or two sentences on what the class does and what it
+     deliberately does NOT do. -->
+
+| Class | Responsibility | Collaborates with | Stage |
+| ----- | -------------- | ----------------- | ----- |
+|       |                |                   |       |
+
+## 2. Design principles, only where the code genuinely shows them
+
+<!-- For each principle you claim: name the exact class or method, and say what
+     would have gone wrong without it. If a principle does not apply, say so and
+     why; do not force it. -->
+
+- **SRP (Single Responsibility):**
+- **OCP (Open/Closed):**
+- **LSP (Liskov Substitution):**
+- **ISP (Interface Segregation):**
+- **DIP (Dependency Inversion):**
+
+## 3. Trade-offs and one alternative design
+
+<!-- Trade-offs: a decision you made, and what it cost.
+     Alternative: one different design you considered, and why you rejected it. -->
+
+- Trade-offs:
+- **Alternative considered:**
+
+## 4. How the player's choices change the result
+
+<!-- Use real numbers from the brief: which order the kitchen works on, which
+     customer to seat or serve first, when to switch Happy Hour on, and the
+     targets (4 paid customers, $45 revenue, average satisfaction of 60). -->
+
+## 5. Open points with teammates
+
+<!-- Decisions still to agree, or interfaces that depend on someone else's class. -->
+
+## Acknowledgement of AI assistance
+
+<!-- Footnote any wording, idea or fact that originated with the AI assistant.
+     See your paper trail in gai-paper-trail/. -->
+````
+
+## `report/design-discussion/README.md`
+
+```markdown
+# Design Discussion
+
+Each team member writes their own section about the features they built.
+The sections are compiled later into the PDF report.
+
+## How to add yours
+
+1. Copy `TEMPLATE.md` to `<yourname>.md` (for example `danial.md`).
+2. Fill in every heading. Keep the headings and their order, so the files can
+   be joined without rework.
+3. Use the same class names as the UML class diagram.
+4. Aim for about a page and a half.
+
+## What the brief requires in the design discussion
+
+- A table of key abstractions and their responsibilities
+- SRP, OCP, LSP, ISP and DIP, only where genuinely reflected in the code
+- Trade-offs, and one alternative design that was considered
+- How the player's choices change a result
+```
+
+## Create them and push
+
+From the repo root, on `danial/design-discussion`:
+
+```bash
+mkdir -p report/design-discussion
+```
+
+Create the two files in VS Code with the contents above, plus your own `danial.md` if it's ready. Then:
+
+```bash
+git add report/design-discussion/
+git status
+git commit -m "Add design discussion folder with template and README"
+git push -u origin danial/design-discussion
+```
+
+`git status` should list only the files under `report/design-discussion/`. After pushing, open a pull request into `dev`.
+
+## Notes
+
+- The comments in `<!-- -->` don't show on GitHub, so they act as hints while writing. Tell people to delete them in their final version, or leave them, since they're invisible.
+- The README's bullet list repeats the brief's four requirements, so a teammate doesn't have to open the brief.
+- Your own `danial.md` can go in the same commit, or in a second one after you fill in the table.
+
+Tell me how the push goes. Nothing has been pushed from me.
+
+---
+
+## Request 160
+
+**Prompt (Danial):**
+
+> ok nice pulled into dev! now lets work on danial.md
+
+**Claude's reply:**
+
+Let's start with the table, since everything else in the file refers to it. Do it one row at a time, and paste a few rows whenever you want a review.
+
+## For each class, answer three questions in one or two sentences
+
+1. **What does it do?** The one job it exists for.
+2. **What does it deliberately not do?** This is the part that shows a design choice, such as "doesn't print" or "doesn't decide which order to cook".
+3. **Who does it work with?** The classes it calls, or that call it.
+
+## Prompts to get you started, class by class
+
+| Class | Think about |
+| ----- | ----------- |
+| `Money` | Display and arithmetic. Who calls each? What does it refuse to accept? |
+| `MenuItem` | What is fixed after creation? What does it reject? Why aren't Salad, Burger and Pasta subclasses? |
+| `Menu` | Who owns the list? What can a caller do to it? What does `standard()` guarantee that `withCombos()` must not break? |
+| `ComboMeal` | Why is it a `MenuItem`? What's computed for it, and what is it forbidden from containing? |
+| `Order` | What does it hold? What does it guard, and what doesn't it know about (think `Customer`)? |
+| `OrderStatus` | What does each state describe, and what state belongs elsewhere? |
+| `Chef` | Your row is an example. Compare your own words to it. |
+| `Cashier` | What rules does it apply, and what does it leave to the controller? |
+| `PricingPolicy` | What does each constant mean? Who decides when each applies? |
+
+Use the **Stage** column honestly: `Menu` appears in 1 and 3 because Stage 3 adds `withCombos()`.
+
+## Watch-outs for accuracy
+
+- The table must match the code. If you write "`Order` locks the price", point to the field that does it, and make sure the constructor really takes it.
+- Use the same class names as Rifqi's UML diagram. Ask him if it uses `Dish` or `MenuItem`, since the plan I saw mentioned "Dish".
+- Keep each responsibility to one sentence. A table cell that needs three sentences usually means the class does too much, or you're explaining a decision that belongs in section 2 or 3.
+
+## How to start
+
+Draft the first three rows (`Money`, `MenuItem`, `Menu`) in your own words and paste them. We'll go through them and tighten the wording, and you'll find the pattern easier for the remaining rows.
+
+Nothing has been pushed from me.
+
+---
+
+## Request 161
+
+**Prompt (Danial):**
+
+> ok ive done the table for design decisions, take a look at it
+
+**Claude's reply:**
+
+You haven't pasted the table, so I'll check whether you've pushed it.
+
+I can't see it yet. `report/design-discussion/danial.md` exists on `dev`, but it's **empty**, since it was added as a blank placeholder. Your table must be only on your machine, and not pushed.
+
+Paste it here and I'll go through it row by row. I'll check each row for:
+
+- **One clear sentence** for what the class does, and one for what it deliberately doesn't do
+- **Accuracy against the code**, such as the fields, methods and exceptions you name
+- **Class names** that match Rifqi's diagram
+- **The Stage column**, with `Menu` correctly shown as 1 and 3
+
+If you'd rather push it first, commit `danial.md` on a branch and send the pull request. Pasting it here is quicker.
+
+---
+
+## Request 162
+
+**Prompt (Danial):**
+
+> ## 1. Key abstractions and their responsibilities
+>
+> | Class | Responsibility | Collaborates with | Stage |
+> | ----- | -------------- | ----------------- | ----- |
+> | Chef  | Does one preparation unit on an order it is given. Holds no state. | Order, controller | 1 |
+> | Money | Formats an int value in cents into a dollar format and gives the percentage of a value |  | 1 |
+> | MenuItem | Creates a menu item, with getter functions for name, price and preparation units of a menu item object |  | 1 |
+> | Menu | the fixed list of dishes a customer can order as well
+>   as a custom menu that the caller can create.  |  | 1, 3 |
+> | ComboMeal | two existing menu items sold together at a discount |  | 3 |
+> | Order | One order placed by a customer: which dish, how much cooking is done, the price locked when the order was taken, and its current status |  | 1 |
+> | OrderStatus | The stages an Order passes through from being received to being paid or cancelled. |  | 1 |
+> | PricingPolicy | How the price of a new order is worked out. The Waiter asks the current
+>  policy for the price when it takes an order, and the price is then locked
+>   in the Order. |  | 3 |
+> | Cashier | takes payment from customers who are ready to pay |  | 1 |
+
+**Claude's reply:**
+
+The content is accurate against your code, and the class names and stages are right. Four things need work before it goes in the report.
+
+## 1. Two cells will break the table
+
+The `Menu` and `PricingPolicy` cells contain line breaks, which end a Markdown table row, so the table won't render properly on GitHub. Every cell has to stay on **one line**. Join the lines with spaces.
+
+## 2. Several cells are copied from your Javadoc
+
+`Menu`, `Order`, `OrderStatus` and `PricingPolicy` are close to word-for-word the class comments. They're accurate, but a Javadoc comment says what a class *is*. The table should say what it's *responsible for*, and the template asks for one more thing: **what it deliberately does not do**. Compare the weak and strong versions of one row:
+
+- Javadoc style: "One order placed by a customer: which dish, how much cooking is done..."
+- Responsibility style: "Holds one order's dish, locked price and cooking progress, and guards its own status changes. Does not know its customer."
+
+## 3. The "Collaborates with" column is empty
+
+Eight of nine rows have nothing there. Each class has real collaborators, and filling them in shows the structure of the design. Hints for you to check against your code:
+
+- `MenuItem`: used by `Menu`, `ComboMeal` and `Order`
+- `ComboMeal`: extends `MenuItem`, calls `Money`
+- `Order`: uses `MenuItem` and `OrderStatus`; called by `Chef`, `Cashier` and the Waiter; held by the customer
+- `Money` and `PricingPolicy`: who calls `percentOf`, and who calls `apply`?
+- `Cashier`: works with the abstract `Customer`, and with `Order`
+
+## 4. Some rows are thin or imprecise
+
+- **`Money`:** "gives the percentage of a value" is ambiguous. `percentOf(1500, 90)` returns 90% *of* the amount. Say that, and mention that it rejects bad input.
+- **`MenuItem`:** it mostly lists getters. The responsibility is "holds a dish's name, price in cents and preparation units, unchangeable once created, and rejects invalid values".
+- **`Menu`:** it should mention Stage 3's `withCombos()`, since you list it for stages 1 and 3.
+- **`Cashier`:** it leaves out its actual rules: one payment per turn, the customer who has waited longest first, and not on the turn they became ready.
+- **`PricingPolicy`:** say it holds only the rate per policy, and that the timing of Happy Hour isn't its job.
+
+## One row in the style I mean
+
+Here's `PricingPolicy`, on one line, as a model. Rewrite the others in the same pattern, in your own words:
+
+```markdown
+| PricingPolicy | Holds the percentage each pricing rule charges (normal 100%, Happy Hour 80%) and works out an order's price. Does not decide when Happy Hour is active; the controller passes that in. | Money, Waiter or controller | 3 |
+```
+
+## Attribution
+
+The `Chef` row is from my example, and the rest is your own, apart from the Javadoc-style text. Footnote the `Chef` row, or rewrite it in your own words.
+
+Rewrite the rows, and paste them again. Nothing has been pushed from me.
+
+---
+
+## Request 163
+
+**Prompt (Danial):**
+
+> is there any way to see how the md file would look like as i am editing it in vs code?
+
+**Claude's reply:**
+
+Yes. VS Code has a built-in Markdown preview, so you don't need any extension.
+
+## Open the preview
+
+- **Side by side (best while editing):** press `Ctrl+K`, then release and press `V`. On a Mac it's `Cmd+K` then `V`. The preview opens next to your file and updates as you type.
+- **Full preview:** press `Ctrl+Shift+V` (Mac: `Cmd+Shift+V`).
+- **From the UI:** with the `.md` file open, click the small icon in the top-right of the editor that looks like a page with a magnifying glass. Or right-click the file tab and choose "Open Preview".
+
+## What to check in your file
+
+- **The table renders as a grid.** If a row shows up as plain text with `|` characters, a cell has a line break in it. That's the problem with the `Menu` and `PricingPolicy` cells. Put each row on a single line.
+- **Every row has the same number of `|` separators** as the header, or the table breaks.
+- **Headings and lists** look the way you meant.
+
+## Useful extras
+
+- **Scroll sync:** the preview and the editor scroll together, so you can find the row you're editing.
+- **The preview is close to GitHub's**, but not identical. After you push, check the real page on GitHub once, since that's what your teammates and the marker will see.
+- **A formatter extension** such as "Markdown All in One" is optional. It can auto-align table columns, which helps with wide tables, but the built-in preview is enough.
+
+Edit your rows with the side-by-side preview open, then paste the rewritten table here, and I'll review it.
+
+---
+
+## Request 164
+
+**Prompt (Danial):**
+
+> to check collaborations, can i use "go to references"?
+
+**Claude's reply:**
+
+Yes, that's a good way to check. It works for Java in VS Code as long as the Java extension has loaded your project.
+
+## How to use it
+
+- Put your cursor on a class or method name, then press `Shift+F12` ("Find All References"). Or right-click and choose "Go to References" or "Find All References".
+- A panel lists every place that name is used, grouped by file. For example, on `Order` you'd see `Chef`, `Cashier`, and wherever the Waiter or `Customer` uses it.
+- **Call Hierarchy** (right-click, then "Show Call Hierarchy", or `Shift+Alt+H`) is even better for methods. It shows who calls `percentOf`, or who calls `cookOneUnit`.
+- **Type Hierarchy** (`F4` on a class name) shows inheritance, so you can confirm `ComboMeal` extends `MenuItem`.
+
+## Two directions
+
+A collaborator can work in either direction, and References only shows one of them:
+
+- **Who uses this class?** References and Call Hierarchy answer that.
+- **What does this class use?** Look at its imports, fields, and method calls inside the class. For `Cashier`, that's `Customer`, `CustomerState` and `Order`.
+
+Your table's column should list both kinds. Combine the two checks for each class.
+
+## Limits to watch for
+
+- **Only the code on your current branch is searched.** If Rifqi's, Kenz's and Teo's classes aren't merged into your branch, their uses of your classes won't show. Merge the latest `dev` first, so you see the real collaborators, including `VIPCustomer` using `Money`, once Stage 2 is merged.
+- **Your check files may not appear.** `testing/` and `scratch/` aren't source folders for the extension, so uses from there can be missing. That's fine for the table, since checks aren't collaborators.
+- **If nothing shows up**, wait for the Java extension to finish loading (check the status bar), or run "Java: Clean the Java Language Server Workspace" from the command palette.
+
+## A quick alternative
+
+From the terminal, this finds every file that mentions a class:
+
+```bash
+git grep -n "Order" -- src/main/java
+```
+
+It's less precise, because it also matches the word in comments and longer names like `OrderStatus`, but it works with no setup.
+
+Use it to fill the "Collaborates with" column, and paste the rewritten table when you're ready. Nothing has been pushed from me.
+
+---
+
+## Request 165
+
+**Prompt (Danial):**
+
+> what should i say for responsibilities?
+
+**Claude's reply:**
+
+Think of it as a sentence you could say out loud: **what the class is the single owner of, and what it leaves to someone else.**
+
+## The formula
+
+> *[Verb] [the thing it owns or does]. Does not [the thing a reader might wrongly assume it does].*
+
+The second sentence is what makes it a design statement, and not a Javadoc summary.
+
+## Where to find the material
+
+Look at what the class **owns** (its fields), what it **guards** (what it rejects or refuses), and what it **hands to others**. Three kinds of "does not" come up repeatedly in your code:
+
+- **Doesn't print or display.** The brief says the UI only displays and rules live elsewhere.
+- **Doesn't decide when.** The controller owns turn timing, so `Chef`, `Cashier` and `PricingPolicy` act when asked.
+- **Doesn't know about another class.** `Order` doesn't hold its `Customer`, and `ComboMeal`'s components can't be combos.
+
+## A model with a made-up class
+
+A `Parcel` class that tracks a delivery:
+
+```markdown
+| Parcel | Holds one delivery's address, weight and status, and guards its own status changes so a parcel can't be delivered before it is dispatched. Does not print itself or choose its courier. | Courier, ParcelStatus | 1 |
+```
+
+Notice the three parts: what it holds, what it guards, and what it leaves out.
+
+## A check for each of your rows
+
+For every class, ask:
+
+1. If someone asked "who owns X?", would this row point to the right class?
+2. Does the row mention one real rule from your code, such as "rejects a negative price" or "locked at order time"?
+3. Is the "does not" something a reader might genuinely assume otherwise? "Doesn't read the keyboard" for `Money` is true but useless. "Doesn't know when Happy Hour is active" for `PricingPolicy` is the useful one.
+
+## Length
+
+One line in the table, about 25 to 35 words. If a cell needs more, the class may be doing too much, or you're explaining a decision that belongs in sections 2 or 3.
+
+Try one row, say `Order` or `Menu`, and paste it. I'll tell you whether it says enough. Nothing has been pushed from me.
+
+---
+
+## Request 166
+
+**Prompt (Danial):**
+
+> for money, is this okay?
+>
+> Formats cents into dollar and calculates the percentage of cents. Returns a formatted amount and the percentage of a value.
+
+**Claude's reply:**
+
+It's accurate, but it needs work. Here's the review.
+
+## What's good
+
+It says what `Money` does, and it's short.
+
+## What's weak
+
+1. **The second sentence repeats the first.** "Formats cents into dollar... Returns a formatted amount" says the same thing twice, and "returns the percentage of a value" repeats "calculates the percentage". One sentence for each job is enough.
+2. **"The percentage of cents" is ambiguous.** What `percentOf(1500, 90)` really gives is 90% *of* an amount, rounded to the nearest cent. A reader could understand "the percentage" as a number like 90.
+3. **There's no "does not".** The table asks for what the class deliberately doesn't do. For `Money` that might be: it holds no state, it isn't tied to any business rule (such as which discount applies), or it doesn't know where its output is shown.
+4. **It doesn't mention guarding.** `percentOf` rejects a negative amount and a percentage outside 0 to 100. That's a real rule and belongs in a responsibility.
+5. **It's missing the link to the next decision.** Your design notes say the Happy Hour rule doesn't belong in `Money`. One clause here ("holds no pricing rules") would connect the table to that section.
+
+## A shape to follow, with blanks for your own words
+
+> Converts an amount in cents to a ___ string, and works out ___ of an amount, ___. Rejects ___. Holds no ___ and knows nothing about ___.
+
+Fill in the blanks with your own wording, using the checks above.
+
+## Also: "Collaborates with"
+
+For `Money`, ask yourself which classes call each method. `format` is for display code. `percentOf` is called from `ComboMeal`, and by `PricingPolicy`. On Rifqi's VIP branch, `VIPCustomer` calls it too. Use Find All References to check, as we discussed, and merge the latest `dev` first so you can see them.
+
+Rewrite the cell and paste it again, with the collaborator list. Nothing has been pushed from me.
+
+---
+
+## Request 167
+
+**Prompt (Danial):**
+
+> ## 1. Key abstractions and their responsibilities
+>
+> | Class | Responsibility | Collaborates with | Stage |
+> | ----- | -------------- | ----------------- | ----- |
+> | Chef  | Does one preparation unit on an order it is given. Holds no state. | Order, controller | 1 |
+> | Money | Converts an amount in cents to a dollar string, and works out percentage of an amount. Rejects negative amount and percentage below 0 and above 100. Holds no state, pricing rules and knows nothing about where its output is shown.  |  | 1 |
+> | MenuItem | Creates a menu item. Holds the name, price and prep units of a menu item. Rejects null or blank name, negative or 0 prices, and prep unit below 1. Does not know where it's methods are called  | Menu, ComboMeal, Order | 1 |
+> | Menu | the fixed list of dishes a customer can order as well as a custom menu that the caller can create.  | Restaurant, Waiter  | 1, 3 |
+> | ComboMeal | two existing menu items sold together at a discount | extends MenuItem, calls Money  | 3 |
+> | Order | One order placed by a customer: which dish, how much cooking is done, the price locked when the order was taken, and its current status. Holds a menuItem, price of menuItem, units done, and status of an order. Rejects a null menuItem and rejects price if 0 or negative. Changes state of an order, cooks one prep unit of an order. | Customer, Chef, Restaurant, Waiter | 1 |
+> | OrderStatus | The stages an Order passes through from being received to being paid or cancelled. Holds no state. Does not decide the state of an order. Returns label to manager. | Order, Restaurant, Waiter, Cashier  | 1 |
+> | PricingPolicy | Holds the percentage each pricing rule charges (normal 100%, Happy Hour 80%) and works out an order's price. Does not decide when Happy Hour is active; the controller passes that in. | Money, Waiter or controller  | 3 |
+> | Cashier | takes payment from customers who are ready to pay. Holds no state. Controller calls its method, collectPayment(), once per turn. Rejects customers whose state is not READY_TO_PAY | Works with the abstract Customer, and Order | 1 |
+
+**Claude's reply:**
+
+I'll check the "Collaborates with" column against the real code on `dev` before commenting.
+
+Good progress: the "does not" parts have appeared, and the collaborators are mostly filled. I checked each collaborator against `dev`, since it's cheap to confirm. A few need correcting, and some cells still read like Javadoc.
+
+## Collaborators checked against `dev`
+
+| Row | What `dev` shows | Verdict |
+| --- | --- | --- |
+| `Money` | Empty. Only tests call it on `dev`. | Still blank. Stage 3 adds `ComboMeal` and `PricingPolicy`, and Stage 2's `VIPCustomer` uses it, but none are on `dev` yet. |
+| `Menu` | Only `Restaurant` mentions it. **`Waiter` doesn't.** | Replace `Waiter`. Rifqi's `Customer.chooseItem` uses `Menu`, but only on his branch. |
+| `OrderStatus` | `Order`, `Restaurant`, `Waiter` mention it. **`Cashier` doesn't.** | Remove `Cashier`. It calls `order.markPaid()`, not the enum directly. |
+| `Order` | `Chef`, `Customer`, `Restaurant`, `Waiter`. | Correct, but see the point below. |
+| `ComboMeal`, `PricingPolicy` | Not on `dev`. They're on your Stage 3 branches. | Fine, since the Stage column says 3. |
+
+Matches can include comments, so treat this as a check, not a proof.
+
+## Contradiction in the `Order` row
+
+You list `Customer` as a collaborator, but your own design decision says `Order` doesn't know its customer. The truth is it works the other way round: `Customer` **holds** an `Order`. Say "held by Customer", and add "Does not know its customer" to the row. That connects the table to your coupling decision.
+
+## Rows that still read like Javadoc
+
+These have no "does not", or too little:
+
+- **`Menu`:** "the fixed list of dishes... a custom menu" is the class comment. What does it own, what does it protect (the list can't be changed by callers), and what does it not do (choose a customer's dish)? Mention `withCombos()` for Stage 3.
+- **`ComboMeal`:** no "does not". What can't it contain? The "unchanged price rule" and "no combos inside a combo" are your real decisions here.
+- **`OrderStatus`:** the first sentence is the Javadoc. And **"Holds no state"** isn't quite right: each constant holds a fixed display label. Say it holds a label, and doesn't decide an order's state, which you already wrote well.
+- **`Order`:** very long, and "Changes state of an order" is vague. Say it guards its own status changes, and cooking progress. Split what it holds, what it guards, and what it doesn't know.
+
+## Small corrections
+
+- **`MenuItem`:** "Creates a menu item" isn't the class's job; it **holds** the data. And "where it's methods" should be "its".
+- **`Money`:** "Holds no state, pricing rules and knows nothing about..." is a run-on. Make it two clauses.
+- **`Cashier`:** you left out two of its main rules: one payment per turn, the customer who has waited longest first, and not on the turn they became ready. Your "rejects customers whose state is not READY_TO_PAY" is right, but those are the interesting rules. It also returns the customer who paid, or `null`.
+- **`Chef`:** your row is my example, so footnote it or write your own.
+
+## What to do
+
+Fix the three wrong collaborators, add "does not" to `Menu` and `ComboMeal`, tighten `Order`, and write `Money`'s collaborators as "ComboMeal, PricingPolicy (Stage 3)". Then we can start section 2, the SOLID principles. Nothing has been pushed from me.
+
+---
+
+## Request 168
+
+**Prompt (Danial):**
+
+> can you fix for me
+
+**Claude's reply:**
+
+Here's the corrected table. Every cell is on one line, so it renders properly. I've kept your `Chef` and `PricingPolicy` rows as they were, and rewritten the others. Replace section 1 of `danial.md` with this:
+
+```markdown
+## 1. Key abstractions and their responsibilities
+
+| Class | Responsibility | Collaborates with | Stage |
+| ----- | -------------- | ----------------- | ----- |
+| Chef | Does one preparation unit on an order it is given. Holds no state. | Order, controller | 1 |
+| Money | Converts an amount in cents to a dollar string, and works out a percentage of an amount, rounded to the nearest cent. Rejects a negative amount and a percentage outside 0 to 100. Holds no state or pricing rules, and does not know where its output is shown. | ComboMeal, PricingPolicy (Stage 3), VIPCustomer (Stage 2) | 1 |
+| MenuItem | Holds a dish's name, price in cents and preparation units, which cannot change once created. Rejects a blank name, a price of 0 or less, and fewer than 1 preparation unit. Does not know how it is displayed or ordered. | Menu, ComboMeal, Order | 1 |
+| Menu | Owns the list of dishes customers choose from and hands out a read-only copy, so callers cannot change the menu. Stage 3 adds withCombos(), which appends one combo. Does not decide which dish a customer orders. | Restaurant, MenuItem, ComboMeal | 1, 3 |
+| ComboMeal | A menu item made of two other menu items: its price is 90% of their combined price and its preparation units are their sum. Rejects a null component and a combo as a component. Does not change how Order or Chef treat a dish. | extends MenuItem, calls Money, built by Menu | 3 |
+| Order | Holds one dish, its locked price, cooking progress and status, and guards its own status changes (cook, serve, pay, cancel). Rejects a null dish and a price of 0 or less. Does not know its customer. | MenuItem, OrderStatus, Chef, Cashier, Waiter; held by Customer | 1 |
+| OrderStatus | Lists the stages an order passes through and gives each a display label. Does not decide when an order changes stage; Order does. | Order, Restaurant, Waiter | 1 |
+| PricingPolicy | Holds the percentage each pricing rule charges (normal 100%, Happy Hour 80%) and works out an order's price. Does not decide when Happy Hour is active; the controller passes that in. | Money, Waiter or controller | 3 |
+| Cashier | Takes payment from at most one customer per call: the one who has waited longest, and never one who became ready this turn. Returns the customer who paid, or null. Holds no state, and leaves revenue and freeing the table to the controller (to be confirmed). | abstract Customer, Order, controller | 1 |
+```
+
+## What I changed
+
+- **Every cell on one line**, so GitHub and the PDF show a proper table.
+- **A "does not" in each row** (it's the part the template asks for), and what the class guards or rejects.
+- **The `Order` row** now says it doesn't know its customer, and that `Customer` holds it. That matches your design decision.
+- **Collaborators corrected:** `Waiter` removed from `Menu`, `Cashier` removed from `OrderStatus`, and `Money` filled in.
+- **`Cashier`** now has its real rules: one customer per call, oldest first, not on the turn they became ready.
+
+## Things you should still check
+
+- **Wording is mostly mine now.** This table should be footnoted in the acknowledgement section, or reworded in your own voice where you can. You'll also be asked to explain it in the presentation, so read each row and ask whether it matches what you built.
+- **"VIPCustomer (Stage 2)"** is on Rifqi's branch, not `dev`. Check with him that the name and its use of `percentOf` are final.
+- **`Menu`'s collaborators** leave out Rifqi's `Customer.chooseItem`, because that isn't on `dev` yet. Add `Customer` once it is.
+- **"To be confirmed" in the `Cashier` row** is one of the open points for section 5. Teo and Kenz decide who handles revenue and the table.
+- **Stage column:** `Money` is Stage 1, even though Stages 2 and 3 use it more. Check that matches how you want to present it.
+
+Next is section 2, the principles. Tell me which ones you think genuinely apply, and we'll go through them. Nothing has been pushed from me.
+
+---
+
+## Request 169
+
+**Prompt (Danial):**
+
+> - **SRP:** Single Responsibility Principle. PricingPolicy class. Initially supposed to be a method of Money class. SRP makes easier to plug into parts of the application, and also easier to make changes since Money class methods remain unaffected.
+>
+> is comboMeal an example of OCP because it extends MenuItem?
+
+**Claude's reply:**
+
+Yes, it's a genuine OCP example, with one caveat you should state yourself. Here's how I'd test the claim, and some notes on your SRP bullet.
+
+## Is `ComboMeal` an OCP example?
+
+**OCP** says code should be **open for extension, closed for modification**: you add new behaviour without editing what already works. Check that against your code:
+
+- **Closed:** adding combos didn't require changing `MenuItem`, `Order` or `Chef`. `Order` takes a `MenuItem`, and `Chef` takes an `Order`, so a combo flows through both with no edits.
+- **Open:** `ComboMeal` extends `MenuItem` and supplies its own computed name, price and units.
+- **Evidence in your code:** `ComboMealCheck` puts a combo into an `Order` and cooks it through `NOT_READY` to `READY`, with no change to `Order`. That's the strongest sentence you can write.
+
+So "because it extends `MenuItem`" is true but incomplete. Inheritance is the *mechanism*. The OCP claim is that existing code didn't need to change.
+
+## The caveat to be honest about
+
+`Menu` **was** modified: you added `withCombos()` to the existing class. You didn't change any existing behaviour (`standard()` is untouched), so it's an extension, but the file was edited. Say it plainly, so a marker doesn't catch you overclaiming. You could use it as a second, smaller point: "`Menu` grew a method, but `standard()` stayed identical, so Stage 1 and 2 runs are unchanged."
+
+## `PricingPolicy` as OCP: weaker
+
+Adding a new promotion means adding a constant to the `PricingPolicy` enum, which edits that file. That's modification, not extension. So don't claim it as OCP. It's better for SRP, as you have it.
+
+## Your SRP bullet
+
+The idea is right. The wording needs tightening:
+
+- "Easier to plug into parts of the application" is vague. SRP's test is *reasons to change*: `Money` would have to change for display *and* for promotions if the rule lived there. One class per reason.
+- "Money methods remain unaffected" is a good point, so keep it, but make it concrete: "changing the Happy Hour rate touches only `PricingPolicy`."
+- Be ready for the counter-question: `Money` already has two jobs (formatting and arithmetic). Your honest answer: both are about numbers, while a promotion is a business rule that changes for different reasons.
+
+## Which principle next?
+
+LSP is the natural neighbour of OCP, and your `ComboMealCheck` already supports it. A combo works anywhere a `MenuItem` does, including inside an `Order`. Write what you'd claim for LSP, and which exact check proves it. Nothing has been pushed from me.
+
+---
+
+## Request 170
+
+**Prompt (Danial):**
+
+> for LSP, Liskov Sub Principle. ComboMeal. ComboMeal class calls methods from a menuItem class and produces the expected output without breaking any logic
+
+**Claude's reply:**
+
+Your claim is on the right track, but the direction is the wrong way round. Here's how to fix it, and what makes it strong.
+
+## The direction of LSP
+
+**LSP:** code written for a `MenuItem` must keep working when it's given a `ComboMeal`. So the principle is about the *users* of `MenuItem` (`Order`, `Menu`, `Chef`, the customer's dish choice), not about `ComboMeal` calling `MenuItem`'s methods.
+
+Your sentence says "`ComboMeal` calls methods from `MenuItem`", which describes inheritance. The LSP claim is: "an `Order` built from a `ComboMeal` behaves correctly, with no special case for combos."
+
+## Evidence you already have
+
+- `ComboMealCheck` builds `new Order(saladPasta, saladPasta.getPriceCents())`, cooks it three times and gets `NOT_READY` then `READY`. `Order` didn't need to know it was a combo.
+- `Menu.withCombos()` puts a `ComboMeal` into a `List<MenuItem>`, and `new Menu(items)` accepts it as just another item.
+- Rifqi's `chooseItem` returns a `MenuItem`, so a customer can receive a combo without his code changing.
+
+## Why it holds, and the reason is worth stating
+
+`MenuItem` promises certain things: a non-blank name, a positive price and at least 1 preparation unit. `ComboMeal` can't break those promises, because it passes its name, price and units through `super(...)`, so `MenuItem`'s own constructor validates them. A combo of two valid items always has a positive price and at least 2 units. That's a strong sentence: the subclass cannot weaken the parent's rules.
+
+## An honest limitation
+
+`ComboMeal` doesn't **override** any method. It only supplies different constructor values. That makes the LSP claim safe, but less rich than an example where a subclass changes behaviour (like Stage 2's customers). A marker may ask, so be ready to say: "it's a modest example; the substitution works because the subclass adds no new restrictions on how callers use it".
+
+One more point to mention: the restriction "a combo can't contain a combo" applies when *building* a combo. It doesn't change what the inherited methods accept, so it doesn't break substitution.
+
+## What a violation would look like
+
+A useful contrast, for the report: if `ComboMeal.getPrepUnits()` returned 0, or threw an exception, `Order` would break when given a combo. That would violate LSP. Yours doesn't.
+
+## Your next step
+
+Rewrite your LSP bullet in this shape: *who relies on `MenuItem`, what they do with a combo, and the check that proves it.* Keep it to three or four sentences. Then go on to the remaining principles. Be honest about ISP and DIP: say whether they genuinely apply to your classes, or that they don't. Nothing has been pushed from me.
+
+---
+
+## Request 171
+
+**Prompt (Danial):**
+
+> what about ISP and DIP, do they apply?
+
+**Claude's reply:**
+
+Be honest here. The brief says "only where genuinely reflected in your code", so saying "this doesn't apply" is better than forcing it. My take, from the code you've written:
+
+## ISP: probably doesn't apply
+
+**ISP** says no class should be forced to depend on methods it doesn't use, which in practice is about interfaces that are too big.
+
+- None of your classes defines or implements an interface, and the brief says not to create interfaces just to satisfy a checklist. So there's nothing for ISP to judge.
+- The closest thing is that `Chef` only needs `cookOneUnit()` from `Order`, but it depends on the whole class. That's a stretch, and it isn't an ISP example, since there's no interface involved.
+
+So in the report, write one honest sentence: "ISP does not apply to my classes because they define no interfaces; the design uses concrete and abstract classes instead." Markers usually respect that more than a weak claim.
+
+## DIP: modest at best
+
+**DIP** says high-level code should depend on abstractions, not on concrete details.
+
+Genuine but small examples in your code:
+
+- **`Menu(List<MenuItem> items)`** takes a `List`, not a specific `ArrayList`, so callers can pass any kind of list.
+- **`Cashier.collectPayment(List<Customer> ...)`** is written against the **abstract** `Customer`, not `RegularCustomer`. When Stage 2 adds a VIP, `Cashier` needs no change. That's Rifqi's abstraction, but your class benefits from it.
+
+Why I'd call it modest: neither case is a high-level policy module depending on an abstraction that you defined to separate it from a low-level detail. `Customer` is an abstract class from a teammate, and `List` is a standard library type. You could claim it as "uses abstractions where available", but a marker who asks "which abstraction did you introduce?" will find that you introduced none.
+
+## What I'd suggest writing
+
+| Principle | Suggested stance |
+| --------- | ---------------- |
+| ISP | Not applicable: no interfaces in my classes. Say so in one sentence. |
+| DIP | Either skip it with the same honesty, or state it modestly: `Cashier` depends on the abstract `Customer`, and `Menu` on `List`, so neither is tied to a specific subtype. Don't claim more than that. |
+
+Both options are defensible. Be ready for the question "why didn't you add an interface?" Your answer is the brief's own rule, and that the design had no second implementation that needed one.
+
+## A note on the report
+
+Your strong examples are SRP (`PricingPolicy`), OCP and LSP (`ComboMeal`). Three well-supported principles read better than five stretched ones.
+
+Tell me which way you want to go on DIP, and write your short wording for both. Then we can move to section 3, the trade-offs and the alternative design. Nothing has been pushed from me.
+
+---
+
+## Request 172
+
+**Prompt (Danial):**
+
+> for trade offs, is this acceptable:
+>
+> class = menuItem.java
+> decision = items such as salad, pasta and bruger no need own subclass
+> benefit = easier to create new items, just input different name, price and prepUnit as a parameter of menuItem class call
+> alternative design = items are a subclass of menuitems
+> benefit = different items can have different functionalities from other items, while still being able to call methods of superclass
+
+**Claude's reply:**
+
+Yes, it's acceptable, and the decision is good. It's a real design choice, tied to the brief. But it's missing the "cost" half, which is what makes it a trade-off.
+
+## What's working
+
+- You name the class and the decision clearly.
+- The benefit is concrete: a new dish is just new data, with no new class.
+- You identified a real alternative (subclasses per dish).
+
+## What to add
+
+A trade-off needs both sides. Right now you've listed the benefit of each option, but not what each costs, or why you chose one.
+
+| Part | Your draft | What's missing |
+| ---- | ---------- | -------------- |
+| Decision | Yes | |
+| Benefit | Yes | |
+| **Cost of your choice** | No | What do you give up? E.g. a dish can't have its own behaviour without changing the design later. |
+| Alternative | Yes | |
+| **Cost of the alternative** | No | Why is it worse here? |
+| **Why you chose yours** | No | Tie it to the brief: the three dishes differ only in name, price and units. |
+
+Think about the costs:
+
+- **Subclasses per dish:** three nearly empty classes with no behaviour of their own, more files and more to maintain, with nothing gained, since each would only pass different numbers to `super(...)`.
+- **Your choice:** if a dish ever needed its own behaviour, you'd refactor. Say when you'd reconsider: "if a dish needed its own preparation steps".
+
+## One more point worth making
+
+You did use inheritance for `ComboMeal`. Say why that case is different: a combo computes its values from two other items (price at 90%, units summed), so it's a true "is-a with different construction", while Salad and Pasta only differ in data. That shows you applied the same reasoning twice, with different answers.
+
+## Fix
+
+- "bruger" should be "burger".
+- Write the alternative's benefit as a trade-off against cost, not as a bare benefit, as in "extra flexibility that this game never uses".
+
+## Which alternative to feature
+
+The brief asks for **one** alternative design considered. This one works, but it's a fairly simple choice. A richer pick might be:
+
+- `PricingPolicy` as a method in `Money` (your SRP decision), or
+- `Order` holding a `Customer`, which you rejected for coupling.
+
+Pick the one you can discuss for the longest. You can keep this `MenuItem` decision as one of your smaller trade-offs, and give the alternative section to the richer one.
+
+Rewrite it with both costs and your reason, and paste it back. Nothing has been pushed from me.
+
+---
+
+## Request 173
+
+**Prompt (Danial):**
+
+> lets move to point 4
+
+**Claude's reply:**
+
+This section is about *consequences*: a choice the player makes, the class that handles it, and a number that changes. Here are the choices that touch your classes, with figures you can check against the brief.
+
+## Choices that involve your code
+
+**1. Which order the Chef advances (`Chef`, `Order`)**
+The Chef does one unit per turn, and the manager picks which order. A Burger needs 1 unit and a Pasta needs 2. Suppose both are waiting. Cooking the Burger first finishes at turns 1 and 3 (sum 4). Cooking the Pasta first finishes at turns 2 and 3 (sum 5). That's one extra customer-turn of waiting, about 8 satisfaction points for a Regular customer. Treat that figure as an estimate, since the Waiter's one task per turn also affects when each is served.
+
+**2. A combo on the menu (`ComboMeal`, `Menu.withCombos`)**
+With one combo at the end of the menu, customer 4 orders it. It's $24.30 but needs 3 units, more than any other dish, so it takes up the Chef for three turns. Choosing to cook it first can delay the others.
+
+**3. When to use Happy Hour (`PricingPolicy`)**
+It can be used once per game, for two turns, and only orders *taken* in that window get 20% off. Examples: Burger $15.00 becomes $12.00, Pasta $18.00 becomes $14.40, and the combo $24.30 becomes $19.44. It also gives waiting customers +15 satisfaction at the start of each active turn. So the choice trades revenue against satisfaction. Using it when several customers are waiting helps most.
+
+## A check against the win condition
+
+The targets are at least 4 paid customers, at least $45 revenue and an average satisfaction of at least 60. With the Stage 3 menu, customers 1 to 5 order Salad, Burger, Pasta, the combo and Salad. If all five pay, that's $9 + $15 + $18 + $24.30 + $9 = **$75.30**. A 20% discount on all of it gives **$60.24**, still over $45. So Happy Hour can't lose you the revenue target on its own, but fewer paid customers could.
+
+## What to write
+
+For each choice you pick, use three beats:
+
+1. **The choice** the manager makes.
+2. **The mechanism**: the class and rule that produce the effect.
+3. **The result**: a number, and which target it moves.
+
+Two or three choices is enough. Pick the ones that show your classes working.
+
+## Caution
+
+Some effects depend on Teo's controller and Kenz's Waiter (when orders are taken, when Happy Hour turns on). Those aren't merged yet, so I can only verify the arithmetic, not a real run. Once the game runs, take one real example from Kenz's reproducible victory or defeat run and use its numbers. That's stronger evidence than a hypothetical.
+
+Draft the section in your own words, and paste it. Nothing has been pushed from me.
+
+---
+
+## Request 174
+
+**Prompt (Danial):**
+
+> for point 5, i wrote this:
+>
+> Menu class creates a list of menu items and Rifqi's customer class choose to order from it based on the index of the menu item. e.g. customer 1 orders menu item at index 0 (e.g pasta) and customer 2 orders the next menu item in the list.
+
+**Claude's reply:**
+
+Your text is accurate about how the choice works, but it belongs in another section, and it has one factual slip. Section 5 is about **decisions still open with teammates**.
+
+## Fix the factual slip
+
+You wrote "customer 1 orders the menu item at index 0 (e.g. pasta)". Index 0 in your menu is **Salad**, not Pasta. The standard order is Salad, Burger, Pasta, so customer 1 gets Salad, customer 2 Burger and customer 3 Pasta. And the rule is "position `(n - 1)` mod the menu size", so it wraps around: with the Stage 3 menu, customer 5 gets Salad again. "The next one in the list" misses that.
+
+## Where it belongs
+
+What you wrote is a description of a mechanism that already works. It fits in section 4 (how the player's choices change a result), or in your `Menu` row. Customers choosing their own food is actually something the *player doesn't* control, which is a useful point for section 4.
+
+## What section 5 is for
+
+Items that are still **undecided**, or that **depend on a teammate's code**. For each one: what you assumed, who owns it, and what it affects. Here are the ones from our work:
+
+| Open point | Owner | Your assumption | What depends on it |
+| ---------- | ----- | --------------- | ------------------ |
+| Who enforces "a dish that turns READY can't be served until next turn"? | Teo | The controller does | `Order` and `Chef` have no turn knowledge |
+| Who adds to revenue and records satisfaction after a payment? | Teo | The controller, using what `Cashier` returns | `Cashier`'s return value |
+| Who frees the table after payment? | Kenz | Not `Cashier` | `Cashier` and `Table` |
+| Exception types: your classes throw `IllegalStateException`, and `dev` has an `InvalidActionException` | Kenz, Teo | The controller handles both | How the manager sees an error without using up the task |
+| Who passes the Happy Hour "active" flag, and who applies `PricingPolicy`? | Teo, Kenz | The controller supplies the flag; the Waiter prices the order | Whether orders get the right price |
+| Order of discounts (VIP first, then Happy Hour) | Rifqi | `customer.applyDiscount` first | The brief's $10.80 example |
+| `chooseItem` is on Rifqi's branch, not `dev` | Rifqi | The same position rule applies to combos | Whether Stage 3 combos get ordered at all |
+
+Pick the ones that are genuinely still open when you write this, and drop any that get resolved.
+
+## What to write
+
+Try three or four short bullets in the form: **"Decision: ___. Owner: ___. My assumption: ___. Effect if wrong: ___."** Keep your `chooseItem` paragraph for section 4.
+
+Rewrite it and paste it. Nothing has been pushed from me.
+
+---
+
+## Request 175
+
+**Prompt (Danial):**
+
+> most if not all of these have been decided, so should i leave it blank and move on to acknowledge AI use
+
+**Claude's reply:**
+
+Don't leave it blank. If the points are decided, record **what was decided**. That's often more useful than an open question, because it shows how your classes fit with your teammates', which the design discussion is meant to show.
+
+## Two good options
+
+**A. Keep the heading and list the outcomes.** Three or four short bullets in this form:
+
+> **Decision:** who enforces "READY this turn, served next turn". **Agreed with:** Teo. **Outcome:** the controller does, so `Order` and `Chef` stay unaware of turns.
+
+This is quick, since you already know the answers, and it reads as evidence of teamwork.
+
+**B. Write one line and move on**, if the team decided the section isn't needed:
+
+> No design points remain open with teammates; the interface decisions are recorded in the sections above.
+
+I'd only use this if your other sections already mention those decisions. Otherwise you lose them.
+
+## Before you choose
+
+- **Check the template with the team.** Everyone's file has the same headings so they can be joined, and removing or renaming section 5 in only your file makes the compile harder. Keep the heading either way. If the team agrees to drop it for everyone, that's fine, but it should be a group decision.
+- **Verify the outcomes against the code.** "Decided" and "implemented" are different. For example, check that the controller really enforces the READY rule, and that `Cashier`'s return value is used for revenue. I can search `dev` for these if you'd like. A claim in the report that the code doesn't back up is worse than leaving it out.
+
+## Then the acknowledgement
+
+Yes, move on to it. For that section you need to list, in your own words:
+
+- what came from me, honestly: the skeletons I generated, the check files and helpers I wrote, the table's wording, and explanations of SOLID and the other design reasoning
+- where in your files those appear, so a footnote can point to them
+- a pointer to your paper trail (`gai-paper-trail/danial-claude-log.md`)
+
+The paper trail's summary section is still blank, and the acknowledgement can reuse the same honest account. Do you want me to check `dev` for the agreed outcomes first, or go straight to the acknowledgement? Nothing has been pushed from me.
+
+---
+
+## Request 176
+
+**Prompt (Danial):**
+
+> - Used AI to: create class skeletons, create check files, and helpers. Explain code, SOLID principles, and other design reasoning
+>
+>
+> is this okay for AI assistance portion
+
+**Claude's reply:**
+
+It's true, but too general for a declaration. A marker, or you in a viva, should be able to match each claim to a specific file, and the policy asks you to separate what the AI produced from what you did yourself. Here's how I'd improve it.
+
+## What's missing
+
+1. **Which files.** "Class skeletons" and "check files" don't say which. Name them.
+2. **What you did yourself.** Human contribution is what you're mainly assessed on. Say that you wrote the logic, made the design decisions and fixed the bugs.
+3. **How you verified AI output.** The optional reflection questions on the declaration form ask exactly this. You ran every check, and also broke code on purpose to confirm the checks could fail.
+4. **Footnote pointers.** The policy wants a footnote or reference where text or ideas came from the AI.
+
+## What came from me, from our sessions
+
+This is a factual inventory, so check it against your log and files:
+
+- **Skeletons with TODOs, which you filled in:** `OrderStatus`, `Order`, `Cashier`, `ComboMeal`, `PricingPolicy`, and the `Menu.withCombos()` method.
+- **Check files or large parts of them:** `MenuItemCheck`, the copy test in `MenuCheck`, helpers in `OrderCheck`, `ChefCheck`, `CashierCheck`, `ComboMealCheck`, `PricingPolicyCheck`, `MenuCombosCheck`, and the extended `percentOf` cases in `MoneyCheck`.
+- **Wording and structure:** the design-discussion folder's `TEMPLATE.md` and `README.md`, and the rewritten responsibilities table.
+- **Explanations and design reasoning:** SOLID principles, immutability and `final`, copying lists defensively, enums, `instanceof`, why `PricingPolicy` is separate from `Money`, and code reviews of your classes.
+- **Git help:** branch, merge and PATH troubleshooting.
+
+## A structure to follow
+
+> **Tool:** Claude Code (Claude Sonnet 5.5). Full conversation in `gai-paper-trail/danial-claude-log.md`.
+> **Generated by the AI:** (the lists above, by file).
+> **Explanation and review:** (topics).
+> **Written by me:** all method logic in Money, MenuItem, Menu, Order, Chef, Cashier, ComboMeal and PricingPolicy, and the design decisions.
+> **How I checked it:** I ran each check, and removed or broke a rule on purpose to confirm it printed FAIL.
+> **Acknowledged in the text:** footnotes at (places).
+
+Fill in the "Written by me" part honestly. For example, in `ComboMeal` you wrote the helpers and validation, and in `Order` you wrote every method body. That's your human contribution.
+
+## Two cautions
+
+- **Don't overclaim "written by me".** The table's wording is mostly mine, and some check helpers are mine. If a file is mixed, say so.
+- **The paper trail summary** (in `gai-paper-trail/`) is still blank, and it should say the same thing. Keep the two consistent.
+
+Draft it in your own words and paste it. I'll check it for accuracy against the log. Nothing has been pushed from me.
+
+---
+
+## Request 177
+
+**Prompt (Danial):**
+
+> how to make footnotes
+
+**Claude's reply:**
+
+In Markdown, a footnote has two parts: a marker in the text, and the note itself, which goes lower in the file.
+
+## The syntax
+
+```markdown
+Customers choose a dish by position in the menu.[^1] A combo is priced at 90%
+of its parts.[^2]
+
+...
+
+[^1]: The position rule and the comparison to alternatives were suggested by Claude (see paper trail, request about Menu.withCombos).
+[^2]: Wording of this row of the table was drafted by Claude and edited by me.
+```
+
+- The marker is `[^name]`, placed right after the text. The name can be a number or a word, such as `[^combo]`.
+- The note is `[^name]: text`, on its own line, usually at the bottom of the file or section.
+- Numbers are shown in the order they appear in the text.
+
+## Where it works
+
+- **GitHub:** footnotes render properly, with a numbered list at the bottom and links between them.
+- **VS Code's built-in preview:** it **doesn't** show footnotes properly. They appear as plain text. A free extension called "Markdown Footnotes" fixes this. Check the real result on GitHub after you push.
+- **Word or Google Docs (the PDF report):** use the program's own footnote feature (Insert → Footnote), when you paste your text in. Don't paste the `[^1]` syntax there.
+
+## A safe fallback
+
+If the footnotes give any trouble, use plain numbered references. Write a small `(1)` or `[1]` in the text, and a "Notes" list at the bottom:
+
+```markdown
+Customers choose a dish by position in the menu. [1]
+
+### Notes
+1. Suggested by Claude; see paper trail.
+```
+
+It renders anywhere, and it satisfies the policy's "footnote or in-text reference".
+
+## What to footnote
+
+- Wording or structure that came from me, such as the table rows or explanations of principles.
+- Ideas that came from the AI, such as the combo-nesting reasons, the Chef's responsibility block, or the defensive-copy explanation.
+
+Each note should say what came from the AI and point to the paper trail, so a reader can verify it. Add a few to your draft, and paste the text if you want me to check the wording. Nothing has been pushed from me.
+
+---
+
+## Request 178
+
+**Prompt (Danial):**
+
+> can you generate it for me
+
+**Claude's reply:**
+
+Here's a draft you can paste into `danial.md`. I've written the section from what we did together, with footnote definitions and a note on where each marker goes. It's a draft: check every statement against what really happened, because the declaration is yours.
+
+## Acknowledgement section
+
+````markdown
+## Acknowledgement of AI assistance
+
+I used Claude Code (Claude Sonnet 5.5) while building and documenting my part of the project. The full conversation is in `gai-paper-trail/danial-claude-log.md`.
+
+**Generated by the AI.** Starter skeletons with TODO comments for `OrderStatus`, `Order`, `Cashier`, `ComboMeal`, `PricingPolicy`, and the `Menu.withCombos()` method, which I then completed. Check files, or large parts of them: `MenuItemCheck`, `ChefCheck`, `CashierCheck`, `ComboMealCheck`, `PricingPolicyCheck`, `MenuCombosCheck`, the helper methods in `OrderCheck`, and the copy test in `MenuCheck`. The template and README of this folder, and the wording of the table in section 1.[^table]
+
+**Explanation and review.** Claude explained concepts (final fields and defensive copies, enums, `instanceof`, the SOLID principles) and reviewed code I wrote, pointing out bugs and gaps. I fixed them myself.[^review]
+
+**Written by me.** [Confirm each, in your own words: the method bodies of Money, MenuItem, Menu, Order, Chef, Cashier, ComboMeal and PricingPolicy; the choices about which combo to add and where; the decision to keep PricingPolicy separate from Money; and every design decision recorded above.]
+
+**How I checked it.** I ran every check file, and for most of them I broke a rule in the code on purpose to confirm the check printed FAIL.
+
+[^table]: The wording of the responsibilities table in section 1 was drafted by Claude and edited by me. The `Chef` row is Claude's example.
+[^review]: Claude's reviews of my code are recorded, with my code and its replies, in the paper trail.
+````
+
+## Footnote markers to place in your earlier sections
+
+Add these where the ideas appear, and define the notes at the bottom of the file:
+
+| Where | Marker | Note text |
+| ----- | ------ | --------- |
+| Section 1, Chef row | `[^chef]` | The wording of this row is Claude's example. |
+| Section 2, OCP and LSP | `[^solid]` | Claude suggested framing `ComboMeal` as OCP and LSP, and the point that the subclass cannot weaken `MenuItem`'s rules because it passes through `super(...)`. |
+| Section 2, DIP/ISP | `[^dip]` | Claude suggested stating honestly that ISP does not apply, and that DIP is modest. |
+| Section 3, trade-offs | `[^tradeoff]` | Claude suggested adding the cost of each option, and featuring the `ComboMeal` contrast. |
+| Section 4, player choices | `[^choices]` | The arithmetic examples (for example the Burger/Pasta ordering and Happy Hour prices) were suggested by Claude and checked by me against the brief. |
+| `Menu` row/discussion, defensive copy | `[^copy]` | The explanation that `final` does not make a list unchangeable, and the use of `List.copyOf`, came from Claude. |
+| `Order`/coupling discussion | `[^coupling]` | The reasoning that `Order` should not hold `Customer`, to avoid a two-way dependency, came from Claude. |
+
+## Things to confirm
+
+- **"Written by me"** is the most important line. Fill it in honestly and specifically. If you can't say you wrote a method body, don't list it.
+- **The footnotes are indicative.** If an idea in your text came from you, remove its marker. If something else came from me, add one.
+- **Keep the paper trail consistent.** Use the same account in the "Summary of GAI use" in `gai-paper-trail/`.
+
+If you tell me which sections of your own text still use my wording, I can point them out. Paste the file once you've placed the markers, and I'll check them. Nothing has been pushed from me.
+
+---
+
+## Request 179
+
+**Prompt (Danial):**
+
+> wait so footnote at the bottom of every point?
+>
+> e.g
+>
+> point 1: content
+>
+> foot note
+>
+> point 2: content
+>
+> foot note ?
+
+**Claude's reply:**
+
+No. You put a small marker where the AI-derived text appears. The notes can then live together in one place, usually the bottom of the file, instead of after every point.
+
+## How it looks
+
+```markdown
+## 2. Design principles
+
+- **OCP:** `ComboMeal` extends `MenuItem`, so `Order` and `Chef` needed no changes.[^solid]
+- **SRP:** `PricingPolicy` is separate from `Money`, because a promotion changes for different reasons.
+
+## 3. Trade-offs
+
+I did not give Salad, Burger and Pasta their own subclasses.[^tradeoff]
+
+...
+
+## Acknowledgement of AI assistance
+(the acknowledgement text)
+
+[^solid]: Claude suggested framing ComboMeal as OCP and LSP.
+[^tradeoff]: Claude suggested adding the cost of each option.
+```
+
+- The **marker** `[^solid]` sits in the sentence it refers to.
+- The **definition** `[^solid]: ...` can be anywhere, and I'd put them all together at the bottom of the file.
+- **GitHub collects them for you**, rendering a numbered list of notes at the end of the page, and linking each marker to its note.
+
+## Only where it applies
+
+You don't need a footnote on every point. Footnote only the places where text, a fact or an idea came from the AI. In the example above, the SRP bullet has none, because it's your own reasoning. A section with nothing from the AI gets no footnote.
+
+## What happens in the PDF report
+
+When you paste the text into Word or Google Docs, use the program's own footnote tool (Insert, then Footnote). It places each note at the bottom of the **page** where its marker appears, automatically. In that version it looks like the layout you described, one note below the point that needs it. So the two formats differ in appearance, but the content is the same.
+
+## A simpler option
+
+If this feels like too much, use one short list at the end of the document called "Notes on AI assistance", and put a number in the text like `(1)`. It satisfies the policy's "footnote or in-text reference", and is easy to do in either format.
+
+Place your markers and paste the text back, and I'll check that the footnotes match the places where my wording appears. Nothing has been pushed from me.
+
+---
+
+## Request 180
+
+**Prompt (Danial):**
+
+> how to do the simpler option
+
+**Claude's reply:**
+
+Use a plain number in brackets in the text, and a numbered list at the bottom. It works in VS Code's preview, on GitHub, and when you paste into Word or Google Docs.
+
+## Step 1: put a number in the text
+
+After a sentence that includes AI-derived wording or ideas, add `[1]`, `[2]` and so on, in order:
+
+```markdown
+## 2. Design principles
+
+- **OCP:** `ComboMeal` extends `MenuItem`, so `Order` and `Chef` needed no changes. [1]
+- **SRP:** `PricingPolicy` is separate from `Money`, because a promotion changes for different reasons.
+
+## 3. Trade-offs
+
+I did not give Salad, Burger and Pasta their own subclasses. [2]
+```
+
+The SRP bullet has no number, because that reasoning is yours.
+
+## Step 2: add a notes list at the end of the file
+
+```markdown
+## Notes on AI assistance
+
+1. Claude suggested framing `ComboMeal` as an OCP and LSP example. See the paper trail.
+2. Claude suggested adding the cost of each option to the trade-off.
+```
+
+Number the list in the same order as the markers in the text. Markdown turns `1.` lines into a proper numbered list.
+
+## Tips
+
+- **Keep one number per idea.** If the same source supports two sentences, reuse the same number instead of adding a second one.
+- **Be specific in the notes.** Say what came from the AI: "wording of the table row", "the idea of comparing the cost of each option". "Claude helped" is too vague.
+- **Point to the paper trail** for the full detail, with a phrase like "See `gai-paper-trail/danial-claude-log.md`".
+- **If you add or remove a number later,** renumber the rest so they stay in order. That's the one annoying part of this method.
+
+## In the PDF
+
+When you paste into Word or Google Docs, the `[1]` markers and the numbered list at the end come across as they are. You don't have to convert them, though you can if the team prefers real footnotes.
+
+Put your markers in, write the notes, and paste the section here, so I can check that they match where my wording appears. Nothing has been pushed from me.
+
+---
+
+## Request 181
+
+**Prompt (Danial):**
+
+> # Design Discussion: Danial
+>
+> Scope: Money, MenuItem, Menu, ComboMeal, Order, OrderStatus, Chef, Cashier,
+> PricingPolicy. (Customers, Waiter, Host, Table and the controller are covered
+> by teammates.)
+>
+> ## 1. Key abstractions and their responsibilities
+>
+> | Class | Responsibility | Collaborates with | Stage |
+> | ----- | -------------- | ----------------- | ----- |
+> | Chef | Does one preparation unit on an order it is given. Holds no state. | Order, controller | 1 |
+> | Money | Converts an amount in cents to a dollar string, and works out a percentage of an amount, rounded to the nearest cent. Rejects a negative amount and a percentage outside 0 to 100. Holds no state or pricing rules, and does not know where its output is shown. | ComboMeal, PricingPolicy (Stage 3), VIPCustomer (Stage 2) | 1 |
+> | MenuItem | Holds a dish's name, price in cents and preparation units, which cannot change once created. Rejects a blank name, a price of 0 or less, and fewer than 1 preparation unit. Does not know how it is displayed or ordered. | Menu, ComboMeal, Order | 1 |
+> | Menu | Owns the list of dishes customers choose from and hands out a read-only copy, so callers cannot change the menu. Stage 3 adds withCombos(), which appends one combo. Does not decide which dish a customer orders. | Restaurant, MenuItem, ComboMeal | 1, 3 |
+> | ComboMeal | A menu item made of two other menu items: its price is 90% of their combined price and its preparation units are their sum. Rejects a null component and a combo as a component. Does not change how Order or Chef treat a dish. | extends MenuItem, calls Money, built by Menu | 3 |
+> | Order | Holds one dish, its locked price, cooking progress and status, and guards its own status changes (cook, serve, pay, cancel). Rejects a null dish and a price of 0 or less. Does not know its customer. | MenuItem, OrderStatus, Chef, Cashier, Waiter; held by Customer | 1 |
+> | OrderStatus | Lists the stages an order passes through and gives each a display label. Does not decide when an order changes stage; Order does. | Order, Restaurant, Waiter | 1 |
+> | PricingPolicy | Holds the percentage each pricing rule charges (normal 100%, Happy Hour 80%) and works out an order's price. Does not decide when Happy Hour is active; the controller passes that in. | Money, Waiter or controller | 3 |
+> | Cashier | Takes payment from at most one customer per call: the one who has waited longest, and never one who became ready this turn. Returns the customer who paid, or null. Holds no state, and leaves revenue and freeing the table to the controller (to be confirmed). | abstract Customer, Order, controller | 1 |
+>
+> ## 2. Design principles, only where the code genuinely shows them
+>
+> For each one: name the principle, point to the exact class or method, and say
+> what would have gone wrong without it. Leave out any that do not apply.
+>
+> - **SRP:** Single Responsibility Principle. PricingPolicy class. Initially supposed to be a method of Money class, adding it there would caused Money to change for display and for promotions - more than one responsibility. With PricingPolicy as a separate class, changing the Happy Hour rate touches only PricingPolicy class.
+> - **OCP:** Open-Closed Principle. ComboMeal class. Closed: adding combos didn't require changing MenuItem, Order or Chef. Open: ComboMeal extends MenuItem and supplies its own computed name, price and units. ComboMealCheck puts a combo into an Order and cooks it through NOT_READY to READY, with no change to Order.
+> - **LSP:** Liskov Substitution Principle. ComboMealCheck. ComboMealCheck builds new Order(saladPasta, saladPasta.getPriceCents()), cooks it three times and gets NOT_READY then READY. Order didn’t need to know it was a combo.
+> - **ISP / DIP:** not Applicable, no interface used. 
+>
+> ## 3. Trade-offs and one alternative design
+>
+> - **Trade-offs I accepted** : items in menuItem do not need their own subclass. With this decision, a dish cannot have its own unique behaviour. However, this makes it easier to create new items, just input different name, price and prepUnit as a parameter of menuItem class call.  
+> - **Alternative considered:** : Create a subclass for each item in menuItem. Rejected because this will create empty classes with no behaviour of their own and have more files to maintain especially when creating custom menu items.
+>
+> ## 4. How the player's choices change the result
+>
+> **A combo on the menu (ComboMeal, Menu.withCombos)**: With one combo at the end of the menu, customer 4 orders it. it's $24.30 but needs 3 units, more than any other dish, so it takes up the chef for three turns. Choosing to cook it first can delay the others. Menu class creates a list of menu items and Rifqi's customer class choose to order from it based on the index of the menu item. e.g. customer 1 orders menu item at index 0 (e.g pasta) and customer 2 orders the next menu item in the list.
+>
+> ## 5. Open points with teammates
+>
+> - **Decision**: who enforces “READY this turn, served next turn”. **Agreed with**: Teo. **Outcome**: the controller does, so Order and Chef stay unaware of turns.
+> - **Decision**: who decides what a customer orders? **Agreed with**: Rifqi. **Outcome**: Customer orders based on index of menuItem list, so Menu doesn't have to know which item is being ordered by the customer.
+>
+> ## Acknowledgement of AI assistance
+>
+> - **Tool**: Claude Code (Claude Sonnet 5.5). Full conversation in gai-paper-trail/danial-claude-log.md.
+> - **Generated by the AI**: Skeletons with TODOs of OrderStatus, Order, Cashier, ComboMeal, PricingPolicy, and Menu.withCombos() method. Check files for MenuItemCheck, MenuCheck, OrderCheck, ChefCheck, CashierCheck, ComboMealCheck, PricingPolicyCheck, MenuCombosCheck.
+> - **Explanation and review**: SOLID principles, immutability, and final, copying lists defensively, enums, instanceof, why PricingPolicy is separate from money and code review of my classes.
+> - **Written by me**: all method logic in Money, MenuItem, Menu, Order, Chef, Cashier, ComboMeal and PricingPolicy, and the design decisions.
+> - **How I checked it**: I ran each check, and removed or broke a rule on purpose to confirm it printed FAIL.
+>
+>
+>
+> this is how my file looks like now,
+
+**Claude's reply:**
+
+This is in good shape. Sections 2 and 3 now read like your own reasoning. Here's what still needs fixing, in order of importance.
+
+## 1. An overclaim in the acknowledgement
+
+"**Written by me:** all method logic in ... **Cashier** ..." isn't accurate. You wrote a first attempt, and when you asked me to fix it, I gave you a corrected `collectPayment`. The final logic is mine. Say so, for example: "`Cashier.collectPayment` was rewritten by Claude after I wrote a first version with errors." This is the sort of line a marker or the viva could probe, and being exact protects you.
+
+Also add to the "Generated by the AI" list:
+- the `percentOf` cases I added to `MoneyCheck`
+- the design-discussion `TEMPLATE.md` and `README.md`
+- the wording of the table in section 1 (the `Chef` row is mine)
+
+## 2. No references in the text
+
+The acknowledgement lists what came from the AI, but nothing in sections 1 to 5 points to it. The policy wants a footnote or in-text reference **where** the wording or ideas appear. Add `[1]`, `[2]`, and so on, and a "Notes on AI assistance" list at the bottom. Good places:
+- Section 1: the table
+- OCP and LSP bullets, and the reasoning for ISP and DIP
+- Section 3: the cost of each option
+- Section 4: the arithmetic ($24.30, the units)
+
+## 3. Section 4 has an error and is thin
+
+- **The factual slip is still there:** "customer 1 orders the menu item at index 0 (e.g. pasta)". Index 0 is **Salad**. And the rule wraps around `(n - 1) mod size`.
+- That last sentence about the index doesn't belong in a section on *player* choices. In fact, customers choosing their food is something the player *doesn't* control. Move it to section 5 or the `Menu` row.
+- Only one choice is covered. Add one or two more with numbers (the Burger-or-Pasta ordering for the Chef, and the Happy Hour trade-off), as we listed.
+- Small: "it's" should start with a capital letter.
+
+## 4. Leftover template text
+
+In section 2, the line "For each one: name the principle, point to the exact class or method, and say what would have gone wrong... Leave out any that do not apply." is the template's instruction. Delete it.
+
+## 5. Smaller fixes
+
+- **SRP bullet:** "would caused" should be "would cause".
+- **ISP / DIP:** "not Applicable" is fine and honest. Add one clause: "no interfaces are defined, and the brief asks not to create them just to satisfy a checklist."
+- **OCP:** mention the caveat that `Menu` gained a `withCombos()` method, so you don't overclaim. `standard()` is unchanged.
+- **LSP:** say why it holds (the combo's values pass through `MenuItem`'s own validation), and who relies on `MenuItem` (`Order`).
+- **Section 5's heading** says "Open points", but your content lists outcomes. Check with the team before renaming, since the files share headings.
+- **Section 3:** write `MenuItem` and `prepUnits` consistently.
+
+## Before you push
+
+- Check that the "agreed outcomes" in section 5 really match the code. A claim the code doesn't back up is worse than leaving it out.
+- Regenerate the paper trail. It's behind by many requests.
+
+Make those changes, and tell me when you want another look. Then we can do the reflection. Nothing has been pushed from me.
+
+---
+
+## Request 182
+
+**Prompt (Danial):**
+
+> so i just put [1] under or beside each section where you helped me, then at the bottom of the md file i write:
+>
+> 1. Claude helped generate the table and the wording of each row
+> 2. Claude helped look through the app for clear example of OSP
+> 3. Claude explained that a proper trade-off and alternative example should include the cost of the trade-off and alternative. 
+> 4. Claude suggested using specific examples to explain how a player's choice affect the result
+
+**Claude's reply:**
+
+Yes, that's the method: a marker beside the text, and a numbered list at the bottom. Your four notes need some fixing, because a note should say exactly what came from the AI, and a couple of yours are slightly off.
+
+## Corrections to your notes
+
+1. **Table:** good. Add that the `Chef` row is my example, and that you edited the rest.
+2. **"Looked through the app for an example of OSP":** two problems. It's **OCP**, not OSP. And that isn't what I did. I didn't look through your app for you. I explained how to test the claim, and pointed to `ComboMealCheck` as your evidence. Say: "Claude suggested framing `ComboMeal` as an OCP example and explained the caveat that `Menu` was extended."
+3. **Trade-off costs:** accurate.
+4. **Specific examples for player choices:** accurate, but say which: the arithmetic examples (a Burger and a Pasta cooked in different orders, the Happy Hour prices) came from me, and you checked them against the brief.
+
+## Notes you're missing
+
+- **LSP:** I explained that the principle is about code that *uses* `MenuItem`, not `ComboMeal` calling it, and why the subclass can't weaken `MenuItem`'s rules.
+- **ISP and DIP:** I suggested saying honestly that ISP doesn't apply, and that DIP is modest at best.
+- **SRP:** the idea of separating `PricingPolicy` from `Money` was yours. I explained the principle, and the "reasons to change" test. Say that precisely.
+
+## A better version of the list
+
+```markdown
+## Notes on AI assistance
+
+1. The responsibilities table was drafted by Claude and edited by me. The Chef row is Claude's example.
+2. Claude suggested framing ComboMeal as an OCP example, and noted that Menu was extended with withCombos().
+3. Claude explained that LSP concerns code that uses MenuItem, and why a combo cannot weaken MenuItem's rules.
+4. Claude suggested stating honestly that ISP does not apply and that DIP is modest.
+5. Claude explained that a trade-off should state the cost of the choice and of the alternative.
+6. Claude suggested using numeric examples for the player's choices; the figures were checked by me against the brief.
+```
+
+## Where the markers go
+
+Put each `[n]` right after the sentence it covers. Examples: `[1]` after the table, `[2]` on the OCP bullet, `[3]` on the LSP bullet, `[4]` on the ISP/DIP line, `[5]` on the trade-offs, and `[6]` in section 4. Don't put a marker on your own reasoning.
+
+## One more thing
+
+Keep the numbers in order of appearance in the text, and make sure each marker has a note. After you place them, paste the file once more, and I'll check that everything matches. Nothing has been pushed from me.
+
+---
+
+## Request 183
+
+**Prompt (Danial):**
+
+> update the paper trail
+
