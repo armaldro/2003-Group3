@@ -1,22 +1,29 @@
 package boundary;
 
-import java.util.Scanner;
+import java.util.List;
+
+import entity.Customer;
+import entity.Order;
+import entity.Restaurant;
+import entity.Table;
+import enums.WaiterTask;
+import util.Money;
 
 /**
- * Handles all console input and output for Restaurant Rush.
- * Keeps the UI logic separate from the core game logic.
- * 
+ * Handles all console output for Restaurant Rush.
+ * Keeps the display separate from the game rules. All input is read by
+ * {@link InputReader}, so the game has only one Scanner on {@code System.in}.
+ *
+ * <p>Every method here only prints. None of them changes the game.
+ *
  * @author CT2003 Group 3
  */
 public class ConsoleUI {
-    
-    private final Scanner scanner;
 
     /**
-     * Creates a new ConsoleUI and initializes the input scanner.
+     * Creates the console display.
      */
     public ConsoleUI() {
-        this.scanner = new Scanner(System.in);
     }
 
     /**
@@ -30,7 +37,7 @@ public class ConsoleUI {
 
     /**
      * Displays a header for the start of a new turn.
-     * 
+     *
      * @param currentTurn the current turn number
      * @param totalTurns the total number of turns in the game
      */
@@ -40,27 +47,125 @@ public class ConsoleUI {
 
     /**
      * Displays a notification that a new customer has arrived.
+     *
+     * @param customer the customer who arrived
      */
-    public void showCustomerArrived() {
-        System.out.println("Ding! A new customer has arrived.");
+    public void showCustomerArrived(Customer customer) {
+        System.out.println("Ding! Customer " + customer.getId() + " has arrived.");
     }
 
     /**
-     * Prompts the user for their next action.
-     * 
-     * @return the string entered by the user, or an empty string if the input stream is exhausted
+     * Displays each table and who sits there, the waiting queue, and every
+     * customer's state, satisfaction and order.
+     *
+     * @param restaurant the restaurant to describe
      */
-    public String promptAction() {
-        System.out.print("Enter action: ");
-        if (scanner.hasNextLine()) {
-            return scanner.nextLine().trim();
+    public void showRestaurantState(Restaurant restaurant) {
+        System.out.println("Tables:");
+        for (Table table : restaurant.getTables()) {
+            String occupant = table.isFree() ? "free" : "Customer " + table.getOccupant().getId();
+            System.out.println("  Table " + table.getNumber() + ": " + occupant);
         }
-        return "";
+        System.out.println("Waiting queue: " + customerIds(restaurant.getWaitingQueue()));
+        System.out.println("Customers:");
+        for (Customer customer : restaurant.getCustomers()) {
+            System.out.println("  " + describe(customer));
+        }
+    }
+
+    /**
+     * Displays the Waiter tasks open this turn. Each task keeps the same number
+     * every turn: its position in {@link WaiterTask} plus 1.
+     *
+     * @param available the tasks the Waiter can do this turn
+     */
+    public void showWaiterTasks(List<WaiterTask> available) {
+        System.out.println("Waiter tasks:");
+        for (WaiterTask task : available) {
+            System.out.println("  " + (task.ordinal() + 1) + ". " + task.getLabel());
+        }
+    }
+
+    /**
+     * Displays a numbered list of customers to choose from, starting at 1.
+     *
+     * @param heading   the question shown above the list
+     * @param customers the customers to choose from
+     */
+    public void showCustomerChoices(String heading, List<Customer> customers) {
+        System.out.println(heading);
+        for (int i = 0; i < customers.size(); i++) {
+            System.out.println("  " + (i + 1) + ". " + describe(customers.get(i)));
+        }
+    }
+
+    /**
+     * Displays a numbered list of free tables to choose from, starting at 1.
+     *
+     * @param tables the free tables
+     */
+    public void showTableChoices(List<Table> tables) {
+        System.out.println("Which table?");
+        for (int i = 0; i < tables.size(); i++) {
+            System.out.println("  " + (i + 1) + ". Table " + tables.get(i).getNumber());
+        }
+    }
+
+    /**
+     * Displays the Chef's choices: 0 to wait, then each dish that can be cooked,
+     * with the preparation units it still needs.
+     *
+     * @param customers the customers whose orders can be cooked
+     */
+    public void showCookChoices(List<Customer> customers) {
+        System.out.println("Chef tasks:");
+        System.out.println("  0. Wait");
+        for (int i = 0; i < customers.size(); i++) {
+            Customer customer = customers.get(i);
+            Order order = customer.getOrder();
+            System.out.println("  " + (i + 1) + ". Cook Customer " + customer.getId() + "'s "
+                    + order.getItem().getName() + " (" + order.getUnitsLeft() + " unit(s) left)");
+        }
+    }
+
+    /**
+     * Displays that the Chef has no order to work on this turn.
+     */
+    public void showChefIdle() {
+        System.out.println("The Chef has nothing to cook.");
+    }
+
+    /**
+     * Displays why the manager's choice was refused.
+     *
+     * @param message the reason the choice is not allowed
+     */
+    public void showError(String message) {
+        System.out.println("Not allowed: " + message);
+    }
+
+    /**
+     * Displays that a customer has paid.
+     *
+     * @param customer    the customer who paid
+     * @param amountCents the amount paid, in cents
+     */
+    public void showPayment(Customer customer, int amountCents) {
+        System.out.println("Customer " + customer.getId() + " paid " + Money.format(amountCents) + ".");
+    }
+
+    /**
+     * Displays that a customer ran out of patience and left without paying.
+     *
+     * @param customer the customer who left
+     */
+    public void showCustomerLeft(Customer customer) {
+        System.out.println("Customer " + customer.getId() + " ran out of patience and left.");
     }
 
     /**
      * Displays the end game results and whether the player achieved victory.
-     * 
+     *
      * @param actualPaid the number of paid customers achieved
      * @param targetPaid the target number of paid customers
      * @param actualRev the actual revenue in cents
@@ -75,13 +180,50 @@ public class ConsoleUI {
         System.out.println("=================================");
         System.out.println("Final Stats:");
         System.out.println("- Paid Customers: " + actualPaid + " / " + targetPaid);
-        System.out.println("- Revenue (cents): " + actualRev + " / " + targetRev);
+        System.out.println("- Revenue: " + Money.format(actualRev) + " / " + Money.format(targetRev));
         System.out.println("- Average Satisfaction: " + actualSat + " / " + targetSat);
-        
+        System.out.println("Result: " + (isVictory ? "Victory" : "Defeat"));
+
         if (isVictory) {
             System.out.println("\nCongratulations! You met all the targets and won the game!");
         } else {
             System.out.println("\nYou did not meet all the required targets. Better luck next rush!");
         }
+    }
+
+    /**
+     * Describes one customer on one line: id, state, satisfaction and order.
+     *
+     * @param customer the customer to describe
+     * @return for example "Customer 3: ORDERED, satisfaction 84, Pasta (Not ready)"
+     */
+    private String describe(Customer customer) {
+        String text = "Customer " + customer.getId() + ": " + customer.getState()
+                + ", satisfaction " + customer.getSatisfaction();
+        Order order = customer.getOrder();
+        if (order != null) {
+            text += ", " + order.getItem().getName() + " (" + order.getStatus().getLabel() + ")";
+        }
+        return text;
+    }
+
+    /**
+     * Lists customers by id, for example "Customer 2, Customer 3".
+     *
+     * @param customers the customers to list
+     * @return the ids joined by commas, or "none" if the list is empty
+     */
+    private String customerIds(List<Customer> customers) {
+        if (customers.isEmpty()) {
+            return "none";
+        }
+        StringBuilder text = new StringBuilder();
+        for (Customer customer : customers) {
+            if (text.length() > 0) {
+                text.append(", ");
+            }
+            text.append("Customer ").append(customer.getId());
+        }
+        return text.toString();
     }
 }

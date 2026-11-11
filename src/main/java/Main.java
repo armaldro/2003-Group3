@@ -1,4 +1,5 @@
 import boundary.ConsoleUI;
+import boundary.InputReader;
 import control.GameConfig;
 import control.GameController;
 
@@ -16,16 +17,27 @@ import control.GameController;
 public class Main {
 
     /**
-     * Creates the console boundary and the base game setting, passes both to a
-     * new {@link GameController}, and starts the game.
+     * Not used: Main only holds the program's entry point.
+     */
+    private Main() {
+    }
+
+    /**
+     * Creates the console display, the one input reader, and the base game
+     * setting, passes them to a new {@link GameController}, and starts the game.
+     *
+     * <p>Only one {@link InputReader} is created, so only one Scanner reads
+     * {@code System.in}. That keeps a piped replay file working, because a
+     * second Scanner would buffer ahead and take input meant for the first.
      *
      * @param args command-line arguments (not used)
      */
     public static void main(String[] args) {
         try {
             ConsoleUI ui = new ConsoleUI();
+            InputReader input = new InputReader();
             GameConfig config = GameConfig.base();
-            GameController controller = new GameController(ui, config);
+            GameController controller = new GameController(ui, input, config);
             controller.start();
         } catch (RuntimeException e) {
             System.err.println("Restaurant Rush stopped unexpectedly: " + e.getMessage());
