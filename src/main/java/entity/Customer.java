@@ -21,7 +21,7 @@ public abstract class Customer {
     /**
      * This creates a customer who just arrived and is waiting for a table.
      * 
-     * @param id
+     * @param id the customer's number, starting from 1
      */
     public Customer(int id) {
         this.id = id;
@@ -98,6 +98,14 @@ public abstract class Customer {
      * @return the amount of satisfaction lost.
      */
     public abstract int getSatisfactionLoss();
+
+    /**
+     * Returns the name of this customer's type, for display, for example
+     * "Regular", "VIP" or "Critic".
+     *
+     * @return the customer type name
+     */
+    public abstract String getTypeName();
 
     /**
      * Reduces the customer's satisfaction by the loss per turn

@@ -21,4 +21,14 @@ public class RegularCustomer extends Customer {
     public int getSatisfactionLoss() {
         return 8;
     }
+    
+    /**
+     * Returns the name of this customer type, for display.
+     *
+     * @return "Regular"
+     */
+    @Override
+    public String getTypeName() {
+        return "Regular";
+    }
 }
