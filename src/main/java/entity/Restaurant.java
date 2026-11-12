@@ -22,7 +22,7 @@ public class Restaurant {
     private final Menu menu;
     private final Waiter waiter = new Waiter();
     private final Chef chef = new Chef();
-    // TODO (when Danial pushes Cashier): add the Cashier here, plus getCashier()
+    private final Cashier cashier = new Cashier();
 
     /**
      * Creates a restaurant with empty tables numbered 1 to tableCount.
@@ -85,22 +85,38 @@ public class Restaurant {
         waitingQueue.remove(customer);
     }
 
-    /** @return the tables, in number order (read-only) */
+    /**
+     * Returns the tables, in number order (read-only).
+     *
+     * @return the tables, in number order (read-only)
+     */
     public List<Table> getTables() {
         return List.copyOf(tables);
     }
 
-    /** @return the customers waiting for a table, first arrival first (read-only) */
+    /**
+     * Returns the customers waiting for a table, first arrival first (read-only).
+     *
+     * @return the customers waiting for a table, first arrival first (read-only)
+     */
     public List<Customer> getWaitingQueue() {
         return List.copyOf(waitingQueue);
     }
 
-    /** @return every customer who has arrived so far, in arrival order (read-only) */
+    /**
+     * Returns every customer who has arrived so far, in arrival order (read-only).
+     *
+     * @return every customer who has arrived so far, in arrival order (read-only)
+     */
     public List<Customer> getCustomers() {
         return List.copyOf(customers);
     }
 
-    /** @return the tables nobody is sitting at, in number order */
+    /**
+     * Returns the tables nobody is sitting at, in number order.
+     *
+     * @return the tables nobody is sitting at, in number order
+     */
     public List<Table> freeTables() {
         List<Table> result = new ArrayList<>();
         for (Table table : tables) {
@@ -111,7 +127,11 @@ public class Restaurant {
         return result;
     }
 
-    /** @return seated customers who have not ordered yet (state SEATED), in arrival order */
+    /**
+     * Returns seated customers who have not ordered yet (state SEATED), in arrival order.
+     *
+     * @return seated customers who have not ordered yet (state SEATED), in arrival order
+     */
     public List<Customer> customersToTakeOrder() {
         List<Customer> result = new ArrayList<>();
         for (Customer customer : customers) {
@@ -122,7 +142,11 @@ public class Restaurant {
         return result;
     }
 
-    /** @return customers whose order is READY to be served, in arrival order */
+    /**
+     * Returns customers whose order is READY to be served, in arrival order.
+     *
+     * @return customers whose order is READY to be served, in arrival order
+     */
     public List<Customer> customersToServe() {
         List<Customer> result = new ArrayList<>();
         for (Customer customer : customers) {
@@ -134,7 +158,11 @@ public class Restaurant {
         return result;
     }
 
-    /** @return orders the Chef can work on (status RECEIVED or NOT_READY), in arrival order */
+    /**
+     * Returns orders the Chef can work on (status RECEIVED or NOT_READY), in arrival order.
+     *
+     * @return orders the Chef can work on (status RECEIVED or NOT_READY), in arrival order
+     */
     public List<Order> ordersToCook() {
         List<Order> result = new ArrayList<>();
         for (Customer customer : customers) {
@@ -149,18 +177,39 @@ public class Restaurant {
         return result;
     }
 
-    /** @return the menu */
+    /**
+     * Returns the menu.
+     *
+     * @return the menu
+     */
     public Menu getMenu() {
         return menu;
     }
 
-    /** @return the Waiter */
+    /**
+     * Returns the Waiter.
+     *
+     * @return the Waiter
+     */
     public Waiter getWaiter() {
         return waiter;
     }
 
-    /** @return the Chef */
+    /**
+     * Returns the Chef.
+     *
+     * @return the Chef
+     */
     public Chef getChef() {
         return chef;
+    }
+
+    /**
+     * Returns the Cashier, who takes at most one payment per turn.
+     *
+     * @return the Cashier
+     */
+    public Cashier getCashier() {
+        return cashier;
     }
 }
