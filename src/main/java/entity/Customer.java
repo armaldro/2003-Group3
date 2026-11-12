@@ -100,6 +100,14 @@ public abstract class Customer {
     public abstract int getSatisfactionLoss();
 
     /**
+     * Returns the name of this customer's type, for display, for example
+     * "Regular", "VIP" or "Critic".
+     *
+     * @return the customer type name
+     */
+    public abstract String getTypeName();
+
+    /**
      * Reduces the customer's satisfaction by the loss per turn
      * never go below 0
      */

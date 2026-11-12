@@ -41,6 +41,10 @@ public class VIPCriticCheck {
                     new CriticCustomer(id).chooseItem(menu).getName(), "Pasta");
         }
  
+        // the twist shows on turn 10: customer 4 would order Salad as a Regular, but a Critic orders Pasta
+        check("Regular customer 4 orders Salad", new RegularCustomer(4).chooseItem(menu).getName(), "Salad");
+        check("Critic customer 4 still orders Pasta", new CriticCustomer(4).chooseItem(menu).getName(), "Pasta");
+
         // tie: two dishes with the same, highest prep units -> the first one listed
         Menu tied = new Menu(List.of(new MenuItem("Soup", 800, 2), new MenuItem("Steak", 2500, 2),
                 new MenuItem("Toast", 400, 1)));
@@ -51,12 +55,15 @@ public class VIPCriticCheck {
         Customer[] customers = {new RegularCustomer(1), new VIPCustomer(2), new CriticCustomer(3)};
         int[] losses = {8, 5, 12};
         int[] burgerPrices = {1500, 1350, 1500};
+        String[] names = {"Regular", "VIP", "Critic"};
         for (int i = 0; i < customers.length; i++) {
             String type = customers[i].getClass().getSimpleName();
             check(type + ".getSatisfactionLoss() through a Customer variable",
                     customers[i].getSatisfactionLoss(), losses[i]);
             check(type + ".applyDiscount(1500) through a Customer variable",
                     customers[i].applyDiscount(1500), burgerPrices[i]);
+            check(type + ".getTypeName() through a Customer variable",
+                    customers[i].getTypeName(), names[i]);
         }
  
         System.out.println(failures == 0 ? "\nAll checks passed." : "\n" + failures + " check(s) FAILED.");

@@ -41,4 +41,14 @@ public class VIPCustomer extends Customer {
     public int applyDiscount(int priceCents) {
         return Money.percentOf(priceCents, PRICE_PERCENT);
     }
+    
+    /**
+     * Returns the name of this customer type, for display.
+     *
+     * @return "VIP"
+     */
+    @Override
+    public String getTypeName() {
+        return "VIP";
+    }
 }
