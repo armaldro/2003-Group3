@@ -13,19 +13,39 @@ public class InputReader {
 
     private final Scanner scanner;
 
-    /** Reads from the keyboard (or a piped file). */
+    /**
+     * True when the input is piped from a file. Nothing is typed in a piped run,
+     * so each choice read is printed after its prompt to keep the output readable.
+     */
+    private final boolean echo;
+
+    /**
+     * Reads from the keyboard, or from a file piped in. When the input is piped
+     * (there is no interactive console), each choice read is printed back.
+     */
     public InputReader() {
-        this(new Scanner(System.in));
+        this(new Scanner(System.in), System.console() == null);
     }
 
     /**
      * Reads from the given Scanner, so tests can pass in text such as
-     * {@code new Scanner("abc\n9\n2\n")}.
+     * {@code new Scanner("abc\n9\n2\n")}. Choices are not printed back.
      *
      * @param scanner where to read from
      */
     public InputReader(Scanner scanner) {
+        this(scanner, false);
+    }
+
+    /**
+     * Reads from the given Scanner, optionally printing back each line it reads.
+     *
+     * @param scanner where to read from
+     * @param echo    true to print each line read, for piped replay runs
+     */
+    public InputReader(Scanner scanner, boolean echo) {
         this.scanner = scanner;
+        this.echo = echo;
     }
 
     /**
@@ -44,6 +64,9 @@ public class InputReader {
                 throw new IllegalStateException("Input ended before the game finished");
             }
             String line = scanner.nextLine().trim();
+            if (echo) {
+                System.out.println(line);
+            }
 
             int choice;
             try {

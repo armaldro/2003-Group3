@@ -26,7 +26,11 @@ public enum WaiterTask {
         this.label = label;
     }
 
-    /** @return the text to show the manager */
+    /**
+     * Returns the text to show the manager.
+     *
+     * @return the text to show the manager
+     */
     public String getLabel() {
         return label;
     }

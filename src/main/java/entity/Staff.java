@@ -24,7 +24,11 @@ public abstract class Staff {
         this.acted = false;
     }
 
-    /** @return the name shown to the manager */
+    /**
+     * Returns the name shown to the manager.
+     *
+     * @return the name shown to the manager
+     */
     public String getName() {
         return name;
     }
@@ -42,7 +46,11 @@ public abstract class Staff {
         this.acted = false;
     }
 
-    /** @return true if this staff member has already used their action this turn */
+    /**
+     * Returns true if this staff member has already used their action this turn.
+     *
+     * @return true if this staff member has already used their action this turn
+     */
     public boolean hasActed() {
         return acted;
     }

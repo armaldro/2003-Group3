@@ -26,17 +26,29 @@ public class Table {
         this.occupant = null;
     }
 
-    /** @return the table number */
+    /**
+     * Returns the table number.
+     *
+     * @return the table number
+     */
     public int getNumber() {
         return number;
     }
 
-    /** @return the customer at this table, or null if the table is free */
+    /**
+     * Returns the customer at this table, or null if the table is free.
+     *
+     * @return the customer at this table, or null if the table is free
+     */
     public Customer getOccupant() {
         return occupant;
     }
 
-    /** @return true if nobody is sitting at this table */
+    /**
+     * Returns true if nobody is sitting at this table.
+     *
+     * @return true if nobody is sitting at this table
+     */
     public boolean isFree() {
         return occupant == null;
     }
