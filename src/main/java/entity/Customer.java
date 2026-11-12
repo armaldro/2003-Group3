@@ -21,7 +21,7 @@ public abstract class Customer {
     /**
      * This creates a customer who just arrived and is waiting for a table.
      * 
-     * @param id
+     * @param id the customer's number, starting from 1
      */
     public Customer(int id) {
         this.id = id;
