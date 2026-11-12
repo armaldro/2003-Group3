@@ -14,12 +14,15 @@ Customers:
 Waiter tasks:
   1. Seat a customer
   4. Wait
-Waiter action: Who should be seated?
+Waiter action: 1
+Who should be seated?
   1. Customer 1: WAITING, satisfaction 100
-Customer: Which table?
+Customer: 1
+Which table?
   1. Table 1
   2. Table 2
-Table: The Chef has nothing to cook.
+Table: 1
+The Chef has nothing to cook.
 
 --- Turn 2 of 18 ---
 Tables:
@@ -31,12 +34,15 @@ Customers:
 Waiter tasks:
   2. Take an order
   4. Wait
-Waiter action: Whose order should the Waiter take?
+Waiter action: 2
+Whose order should the Waiter take?
   1. Customer 1: SEATED, satisfaction 92
-Customer: Chef tasks:
+Customer: 1
+Chef tasks:
   0. Wait
   1. Cook Customer 1's Salad (1 unit(s) left)
-Chef action: 
+Chef action: 1
+
 --- Turn 3 of 18 ---
 Tables:
   Table 1: Customer 1
@@ -47,9 +53,11 @@ Customers:
 Waiter tasks:
   3. Serve a ready dish
   4. Wait
-Waiter action: Who should be served?
+Waiter action: 3
+Who should be served?
   1. Customer 1: ORDERED, satisfaction 84, Salad (Ready)
-Customer: The Chef has nothing to cook.
+Customer: 1
+The Chef has nothing to cook.
 
 --- Turn 4 of 18 ---
 Ding! Customer 2 has arrived.
@@ -63,11 +71,14 @@ Customers:
 Waiter tasks:
   1. Seat a customer
   4. Wait
-Waiter action: Who should be seated?
+Waiter action: 1
+Who should be seated?
   1. Customer 2: WAITING, satisfaction 100
-Customer: Which table?
+Customer: 1
+Which table?
   1. Table 2
-Table: The Chef has nothing to cook.
+Table: 1
+The Chef has nothing to cook.
 
 --- Turn 5 of 18 ---
 Tables:
@@ -80,12 +91,15 @@ Customers:
 Waiter tasks:
   2. Take an order
   4. Wait
-Waiter action: Whose order should the Waiter take?
+Waiter action: 2
+Whose order should the Waiter take?
   1. Customer 2: SEATED, satisfaction 92
-Customer: Chef tasks:
+Customer: 1
+Chef tasks:
   0. Wait
   1. Cook Customer 2's Burger (1 unit(s) left)
-Chef action: Customer 1 paid $9.00.
+Chef action: 1
+Customer 1 paid $9.00.
 
 --- Turn 6 of 18 ---
 Tables:
@@ -98,9 +112,11 @@ Customers:
 Waiter tasks:
   3. Serve a ready dish
   4. Wait
-Waiter action: Who should be served?
+Waiter action: 3
+Who should be served?
   1. Customer 2: ORDERED, satisfaction 84, Burger (Ready)
-Customer: The Chef has nothing to cook.
+Customer: 1
+The Chef has nothing to cook.
 
 --- Turn 7 of 18 ---
 Ding! Customer 3 has arrived.
@@ -115,11 +131,14 @@ Customers:
 Waiter tasks:
   1. Seat a customer
   4. Wait
-Waiter action: Who should be seated?
+Waiter action: 1
+Who should be seated?
   1. Customer 3: WAITING, satisfaction 100
-Customer: Which table?
+Customer: 1
+Which table?
   1. Table 1
-Table: The Chef has nothing to cook.
+Table: 1
+The Chef has nothing to cook.
 
 --- Turn 8 of 18 ---
 Tables:
@@ -133,12 +152,15 @@ Customers:
 Waiter tasks:
   2. Take an order
   4. Wait
-Waiter action: Whose order should the Waiter take?
+Waiter action: 2
+Whose order should the Waiter take?
   1. Customer 3: SEATED, satisfaction 92
-Customer: Chef tasks:
+Customer: 1
+Chef tasks:
   0. Wait
   1. Cook Customer 3's Pasta (2 unit(s) left)
-Chef action: Customer 2 paid $15.00.
+Chef action: 1
+Customer 2 paid $15.00.
 
 --- Turn 9 of 18 ---
 Tables:
@@ -151,10 +173,12 @@ Customers:
   Customer 3: ORDERED, satisfaction 84, Pasta (Not ready)
 Waiter tasks:
   4. Wait
-Waiter action: Chef tasks:
+Waiter action: 4
+Chef tasks:
   0. Wait
   1. Cook Customer 3's Pasta (1 unit(s) left)
-Chef action: 
+Chef action: 1
+
 --- Turn 10 of 18 ---
 Ding! Customer 4 has arrived.
 Tables:
@@ -170,9 +194,11 @@ Waiter tasks:
   1. Seat a customer
   3. Serve a ready dish
   4. Wait
-Waiter action: Who should be served?
+Waiter action: 3
+Who should be served?
   1. Customer 3: ORDERED, satisfaction 76, Pasta (Ready)
-Customer: The Chef has nothing to cook.
+Customer: 1
+The Chef has nothing to cook.
 
 --- Turn 11 of 18 ---
 Tables:
@@ -187,11 +213,14 @@ Customers:
 Waiter tasks:
   1. Seat a customer
   4. Wait
-Waiter action: Who should be seated?
+Waiter action: 1
+Who should be seated?
   1. Customer 4: WAITING, satisfaction 92
-Customer: Which table?
+Customer: 1
+Which table?
   1. Table 2
-Table: The Chef has nothing to cook.
+Table: 1
+The Chef has nothing to cook.
 
 --- Turn 12 of 18 ---
 Tables:
@@ -206,12 +235,15 @@ Customers:
 Waiter tasks:
   2. Take an order
   4. Wait
-Waiter action: Whose order should the Waiter take?
+Waiter action: 2
+Whose order should the Waiter take?
   1. Customer 4: SEATED, satisfaction 84
-Customer: Chef tasks:
+Customer: 1
+Chef tasks:
   0. Wait
   1. Cook Customer 4's Salad (1 unit(s) left)
-Chef action: Customer 3 paid $18.00.
+Chef action: 1
+Customer 3 paid $18.00.
 
 --- Turn 13 of 18 ---
 Ding! Customer 5 has arrived.
@@ -229,9 +261,11 @@ Waiter tasks:
   1. Seat a customer
   3. Serve a ready dish
   4. Wait
-Waiter action: Who should be served?
+Waiter action: 3
+Who should be served?
   1. Customer 4: ORDERED, satisfaction 76, Salad (Ready)
-Customer: The Chef has nothing to cook.
+Customer: 1
+The Chef has nothing to cook.
 
 --- Turn 14 of 18 ---
 Tables:
@@ -247,11 +281,14 @@ Customers:
 Waiter tasks:
   1. Seat a customer
   4. Wait
-Waiter action: Who should be seated?
+Waiter action: 1
+Who should be seated?
   1. Customer 5: WAITING, satisfaction 92
-Customer: Which table?
+Customer: 1
+Which table?
   1. Table 1
-Table: The Chef has nothing to cook.
+Table: 1
+The Chef has nothing to cook.
 
 --- Turn 15 of 18 ---
 Tables:
@@ -267,12 +304,15 @@ Customers:
 Waiter tasks:
   2. Take an order
   4. Wait
-Waiter action: Whose order should the Waiter take?
+Waiter action: 2
+Whose order should the Waiter take?
   1. Customer 5: SEATED, satisfaction 84
-Customer: Chef tasks:
+Customer: 1
+Chef tasks:
   0. Wait
   1. Cook Customer 5's Burger (1 unit(s) left)
-Chef action: Customer 4 paid $9.00.
+Chef action: 1
+Customer 4 paid $9.00.
 
 --- Turn 16 of 18 ---
 Ding! Customer 6 has arrived.
@@ -291,9 +331,11 @@ Waiter tasks:
   1. Seat a customer
   3. Serve a ready dish
   4. Wait
-Waiter action: Who should be served?
+Waiter action: 3
+Who should be served?
   1. Customer 5: ORDERED, satisfaction 76, Burger (Ready)
-Customer: The Chef has nothing to cook.
+Customer: 1
+The Chef has nothing to cook.
 
 --- Turn 17 of 18 ---
 Tables:
@@ -310,11 +352,14 @@ Customers:
 Waiter tasks:
   1. Seat a customer
   4. Wait
-Waiter action: Who should be seated?
+Waiter action: 1
+Who should be seated?
   1. Customer 6: WAITING, satisfaction 92
-Customer: Which table?
+Customer: 1
+Which table?
   1. Table 2
-Table: The Chef has nothing to cook.
+Table: 1
+The Chef has nothing to cook.
 
 --- Turn 18 of 18 ---
 Tables:
@@ -331,7 +376,8 @@ Customers:
 Waiter tasks:
   2. Take an order
   4. Wait
-Waiter action: The Chef has nothing to cook.
+Waiter action: 4
+The Chef has nothing to cook.
 Customer 5 paid $15.00.
 
 =================================

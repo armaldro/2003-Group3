@@ -5,7 +5,6 @@ import java.util.List;
 
 import boundary.ConsoleUI;
 import boundary.InputReader;
-import entity.Cashier;
 import entity.Customer;
 import entity.Menu;
 import entity.MenuItem;
@@ -36,7 +35,6 @@ public class GameController {
     private final InputReader input;
     private final GameConfig config;
     private final Restaurant restaurant;
-    private final Cashier cashier = new Cashier();
     private int nextCustomerId = 1;
 
     /**
@@ -331,7 +329,7 @@ public class GameController {
             }
         }
 
-        Customer payer = cashier.collectPayment(restaurant.getCustomers(), turn);
+        Customer payer = restaurant.getCashier().collectPayment(restaurant.getCustomers(), turn);
         if (payer != null) {
             payer.getTable().free();
             ui.showPayment(payer, payer.getOrder().getPriceCents());
