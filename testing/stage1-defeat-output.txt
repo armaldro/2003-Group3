@@ -14,7 +14,8 @@ Customers:
 Waiter tasks:
   1. Seat a customer
   4. Wait
-Waiter action: The Chef has nothing to cook.
+Waiter action: 4
+The Chef has nothing to cook.
 
 --- Turn 2 of 18 ---
 Tables:
@@ -26,7 +27,8 @@ Customers:
 Waiter tasks:
   1. Seat a customer
   4. Wait
-Waiter action: The Chef has nothing to cook.
+Waiter action: 4
+The Chef has nothing to cook.
 
 --- Turn 3 of 18 ---
 Tables:
@@ -38,7 +40,8 @@ Customers:
 Waiter tasks:
   1. Seat a customer
   4. Wait
-Waiter action: The Chef has nothing to cook.
+Waiter action: 4
+The Chef has nothing to cook.
 
 --- Turn 4 of 18 ---
 Ding! Customer 2 has arrived.
@@ -52,7 +55,8 @@ Customers:
 Waiter tasks:
   1. Seat a customer
   4. Wait
-Waiter action: The Chef has nothing to cook.
+Waiter action: 4
+The Chef has nothing to cook.
 
 --- Turn 5 of 18 ---
 Tables:
@@ -65,7 +69,8 @@ Customers:
 Waiter tasks:
   1. Seat a customer
   4. Wait
-Waiter action: The Chef has nothing to cook.
+Waiter action: 4
+The Chef has nothing to cook.
 
 --- Turn 6 of 18 ---
 Tables:
@@ -78,7 +83,8 @@ Customers:
 Waiter tasks:
   1. Seat a customer
   4. Wait
-Waiter action: The Chef has nothing to cook.
+Waiter action: 4
+The Chef has nothing to cook.
 
 --- Turn 7 of 18 ---
 Ding! Customer 3 has arrived.
@@ -93,7 +99,8 @@ Customers:
 Waiter tasks:
   1. Seat a customer
   4. Wait
-Waiter action: The Chef has nothing to cook.
+Waiter action: 4
+The Chef has nothing to cook.
 
 --- Turn 8 of 18 ---
 Tables:
@@ -107,7 +114,8 @@ Customers:
 Waiter tasks:
   1. Seat a customer
   4. Wait
-Waiter action: The Chef has nothing to cook.
+Waiter action: 4
+The Chef has nothing to cook.
 
 --- Turn 9 of 18 ---
 Tables:
@@ -121,7 +129,8 @@ Customers:
 Waiter tasks:
   1. Seat a customer
   4. Wait
-Waiter action: The Chef has nothing to cook.
+Waiter action: 4
+The Chef has nothing to cook.
 
 --- Turn 10 of 18 ---
 Ding! Customer 4 has arrived.
@@ -137,7 +146,8 @@ Customers:
 Waiter tasks:
   1. Seat a customer
   4. Wait
-Waiter action: The Chef has nothing to cook.
+Waiter action: 4
+The Chef has nothing to cook.
 
 --- Turn 11 of 18 ---
 Tables:
@@ -152,7 +162,8 @@ Customers:
 Waiter tasks:
   1. Seat a customer
   4. Wait
-Waiter action: The Chef has nothing to cook.
+Waiter action: 4
+The Chef has nothing to cook.
 
 --- Turn 12 of 18 ---
 Tables:
@@ -167,7 +178,8 @@ Customers:
 Waiter tasks:
   1. Seat a customer
   4. Wait
-Waiter action: The Chef has nothing to cook.
+Waiter action: 4
+The Chef has nothing to cook.
 
 --- Turn 13 of 18 ---
 Ding! Customer 5 has arrived.
@@ -184,7 +196,8 @@ Customers:
 Waiter tasks:
   1. Seat a customer
   4. Wait
-Waiter action: The Chef has nothing to cook.
+Waiter action: 4
+The Chef has nothing to cook.
 Customer 1 ran out of patience and left.
 
 --- Turn 14 of 18 ---
@@ -201,7 +214,8 @@ Customers:
 Waiter tasks:
   1. Seat a customer
   4. Wait
-Waiter action: The Chef has nothing to cook.
+Waiter action: 4
+The Chef has nothing to cook.
 
 --- Turn 15 of 18 ---
 Tables:
@@ -217,7 +231,8 @@ Customers:
 Waiter tasks:
   1. Seat a customer
   4. Wait
-Waiter action: The Chef has nothing to cook.
+Waiter action: 4
+The Chef has nothing to cook.
 
 --- Turn 16 of 18 ---
 Ding! Customer 6 has arrived.
@@ -235,7 +250,8 @@ Customers:
 Waiter tasks:
   1. Seat a customer
   4. Wait
-Waiter action: The Chef has nothing to cook.
+Waiter action: 4
+The Chef has nothing to cook.
 Customer 2 ran out of patience and left.
 
 --- Turn 17 of 18 ---
@@ -253,7 +269,8 @@ Customers:
 Waiter tasks:
   1. Seat a customer
   4. Wait
-Waiter action: The Chef has nothing to cook.
+Waiter action: 4
+The Chef has nothing to cook.
 
 --- Turn 18 of 18 ---
 Tables:
@@ -270,7 +287,8 @@ Customers:
 Waiter tasks:
   1. Seat a customer
   4. Wait
-Waiter action: The Chef has nothing to cook.
+Waiter action: 4
+The Chef has nothing to cook.
 
 =================================
            GAME OVER             
