@@ -10,6 +10,9 @@ import enums.CustomerState;
  */
 public abstract class Customer {
 
+    /** The highest satisfaction a customer can have; every customer starts here. */
+    public static final int MAX_SATISFACTION = 100;
+
     private int id;
     private int satisfaction;
     private CustomerState state;
@@ -25,7 +28,7 @@ public abstract class Customer {
      */
     public Customer(int id) {
         this.id = id;
-        this.satisfaction = 100;
+        this.satisfaction = MAX_SATISFACTION;
         this.state = CustomerState.WAITING;
     }
 
@@ -108,6 +111,17 @@ public abstract class Customer {
         if (satisfaction < 0) {
             satisfaction = 0;
         }
+    }
+
+    /**
+     * Raises this customer's satisfaction by the given points, never going
+     * above {@link #MAX_SATISFACTION}. Used by Happy Hour (Stage 3), when
+     * customers still waiting for a table or food recover 15 at turn start.
+     *
+     * @param points how much satisfaction to recover, e.g. 15
+     */
+    public void recoverSatisfaction(int points) {
+        satisfaction = Math.min(MAX_SATISFACTION, satisfaction + points);
     }
 
     /**
