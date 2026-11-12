@@ -1,12 +1,11 @@
 package entity;
 
-import java.io.Serial;
-import java.util.ServiceLoader;
+import java.util.List;
 
 import enums.CustomerState;
 
 /**
- * Customer who visits the restaurant, this tracks thier satisfaction , id, and
+ * Customer who visits the restaurant, this tracks their satisfaction , id, and
  * state.
  */
 public abstract class Customer {
@@ -173,5 +172,19 @@ public abstract class Customer {
      */
     public int applyDiscount(int priceCents) {
         return priceCents;
+    }
+
+    /**
+     * Chooses this customer's dish from the menu using a fixed rule, so runs
+     * can be reproduced: customer n orders item (n - 1) mod the menu size.
+     * With the standard menu, customer 1 orders Salad, customer 2 Burger,
+     * customer 3 Pasta, customer 4 Salad again, and so on.
+     *
+     * @param menu the menu to choose from
+     * @return the menu item this customer orders
+     */
+    public MenuItem chooseItem(Menu menu) {
+        List<MenuItem> items = menu.getItems();
+        return items.get((id - 1) % items.size());
     }
 }
