@@ -49,4 +49,14 @@ public class CriticCustomer extends Customer {
         }
         return slowest;
     }
+  
+    /**
+     * Returns the name of this customer type, for display.
+     *
+     * @return "Critic"
+     */
+    @Override
+    public String getTypeName() {
+        return "Critic";
+    }
 }
