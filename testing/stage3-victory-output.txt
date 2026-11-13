@@ -1,0 +1,501 @@
+=================================
+   Welcome to Restaurant Rush!   
+=================================
+
+
+--- Turn 1 of 18 ---
+Ding! Customer 1 (Regular) has arrived.
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 1 (Regular)
+Customers:
+  Customer 1 (Regular): WAITING, satisfaction 100
+Start Happy Hour? It can be used once per game and lasts 2 turns: 20% off orders taken, and customers waiting for a table or food recover 15 satisfaction each turn.
+  1. Start Happy Hour now
+  2. Not now
+Happy Hour action: 2
+Happy Hour: available (once per game)
+Host tasks:
+  0. Wait
+  1. Seat Customer 1 (Regular): WAITING, satisfaction 100
+Host action: 1
+Waiter tasks:
+  2. Take an order
+  4. Wait
+Waiter action: 2
+Whose order should the Waiter take?
+  1. Customer 1 (Regular): SEATED, satisfaction 100
+Customer: 1
+Chef tasks:
+  0. Wait
+  1. Cook Customer 1 (Regular)'s Salad (1 unit(s) left)
+Chef action: 1
+End of turn 1: served 0, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 1/18
+
+--- Turn 2 of 18 ---
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
+Tables:
+  Table 1: Customer 1 (Regular)
+  Table 2: free
+Waiting queue: none
+Customers:
+  Customer 1 (Regular): ORDERED, satisfaction 92, Salad (Ready)
+Start Happy Hour? It can be used once per game and lasts 2 turns: 20% off orders taken, and customers waiting for a table or food recover 15 satisfaction each turn.
+  1. Start Happy Hour now
+  2. Not now
+Happy Hour action: 2
+Happy Hour: available (once per game)
+The Host has nobody to seat.
+Waiter tasks:
+  3. Serve a ready dish
+  4. Wait
+Waiter action: 3
+Who should be served?
+  1. Customer 1 (Regular): ORDERED, satisfaction 92, Salad (Ready)
+Customer: 1
+The Chef has nothing to cook.
+End of turn 2: served 1, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 2/18
+
+--- Turn 3 of 18 ---
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
+Tables:
+  Table 1: Customer 1 (Regular)
+  Table 2: free
+Waiting queue: none
+Customers:
+  Customer 1 (Regular): EATING, satisfaction 92, Salad (Served)
+Start Happy Hour? It can be used once per game and lasts 2 turns: 20% off orders taken, and customers waiting for a table or food recover 15 satisfaction each turn.
+  1. Start Happy Hour now
+  2. Not now
+Happy Hour action: 2
+Happy Hour: available (once per game)
+The Host has nobody to seat.
+Waiter tasks:
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+End of turn 3: served 1, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 3/18
+
+--- Turn 4 of 18 ---
+Ding! Customer 2 (VIP) has arrived.
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
+Tables:
+  Table 1: Customer 1 (Regular)
+  Table 2: free
+Waiting queue: Customer 2 (VIP)
+Customers:
+  Customer 1 (Regular): READY_TO_PAY, satisfaction 92, Salad (Served)
+  Customer 2 (VIP): WAITING, satisfaction 100
+Start Happy Hour? It can be used once per game and lasts 2 turns: 20% off orders taken, and customers waiting for a table or food recover 15 satisfaction each turn.
+  1. Start Happy Hour now
+  2. Not now
+Happy Hour action: 2
+Happy Hour: available (once per game)
+Host tasks:
+  0. Wait
+  1. Seat Customer 2 (VIP): WAITING, satisfaction 100
+Host action: 1
+Waiter tasks:
+  2. Take an order
+  4. Wait
+Waiter action: 2
+Whose order should the Waiter take?
+  1. Customer 2 (VIP): SEATED, satisfaction 100
+Customer: 1
+Chef tasks:
+  0. Wait
+  1. Cook Customer 2 (VIP)'s Burger (1 unit(s) left)
+Chef action: 1
+Customer 1 (Regular) paid $9.00.
+End of turn 4: served 1, unhappy departures 0, revenue $9.00, average satisfaction 92, turns used 4/18
+
+--- Turn 5 of 18 ---
+Revenue: $9.00 | Average satisfaction of paid customers: 92
+Tables:
+  Table 1: free
+  Table 2: Customer 2 (VIP)
+Waiting queue: none
+Customers:
+  Customer 1 (Regular): PAID, satisfaction 92, Salad (Paid)
+  Customer 2 (VIP): ORDERED, satisfaction 95, Burger (Ready)
+Start Happy Hour? It can be used once per game and lasts 2 turns: 20% off orders taken, and customers waiting for a table or food recover 15 satisfaction each turn.
+  1. Start Happy Hour now
+  2. Not now
+Happy Hour action: 2
+Happy Hour: available (once per game)
+The Host has nobody to seat.
+Waiter tasks:
+  3. Serve a ready dish
+  4. Wait
+Waiter action: 3
+Who should be served?
+  1. Customer 2 (VIP): ORDERED, satisfaction 95, Burger (Ready)
+Customer: 1
+The Chef has nothing to cook.
+End of turn 5: served 2, unhappy departures 0, revenue $9.00, average satisfaction 92, turns used 5/18
+
+--- Turn 6 of 18 ---
+Revenue: $9.00 | Average satisfaction of paid customers: 92
+Tables:
+  Table 1: free
+  Table 2: Customer 2 (VIP)
+Waiting queue: none
+Customers:
+  Customer 1 (Regular): PAID, satisfaction 92, Salad (Paid)
+  Customer 2 (VIP): EATING, satisfaction 95, Burger (Served)
+Start Happy Hour? It can be used once per game and lasts 2 turns: 20% off orders taken, and customers waiting for a table or food recover 15 satisfaction each turn.
+  1. Start Happy Hour now
+  2. Not now
+Happy Hour action: 2
+Happy Hour: available (once per game)
+The Host has nobody to seat.
+Waiter tasks:
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+End of turn 6: served 2, unhappy departures 0, revenue $9.00, average satisfaction 92, turns used 6/18
+
+--- Turn 7 of 18 ---
+Ding! Customer 3 (Critic) has arrived.
+Revenue: $9.00 | Average satisfaction of paid customers: 92
+Tables:
+  Table 1: free
+  Table 2: Customer 2 (VIP)
+Waiting queue: Customer 3 (Critic)
+Customers:
+  Customer 1 (Regular): PAID, satisfaction 92, Salad (Paid)
+  Customer 2 (VIP): READY_TO_PAY, satisfaction 95, Burger (Served)
+  Customer 3 (Critic): WAITING, satisfaction 100
+Start Happy Hour? It can be used once per game and lasts 2 turns: 20% off orders taken, and customers waiting for a table or food recover 15 satisfaction each turn.
+  1. Start Happy Hour now
+  2. Not now
+Happy Hour action: 1
+Happy Hour: ON, 2 turn(s) left
+Tables:
+  Table 1: free
+  Table 2: Customer 2 (VIP)
+Waiting queue: Customer 3 (Critic)
+Customers:
+  Customer 1 (Regular): PAID, satisfaction 92, Salad (Paid)
+  Customer 2 (VIP): READY_TO_PAY, satisfaction 95, Burger (Served)
+  Customer 3 (Critic): WAITING, satisfaction 100
+Host tasks:
+  0. Wait
+  1. Seat Customer 3 (Critic): WAITING, satisfaction 100
+Host action: 1
+Waiter tasks:
+  2. Take an order
+  4. Wait
+Waiter action: 2
+Whose order should the Waiter take?
+  1. Customer 3 (Critic): SEATED, satisfaction 100
+Customer: 1
+Chef tasks:
+  0. Wait
+  1. Cook Customer 3 (Critic)'s Salad + Pasta (3 unit(s) left)
+Chef action: 1
+Customer 2 (VIP) paid $13.50.
+End of turn 7: served 2, unhappy departures 0, revenue $22.50, average satisfaction 94, turns used 7/18
+
+--- Turn 8 of 18 ---
+Revenue: $22.50 | Average satisfaction of paid customers: 94
+Tables:
+  Table 1: Customer 3 (Critic)
+  Table 2: free
+Waiting queue: none
+Customers:
+  Customer 1 (Regular): PAID, satisfaction 92, Salad (Paid)
+  Customer 2 (VIP): PAID, satisfaction 95, Burger (Paid)
+  Customer 3 (Critic): ORDERED, satisfaction 88, Salad + Pasta (Not ready)
+Happy Hour: ON, 1 turn(s) left
+Tables:
+  Table 1: Customer 3 (Critic)
+  Table 2: free
+Waiting queue: none
+Customers:
+  Customer 1 (Regular): PAID, satisfaction 92, Salad (Paid)
+  Customer 2 (VIP): PAID, satisfaction 95, Burger (Paid)
+  Customer 3 (Critic): ORDERED, satisfaction 100, Salad + Pasta (Not ready)
+The Host has nobody to seat.
+Waiter tasks:
+  4. Wait
+Waiter action: 4
+Chef tasks:
+  0. Wait
+  1. Cook Customer 3 (Critic)'s Salad + Pasta (2 unit(s) left)
+Chef action: 1
+End of turn 8: served 2, unhappy departures 0, revenue $22.50, average satisfaction 94, turns used 8/18
+
+--- Turn 9 of 18 ---
+Revenue: $22.50 | Average satisfaction of paid customers: 94
+Tables:
+  Table 1: Customer 3 (Critic)
+  Table 2: free
+Waiting queue: none
+Customers:
+  Customer 1 (Regular): PAID, satisfaction 92, Salad (Paid)
+  Customer 2 (VIP): PAID, satisfaction 95, Burger (Paid)
+  Customer 3 (Critic): ORDERED, satisfaction 88, Salad + Pasta (Not ready)
+Happy Hour: used
+The Host has nobody to seat.
+Waiter tasks:
+  4. Wait
+Waiter action: 4
+Chef tasks:
+  0. Wait
+  1. Cook Customer 3 (Critic)'s Salad + Pasta (1 unit(s) left)
+Chef action: 1
+End of turn 9: served 2, unhappy departures 0, revenue $22.50, average satisfaction 94, turns used 9/18
+
+--- Turn 10 of 18 ---
+Ding! Customer 4 (Regular) has arrived.
+Revenue: $22.50 | Average satisfaction of paid customers: 94
+Tables:
+  Table 1: Customer 3 (Critic)
+  Table 2: free
+Waiting queue: Customer 4 (Regular)
+Customers:
+  Customer 1 (Regular): PAID, satisfaction 92, Salad (Paid)
+  Customer 2 (VIP): PAID, satisfaction 95, Burger (Paid)
+  Customer 3 (Critic): ORDERED, satisfaction 76, Salad + Pasta (Ready)
+  Customer 4 (Regular): WAITING, satisfaction 100
+Happy Hour: used
+Host tasks:
+  0. Wait
+  1. Seat Customer 4 (Regular): WAITING, satisfaction 100
+Host action: 1
+Waiter tasks:
+  2. Take an order
+  3. Serve a ready dish
+  4. Wait
+Waiter action: 3
+Who should be served?
+  1. Customer 3 (Critic): ORDERED, satisfaction 76, Salad + Pasta (Ready)
+Customer: 1
+The Chef has nothing to cook.
+End of turn 10: served 3, unhappy departures 0, revenue $22.50, average satisfaction 94, turns used 10/18
+
+--- Turn 11 of 18 ---
+Revenue: $22.50 | Average satisfaction of paid customers: 94
+Tables:
+  Table 1: Customer 3 (Critic)
+  Table 2: Customer 4 (Regular)
+Waiting queue: none
+Customers:
+  Customer 1 (Regular): PAID, satisfaction 92, Salad (Paid)
+  Customer 2 (VIP): PAID, satisfaction 95, Burger (Paid)
+  Customer 3 (Critic): EATING, satisfaction 76, Salad + Pasta (Served)
+  Customer 4 (Regular): SEATED, satisfaction 92
+Happy Hour: used
+The Host has nobody to seat.
+Waiter tasks:
+  2. Take an order
+  4. Wait
+Waiter action: 2
+Whose order should the Waiter take?
+  1. Customer 4 (Regular): SEATED, satisfaction 92
+Customer: 1
+Chef tasks:
+  0. Wait
+  1. Cook Customer 4 (Regular)'s Salad + Pasta (3 unit(s) left)
+Chef action: 1
+End of turn 11: served 3, unhappy departures 0, revenue $22.50, average satisfaction 94, turns used 11/18
+
+--- Turn 12 of 18 ---
+Revenue: $22.50 | Average satisfaction of paid customers: 94
+Tables:
+  Table 1: Customer 3 (Critic)
+  Table 2: Customer 4 (Regular)
+Waiting queue: none
+Customers:
+  Customer 1 (Regular): PAID, satisfaction 92, Salad (Paid)
+  Customer 2 (VIP): PAID, satisfaction 95, Burger (Paid)
+  Customer 3 (Critic): READY_TO_PAY, satisfaction 76, Salad + Pasta (Served)
+  Customer 4 (Regular): ORDERED, satisfaction 84, Salad + Pasta (Not ready)
+Happy Hour: used
+The Host has nobody to seat.
+Waiter tasks:
+  4. Wait
+Waiter action: 4
+Chef tasks:
+  0. Wait
+  1. Cook Customer 4 (Regular)'s Salad + Pasta (2 unit(s) left)
+Chef action: 1
+Customer 3 (Critic) paid $19.44.
+End of turn 12: served 3, unhappy departures 0, revenue $41.94, average satisfaction 88, turns used 12/18
+
+--- Turn 13 of 18 ---
+Ding! Customer 5 (Regular) has arrived.
+Revenue: $41.94 | Average satisfaction of paid customers: 88
+Tables:
+  Table 1: free
+  Table 2: Customer 4 (Regular)
+Waiting queue: Customer 5 (Regular)
+Customers:
+  Customer 1 (Regular): PAID, satisfaction 92, Salad (Paid)
+  Customer 2 (VIP): PAID, satisfaction 95, Burger (Paid)
+  Customer 3 (Critic): PAID, satisfaction 76, Salad + Pasta (Paid)
+  Customer 4 (Regular): ORDERED, satisfaction 76, Salad + Pasta (Not ready)
+  Customer 5 (Regular): WAITING, satisfaction 100
+Happy Hour: used
+Host tasks:
+  0. Wait
+  1. Seat Customer 5 (Regular): WAITING, satisfaction 100
+Host action: 1
+Waiter tasks:
+  2. Take an order
+  4. Wait
+Waiter action: 2
+Whose order should the Waiter take?
+  1. Customer 5 (Regular): SEATED, satisfaction 100
+Customer: 1
+Chef tasks:
+  0. Wait
+  1. Cook Customer 4 (Regular)'s Salad + Pasta (1 unit(s) left)
+  2. Cook Customer 5 (Regular)'s Salad (1 unit(s) left)
+Chef action: 1
+End of turn 13: served 3, unhappy departures 0, revenue $41.94, average satisfaction 88, turns used 13/18
+
+--- Turn 14 of 18 ---
+Revenue: $41.94 | Average satisfaction of paid customers: 88
+Tables:
+  Table 1: Customer 5 (Regular)
+  Table 2: Customer 4 (Regular)
+Waiting queue: none
+Customers:
+  Customer 1 (Regular): PAID, satisfaction 92, Salad (Paid)
+  Customer 2 (VIP): PAID, satisfaction 95, Burger (Paid)
+  Customer 3 (Critic): PAID, satisfaction 76, Salad + Pasta (Paid)
+  Customer 4 (Regular): ORDERED, satisfaction 68, Salad + Pasta (Ready)
+  Customer 5 (Regular): ORDERED, satisfaction 92, Salad (Received)
+Happy Hour: used
+The Host has nobody to seat.
+Waiter tasks:
+  3. Serve a ready dish
+  4. Wait
+Waiter action: 3
+Who should be served?
+  1. Customer 4 (Regular): ORDERED, satisfaction 68, Salad + Pasta (Ready)
+Customer: 1
+Chef tasks:
+  0. Wait
+  1. Cook Customer 5 (Regular)'s Salad (1 unit(s) left)
+Chef action: 1
+End of turn 14: served 4, unhappy departures 0, revenue $41.94, average satisfaction 88, turns used 14/18
+
+--- Turn 15 of 18 ---
+Revenue: $41.94 | Average satisfaction of paid customers: 88
+Tables:
+  Table 1: Customer 5 (Regular)
+  Table 2: Customer 4 (Regular)
+Waiting queue: none
+Customers:
+  Customer 1 (Regular): PAID, satisfaction 92, Salad (Paid)
+  Customer 2 (VIP): PAID, satisfaction 95, Burger (Paid)
+  Customer 3 (Critic): PAID, satisfaction 76, Salad + Pasta (Paid)
+  Customer 4 (Regular): EATING, satisfaction 68, Salad + Pasta (Served)
+  Customer 5 (Regular): ORDERED, satisfaction 84, Salad (Ready)
+Happy Hour: used
+The Host has nobody to seat.
+Waiter tasks:
+  3. Serve a ready dish
+  4. Wait
+Waiter action: 3
+Who should be served?
+  1. Customer 5 (Regular): ORDERED, satisfaction 84, Salad (Ready)
+Customer: 1
+The Chef has nothing to cook.
+End of turn 15: served 5, unhappy departures 0, revenue $41.94, average satisfaction 88, turns used 15/18
+
+--- Turn 16 of 18 ---
+Ding! Customer 6 (Regular) has arrived.
+Revenue: $41.94 | Average satisfaction of paid customers: 88
+Tables:
+  Table 1: Customer 5 (Regular)
+  Table 2: Customer 4 (Regular)
+Waiting queue: Customer 6 (Regular)
+Customers:
+  Customer 1 (Regular): PAID, satisfaction 92, Salad (Paid)
+  Customer 2 (VIP): PAID, satisfaction 95, Burger (Paid)
+  Customer 3 (Critic): PAID, satisfaction 76, Salad + Pasta (Paid)
+  Customer 4 (Regular): READY_TO_PAY, satisfaction 68, Salad + Pasta (Served)
+  Customer 5 (Regular): EATING, satisfaction 84, Salad (Served)
+  Customer 6 (Regular): WAITING, satisfaction 100
+Happy Hour: used
+The Host has nobody to seat.
+Waiter tasks:
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+Customer 4 (Regular) paid $24.30.
+End of turn 16: served 5, unhappy departures 0, revenue $66.24, average satisfaction 83, turns used 16/18
+
+--- Turn 17 of 18 ---
+Revenue: $66.24 | Average satisfaction of paid customers: 83
+Tables:
+  Table 1: Customer 5 (Regular)
+  Table 2: free
+Waiting queue: Customer 6 (Regular)
+Customers:
+  Customer 1 (Regular): PAID, satisfaction 92, Salad (Paid)
+  Customer 2 (VIP): PAID, satisfaction 95, Burger (Paid)
+  Customer 3 (Critic): PAID, satisfaction 76, Salad + Pasta (Paid)
+  Customer 4 (Regular): PAID, satisfaction 68, Salad + Pasta (Paid)
+  Customer 5 (Regular): READY_TO_PAY, satisfaction 84, Salad (Served)
+  Customer 6 (Regular): WAITING, satisfaction 92
+Happy Hour: used
+Host tasks:
+  0. Wait
+  1. Seat Customer 6 (Regular): WAITING, satisfaction 92
+Host action: 1
+Waiter tasks:
+  2. Take an order
+  4. Wait
+Waiter action: 2
+Whose order should the Waiter take?
+  1. Customer 6 (Regular): SEATED, satisfaction 92
+Customer: 1
+Chef tasks:
+  0. Wait
+  1. Cook Customer 6 (Regular)'s Burger (1 unit(s) left)
+Chef action: 1
+Customer 5 (Regular) paid $9.00.
+End of turn 17: served 5, unhappy departures 0, revenue $75.24, average satisfaction 83, turns used 17/18
+
+--- Turn 18 of 18 ---
+Revenue: $75.24 | Average satisfaction of paid customers: 83
+Tables:
+  Table 1: free
+  Table 2: Customer 6 (Regular)
+Waiting queue: none
+Customers:
+  Customer 1 (Regular): PAID, satisfaction 92, Salad (Paid)
+  Customer 2 (VIP): PAID, satisfaction 95, Burger (Paid)
+  Customer 3 (Critic): PAID, satisfaction 76, Salad + Pasta (Paid)
+  Customer 4 (Regular): PAID, satisfaction 68, Salad + Pasta (Paid)
+  Customer 5 (Regular): PAID, satisfaction 84, Salad (Paid)
+  Customer 6 (Regular): ORDERED, satisfaction 84, Burger (Ready)
+Happy Hour: used
+The Host has nobody to seat.
+Waiter tasks:
+  3. Serve a ready dish
+  4. Wait
+Waiter action: 3
+Who should be served?
+  1. Customer 6 (Regular): ORDERED, satisfaction 84, Burger (Ready)
+Customer: 1
+The Chef has nothing to cook.
+End of turn 18: served 6, unhappy departures 0, revenue $75.24, average satisfaction 83, turns used 18/18
+
+=================================
+           GAME OVER             
+=================================
+Final Stats:
+- Paid Customers: 5 / 4
+- Revenue: $75.24 / $45.00
+- Average Satisfaction: 83 / 60
+Result: Victory
+
+Congratulations! You met all the targets and won the game!

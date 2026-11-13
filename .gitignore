@@ -4,6 +4,7 @@ bin/
 build/
 target/
 *.class
+scratch/
 
 # IDE
 .idea/

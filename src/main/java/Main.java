@@ -1,3 +1,8 @@
+import boundary.ConsoleUI;
+import boundary.InputReader;
+import control.GameConfig;
+import control.GameController;
+
 /**
  * Entry point for Restaurant Rush, a turn-based restaurant management game
  * played on the command line.
@@ -12,13 +17,30 @@
 public class Main {
 
     /**
-     * Starts Restaurant Rush.
+     * Not used: Main only holds the program's entry point.
+     */
+    private Main() {
+    }
+
+    /**
+     * Creates the console display, the one input reader, and the base game
+     * setting, passes them to a new {@link GameController}, and starts the game.
+     *
+     * <p>Only one {@link InputReader} is created, so only one Scanner reads
+     * {@code System.in}. That keeps a piped replay file working, because a
+     * second Scanner would buffer ahead and take input meant for the first.
      *
      * @param args command-line arguments (not used)
      */
     public static void main(String[] args) {
-        System.out.println("Restaurant Rush - CT2003 Group 3");
-
-        // TODO: once GameController exists, create it here and start the game.
+        try {
+            ConsoleUI ui = new ConsoleUI();
+            InputReader input = new InputReader();
+            GameConfig config = GameConfig.base();
+            GameController controller = new GameController(ui, input, config);
+            controller.start();
+        } catch (RuntimeException e) {
+            System.err.println("Restaurant Rush stopped unexpectedly: " + e.getMessage());
+        }
     }
 }
