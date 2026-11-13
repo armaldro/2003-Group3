@@ -2339,3 +2339,18 @@ Claude fetched GitHub: `dev` had not changed since the `stage-3` merge, and `doc
 Claude's reply: the Javadoc was only local, the new PR link, and the order to merge (the Javadoc PR into `dev`, then PR #33 into `main`), as given in the chat.
 
 This is entry 53 of the paper-trail log.
+
+### 54. Adding the presentation slides (Fri 13 Nov 2026)
+
+> include the presentation slide
+
+Claude read the text and speaker notes of all 11 slides in `presentation_slide/Restaurant Rush - CT2003 Group 3 Presentation (Filled).pptx` and scanned them for emails, phone numbers and matriculation numbers (none; only first names). It committed the deck to the `docs/javadoc` branch, pushed it, and renamed PR #34 to "Add generated Javadoc and presentation slides". It compared the slides with the `stage-3` game and listed the places where they still describe Stage 1 or 2.
+
+Claude's reply: the deck is in PR #34, and these slides need updating for the `stage-3` build used in the demo:
+- Slide 6 (Rifqi): the Critic arrives on turn 7, orders the Salad + Pasta combo, and a Regular customer 3 would order Pasta (not "turn 10, Pasta, a Regular would get Salad").
+- Slide 8 (Kenz): the `stage1-*` replays no longer run on the `stage-3` build. Use `testing/stage3-victory-input.txt` (5 paid, $75.24, average 83) and `testing/stage3-defeat-input.txt`. The defeat's average shows as N/A, not 0.
+- Slide 9 (Soon How): at `stage-2` the Critic arrived on turn 10. It moved to turn 7 in Stage 3, because with the combo on the menu a Regular customer 4 would also order the combo.
+- Slides 2, 4 and 5: the turns quoted come from the Stage 1 run (Customer 3's Pasta on turn 10, Customer 1's Salad on turns 2 to 5). On the `stage-3` build each turn also asks about Happy Hour and the Host, so rehearse with the new inputs.
+- Slide 10: the Restaurant now also creates the Host.
+
+This is entry 54 of the paper-trail log.
