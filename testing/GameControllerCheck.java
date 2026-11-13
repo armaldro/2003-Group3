@@ -124,7 +124,7 @@ public class GameControllerCheck {
         check("C1's order is cancelled", c1.getOrder().getStatus() == OrderStatus.CANCELLED);
         check("C1's table is freed", c1.getTable().isFree());
         check("C1 never paid", game.getPaidCustomers() == 0 && game.getRevenueCents() == 0);
-        check("the game says C1 left", output().contains("Customer 1 ran out of patience and left."));
+        check("the game says C1 left", output().contains("Customer 1 (Regular) ran out of patience and left."));
     }
 
     /** Customers who left do not pull the average down; nobody paid gives 0. */
