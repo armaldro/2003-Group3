@@ -154,5 +154,3 @@ satisfaction of paid customers must reach 60.
 - **How I checked it:** I ran `WaiterCheck` and `HostCheck` and the
   stage 1 and 2 replay files, and studied each method so that I can explain
   it.
-- **This document:** drafted by Claude from my conversation history and my
-  class diagram, then checked by me.
