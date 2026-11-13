@@ -46,6 +46,43 @@ public class ConsoleUI {
     }
 
     /**
+     * Displays the running score at the start of a turn: revenue so far and
+     * the average satisfaction of paid customers ("N/A" until someone pays).
+     *
+     * @param revenueCents    the revenue so far, in cents
+     * @param paidCustomers   how many customers have paid so far
+     * @param avgSatisfaction the average satisfaction of paid customers;
+     *                        ignored when nobody has paid
+     */
+    public void showTurnStatus(int revenueCents, int paidCustomers, int avgSatisfaction) {
+        System.out.println("Revenue: " + Money.format(revenueCents)
+                + " | Average satisfaction of paid customers: "
+                + averageText(paidCustomers, avgSatisfaction));
+    }
+
+    /**
+     * Displays the results at the end of a turn: served count, unhappy
+     * departures, revenue, average satisfaction of paid customers and turns used.
+     *
+     * @param turnsUsed       how many turns have been played, including this one
+     * @param totalTurns      the number of turns in the game
+     * @param served          how many customers have been served so far
+     * @param departures      how many customers have left unhappy so far
+     * @param revenueCents    the revenue so far, in cents
+     * @param paidCustomers   how many customers have paid so far
+     * @param avgSatisfaction the average satisfaction of paid customers;
+     *                        ignored when nobody has paid
+     */
+    public void showTurnResults(int turnsUsed, int totalTurns, int served, int departures,
+            int revenueCents, int paidCustomers, int avgSatisfaction) {
+        System.out.println("End of turn " + turnsUsed + ": served " + served
+                + ", unhappy departures " + departures
+                + ", revenue " + Money.format(revenueCents)
+                + ", average satisfaction " + averageText(paidCustomers, avgSatisfaction)
+                + ", turns used " + turnsUsed + "/" + totalTurns);
+    }
+
+    /**
      * Displays a notification that a new customer has arrived.
      *
      * @param customer the customer who arrived
@@ -181,7 +218,7 @@ public class ConsoleUI {
         System.out.println("Final Stats:");
         System.out.println("- Paid Customers: " + actualPaid + " / " + targetPaid);
         System.out.println("- Revenue: " + Money.format(actualRev) + " / " + Money.format(targetRev));
-        System.out.println("- Average Satisfaction: " + actualSat + " / " + targetSat);
+        System.out.println("- Average Satisfaction: " + averageText(actualPaid, actualSat) + " / " + targetSat);
         System.out.println("Result: " + (isVictory ? "Victory" : "Defeat"));
 
         if (isVictory) {
@@ -225,6 +262,18 @@ public class ConsoleUI {
             text.append(label(customer));
         }
         return text.toString();
+    }
+
+    /**
+     * Formats the average satisfaction of paid customers, or "N/A" when
+     * nobody has paid yet, as the brief requires.
+     *
+     * @param paidCustomers   how many customers have paid
+     * @param avgSatisfaction the average satisfaction of paid customers
+     * @return the average as text, or "N/A"
+     */
+    private String averageText(int paidCustomers, int avgSatisfaction) {
+        return paidCustomers == 0 ? "N/A" : String.valueOf(avgSatisfaction);
     }
 
     /**
