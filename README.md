@@ -62,8 +62,6 @@ Each stage is a separate runnable version, tagged in this repository.
 
 Stage 2 adds VIP and Critic customers. Each type's behaviour lives in its own class, so the new types needed no change to `Waiter`, `Chef`, `Cashier` or `Order`, and the only turn-sequence change is in `handleArrivals`. Compare: https://github.com/armaldro/2003-Group3/compare/stage-1...stage-2
 
-_Draft. Still to come before `stage-2` is tagged: the customer type on screen, and the Stage 2 replays._
-
 **New files**
 
 | File | Owner | Why |
@@ -72,6 +70,8 @@ _Draft. Still to come before `stage-2` is tagged: the customer type on screen, a
 | `src/main/java/entity/CriticCustomer.java` | Rifqi | The Critic: loses 12 satisfaction per turn, pays full price, and always orders the dish that takes longest to cook |
 | `src/main/java/control/Arrival.java` | Soon How | One scheduled arrival: the turn and which type of customer arrives |
 | `testing/VIPCriticCheck.java` | Rifqi | Checks the VIP's and the Critic's satisfaction loss, prices, dish choice and type names |
+| `testing/stage2-victory-input.txt`, `testing/stage2-victory-output.txt` | Kenz | A reproducible winning Stage 2 game with the VIP (turn 4) and the Critic (turn 10): 5 paid, $73.50, average satisfaction 76. Replay with `java -cp out Main < testing/stage2-victory-input.txt` |
+| `testing/stage2-defeat-input.txt`, `testing/stage2-defeat-output.txt` | Kenz | A reproducible losing Stage 2 game: the Waiter waits every turn, the Critic runs out of patience and leaves, and nobody pays |
 
 **Changed files**
 
@@ -80,12 +80,13 @@ _Draft. Still to come before `stage-2` is tagged: the customer type on screen, a
 | `src/main/java/control/GameConfig.java` | Soon How | The arrival schedule now says which type of customer arrives on each turn: a VIP on turn 4 and a Critic on turn 10. The Critic is customer 4, who would order a Salad as a Regular, so its Pasta order shows the Critic's twist. The setting also refuses a schedule that is out of turn order or runs past the last turn |
 | `src/main/java/control/GameController.java` | Soon How, Kenz | `handleArrivals` now asks the arrival schedule to create each customer, because Stage 1 hard-coded `new RegularCustomer(...)`. Nothing else in the turn sequence changed. Kenz also switched the payment step to `Restaurant.getCashier()` |
 | `src/main/java/entity/Restaurant.java` | Kenz | Holds the Cashier, through `getCashier()`, alongside the Waiter and Chef |
-| `src/main/java/boundary/InputReader.java` | Kenz | Prints each choice read from a piped file, so replay outputs are readable |
+| `src/main/java/boundary/ConsoleUI.java` | Kenz | Shows each customer's type, for example "Customer 4 (Critic)", by calling `getTypeName()` on the customer, with no type checks |
+| `src/main/java/boundary/InputReader.java` | Kenz | Prints each choice read from a piped file, so replay outputs are readable; Javadoc names the right replay file |
 | `src/main/java/entity/Staff.java`, `Table.java`, `enums/WaiterTask.java` | Kenz | Javadoc fixes |
 | `src/main/java/entity/Customer.java`, `RegularCustomer.java` | Rifqi | `getTypeName()`, so each customer's type can be shown, and Javadoc fixes |
 | `src/main/java/enums/CustomerState.java` | Rifqi | Javadoc fixes |
 | `testing/GameControllerCheck.java` | Soon How | Checks the arrival schedule, the VIP and the Critic in play (satisfaction loss, dish, price and revenue), and a full winning and losing Stage 2 game |
-| `testing/stage1-*-output.txt` | Kenz | Regenerated with the echoed input |
+| `testing/stage1-*-output.txt` | Kenz | Regenerated with the echoed input and the customer type |
 | `README.md` | Soon How | The Stage 2 customers and arrivals, and this section |
 
 **Deleted files:** none.

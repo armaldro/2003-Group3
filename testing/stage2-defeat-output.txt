@@ -1,0 +1,302 @@
+=================================
+   Welcome to Restaurant Rush!   
+=================================
+
+
+--- Turn 1 of 18 ---
+Ding! Customer 1 (Regular) has arrived.
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 1 (Regular)
+Customers:
+  Customer 1 (Regular): WAITING, satisfaction 100
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+
+--- Turn 2 of 18 ---
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 1 (Regular)
+Customers:
+  Customer 1 (Regular): WAITING, satisfaction 92
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+
+--- Turn 3 of 18 ---
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 1 (Regular)
+Customers:
+  Customer 1 (Regular): WAITING, satisfaction 84
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+
+--- Turn 4 of 18 ---
+Ding! Customer 2 (VIP) has arrived.
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 1 (Regular), Customer 2 (VIP)
+Customers:
+  Customer 1 (Regular): WAITING, satisfaction 76
+  Customer 2 (VIP): WAITING, satisfaction 100
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+
+--- Turn 5 of 18 ---
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 1 (Regular), Customer 2 (VIP)
+Customers:
+  Customer 1 (Regular): WAITING, satisfaction 68
+  Customer 2 (VIP): WAITING, satisfaction 95
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+
+--- Turn 6 of 18 ---
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 1 (Regular), Customer 2 (VIP)
+Customers:
+  Customer 1 (Regular): WAITING, satisfaction 60
+  Customer 2 (VIP): WAITING, satisfaction 90
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+
+--- Turn 7 of 18 ---
+Ding! Customer 3 (Regular) has arrived.
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 1 (Regular), Customer 2 (VIP), Customer 3 (Regular)
+Customers:
+  Customer 1 (Regular): WAITING, satisfaction 52
+  Customer 2 (VIP): WAITING, satisfaction 85
+  Customer 3 (Regular): WAITING, satisfaction 100
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+
+--- Turn 8 of 18 ---
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 1 (Regular), Customer 2 (VIP), Customer 3 (Regular)
+Customers:
+  Customer 1 (Regular): WAITING, satisfaction 44
+  Customer 2 (VIP): WAITING, satisfaction 80
+  Customer 3 (Regular): WAITING, satisfaction 92
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+
+--- Turn 9 of 18 ---
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 1 (Regular), Customer 2 (VIP), Customer 3 (Regular)
+Customers:
+  Customer 1 (Regular): WAITING, satisfaction 36
+  Customer 2 (VIP): WAITING, satisfaction 75
+  Customer 3 (Regular): WAITING, satisfaction 84
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+
+--- Turn 10 of 18 ---
+Ding! Customer 4 (Critic) has arrived.
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 1 (Regular), Customer 2 (VIP), Customer 3 (Regular), Customer 4 (Critic)
+Customers:
+  Customer 1 (Regular): WAITING, satisfaction 28
+  Customer 2 (VIP): WAITING, satisfaction 70
+  Customer 3 (Regular): WAITING, satisfaction 76
+  Customer 4 (Critic): WAITING, satisfaction 100
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+
+--- Turn 11 of 18 ---
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 1 (Regular), Customer 2 (VIP), Customer 3 (Regular), Customer 4 (Critic)
+Customers:
+  Customer 1 (Regular): WAITING, satisfaction 20
+  Customer 2 (VIP): WAITING, satisfaction 65
+  Customer 3 (Regular): WAITING, satisfaction 68
+  Customer 4 (Critic): WAITING, satisfaction 88
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+
+--- Turn 12 of 18 ---
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 1 (Regular), Customer 2 (VIP), Customer 3 (Regular), Customer 4 (Critic)
+Customers:
+  Customer 1 (Regular): WAITING, satisfaction 12
+  Customer 2 (VIP): WAITING, satisfaction 60
+  Customer 3 (Regular): WAITING, satisfaction 60
+  Customer 4 (Critic): WAITING, satisfaction 76
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+
+--- Turn 13 of 18 ---
+Ding! Customer 5 (Regular) has arrived.
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 1 (Regular), Customer 2 (VIP), Customer 3 (Regular), Customer 4 (Critic), Customer 5 (Regular)
+Customers:
+  Customer 1 (Regular): WAITING, satisfaction 4
+  Customer 2 (VIP): WAITING, satisfaction 55
+  Customer 3 (Regular): WAITING, satisfaction 52
+  Customer 4 (Critic): WAITING, satisfaction 64
+  Customer 5 (Regular): WAITING, satisfaction 100
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+Customer 1 (Regular) ran out of patience and left.
+
+--- Turn 14 of 18 ---
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 2 (VIP), Customer 3 (Regular), Customer 4 (Critic), Customer 5 (Regular)
+Customers:
+  Customer 1 (Regular): LEFT, satisfaction 0
+  Customer 2 (VIP): WAITING, satisfaction 50
+  Customer 3 (Regular): WAITING, satisfaction 44
+  Customer 4 (Critic): WAITING, satisfaction 52
+  Customer 5 (Regular): WAITING, satisfaction 92
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+
+--- Turn 15 of 18 ---
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 2 (VIP), Customer 3 (Regular), Customer 4 (Critic), Customer 5 (Regular)
+Customers:
+  Customer 1 (Regular): LEFT, satisfaction 0
+  Customer 2 (VIP): WAITING, satisfaction 45
+  Customer 3 (Regular): WAITING, satisfaction 36
+  Customer 4 (Critic): WAITING, satisfaction 40
+  Customer 5 (Regular): WAITING, satisfaction 84
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+
+--- Turn 16 of 18 ---
+Ding! Customer 6 (Regular) has arrived.
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 2 (VIP), Customer 3 (Regular), Customer 4 (Critic), Customer 5 (Regular), Customer 6 (Regular)
+Customers:
+  Customer 1 (Regular): LEFT, satisfaction 0
+  Customer 2 (VIP): WAITING, satisfaction 40
+  Customer 3 (Regular): WAITING, satisfaction 28
+  Customer 4 (Critic): WAITING, satisfaction 28
+  Customer 5 (Regular): WAITING, satisfaction 76
+  Customer 6 (Regular): WAITING, satisfaction 100
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+
+--- Turn 17 of 18 ---
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 2 (VIP), Customer 3 (Regular), Customer 4 (Critic), Customer 5 (Regular), Customer 6 (Regular)
+Customers:
+  Customer 1 (Regular): LEFT, satisfaction 0
+  Customer 2 (VIP): WAITING, satisfaction 35
+  Customer 3 (Regular): WAITING, satisfaction 20
+  Customer 4 (Critic): WAITING, satisfaction 16
+  Customer 5 (Regular): WAITING, satisfaction 68
+  Customer 6 (Regular): WAITING, satisfaction 92
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+
+--- Turn 18 of 18 ---
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 2 (VIP), Customer 3 (Regular), Customer 4 (Critic), Customer 5 (Regular), Customer 6 (Regular)
+Customers:
+  Customer 1 (Regular): LEFT, satisfaction 0
+  Customer 2 (VIP): WAITING, satisfaction 30
+  Customer 3 (Regular): WAITING, satisfaction 12
+  Customer 4 (Critic): WAITING, satisfaction 4
+  Customer 5 (Regular): WAITING, satisfaction 60
+  Customer 6 (Regular): WAITING, satisfaction 84
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+Customer 4 (Critic) ran out of patience and left.
+
+=================================
+           GAME OVER             
+=================================
+Final Stats:
+- Paid Customers: 0 / 4
+- Revenue: $0.00 / $45.00
+- Average Satisfaction: 0 / 60
+Result: Defeat
+
+You did not meet all the required targets. Better luck next rush!
