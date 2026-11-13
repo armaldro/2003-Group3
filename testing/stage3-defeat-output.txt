@@ -1,0 +1,537 @@
+=================================
+   Welcome to Restaurant Rush!   
+=================================
+
+
+--- Turn 1 of 18 ---
+Ding! Customer 1 (Regular) has arrived.
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 1 (Regular)
+Customers:
+  Customer 1 (Regular): WAITING, satisfaction 100
+Start Happy Hour? It can be used once per game and lasts 2 turns: 20% off orders taken, and customers waiting for a table or food recover 15 satisfaction each turn.
+  1. Start Happy Hour now
+  2. Not now
+Happy Hour action: 2
+Happy Hour: available (once per game)
+Host tasks:
+  0. Wait
+  1. Seat Customer 1 (Regular): WAITING, satisfaction 100
+Host action: 0
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+End of turn 1: served 0, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 1/18
+
+--- Turn 2 of 18 ---
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 1 (Regular)
+Customers:
+  Customer 1 (Regular): WAITING, satisfaction 92
+Start Happy Hour? It can be used once per game and lasts 2 turns: 20% off orders taken, and customers waiting for a table or food recover 15 satisfaction each turn.
+  1. Start Happy Hour now
+  2. Not now
+Happy Hour action: 2
+Happy Hour: available (once per game)
+Host tasks:
+  0. Wait
+  1. Seat Customer 1 (Regular): WAITING, satisfaction 92
+Host action: 0
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+End of turn 2: served 0, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 2/18
+
+--- Turn 3 of 18 ---
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 1 (Regular)
+Customers:
+  Customer 1 (Regular): WAITING, satisfaction 84
+Start Happy Hour? It can be used once per game and lasts 2 turns: 20% off orders taken, and customers waiting for a table or food recover 15 satisfaction each turn.
+  1. Start Happy Hour now
+  2. Not now
+Happy Hour action: 2
+Happy Hour: available (once per game)
+Host tasks:
+  0. Wait
+  1. Seat Customer 1 (Regular): WAITING, satisfaction 84
+Host action: 0
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+End of turn 3: served 0, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 3/18
+
+--- Turn 4 of 18 ---
+Ding! Customer 2 (VIP) has arrived.
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 1 (Regular), Customer 2 (VIP)
+Customers:
+  Customer 1 (Regular): WAITING, satisfaction 76
+  Customer 2 (VIP): WAITING, satisfaction 100
+Start Happy Hour? It can be used once per game and lasts 2 turns: 20% off orders taken, and customers waiting for a table or food recover 15 satisfaction each turn.
+  1. Start Happy Hour now
+  2. Not now
+Happy Hour action: 2
+Happy Hour: available (once per game)
+Host tasks:
+  0. Wait
+  1. Seat Customer 1 (Regular): WAITING, satisfaction 76
+  2. Seat Customer 2 (VIP): WAITING, satisfaction 100
+Host action: 0
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+End of turn 4: served 0, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 4/18
+
+--- Turn 5 of 18 ---
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 1 (Regular), Customer 2 (VIP)
+Customers:
+  Customer 1 (Regular): WAITING, satisfaction 68
+  Customer 2 (VIP): WAITING, satisfaction 95
+Start Happy Hour? It can be used once per game and lasts 2 turns: 20% off orders taken, and customers waiting for a table or food recover 15 satisfaction each turn.
+  1. Start Happy Hour now
+  2. Not now
+Happy Hour action: 2
+Happy Hour: available (once per game)
+Host tasks:
+  0. Wait
+  1. Seat Customer 1 (Regular): WAITING, satisfaction 68
+  2. Seat Customer 2 (VIP): WAITING, satisfaction 95
+Host action: 0
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+End of turn 5: served 0, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 5/18
+
+--- Turn 6 of 18 ---
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 1 (Regular), Customer 2 (VIP)
+Customers:
+  Customer 1 (Regular): WAITING, satisfaction 60
+  Customer 2 (VIP): WAITING, satisfaction 90
+Start Happy Hour? It can be used once per game and lasts 2 turns: 20% off orders taken, and customers waiting for a table or food recover 15 satisfaction each turn.
+  1. Start Happy Hour now
+  2. Not now
+Happy Hour action: 2
+Happy Hour: available (once per game)
+Host tasks:
+  0. Wait
+  1. Seat Customer 1 (Regular): WAITING, satisfaction 60
+  2. Seat Customer 2 (VIP): WAITING, satisfaction 90
+Host action: 0
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+End of turn 6: served 0, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 6/18
+
+--- Turn 7 of 18 ---
+Ding! Customer 3 (Critic) has arrived.
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 1 (Regular), Customer 2 (VIP), Customer 3 (Critic)
+Customers:
+  Customer 1 (Regular): WAITING, satisfaction 52
+  Customer 2 (VIP): WAITING, satisfaction 85
+  Customer 3 (Critic): WAITING, satisfaction 100
+Start Happy Hour? It can be used once per game and lasts 2 turns: 20% off orders taken, and customers waiting for a table or food recover 15 satisfaction each turn.
+  1. Start Happy Hour now
+  2. Not now
+Happy Hour action: 2
+Happy Hour: available (once per game)
+Host tasks:
+  0. Wait
+  1. Seat Customer 1 (Regular): WAITING, satisfaction 52
+  2. Seat Customer 2 (VIP): WAITING, satisfaction 85
+  3. Seat Customer 3 (Critic): WAITING, satisfaction 100
+Host action: 0
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+End of turn 7: served 0, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 7/18
+
+--- Turn 8 of 18 ---
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 1 (Regular), Customer 2 (VIP), Customer 3 (Critic)
+Customers:
+  Customer 1 (Regular): WAITING, satisfaction 44
+  Customer 2 (VIP): WAITING, satisfaction 80
+  Customer 3 (Critic): WAITING, satisfaction 88
+Start Happy Hour? It can be used once per game and lasts 2 turns: 20% off orders taken, and customers waiting for a table or food recover 15 satisfaction each turn.
+  1. Start Happy Hour now
+  2. Not now
+Happy Hour action: 2
+Happy Hour: available (once per game)
+Host tasks:
+  0. Wait
+  1. Seat Customer 1 (Regular): WAITING, satisfaction 44
+  2. Seat Customer 2 (VIP): WAITING, satisfaction 80
+  3. Seat Customer 3 (Critic): WAITING, satisfaction 88
+Host action: 0
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+End of turn 8: served 0, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 8/18
+
+--- Turn 9 of 18 ---
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 1 (Regular), Customer 2 (VIP), Customer 3 (Critic)
+Customers:
+  Customer 1 (Regular): WAITING, satisfaction 36
+  Customer 2 (VIP): WAITING, satisfaction 75
+  Customer 3 (Critic): WAITING, satisfaction 76
+Start Happy Hour? It can be used once per game and lasts 2 turns: 20% off orders taken, and customers waiting for a table or food recover 15 satisfaction each turn.
+  1. Start Happy Hour now
+  2. Not now
+Happy Hour action: 2
+Happy Hour: available (once per game)
+Host tasks:
+  0. Wait
+  1. Seat Customer 1 (Regular): WAITING, satisfaction 36
+  2. Seat Customer 2 (VIP): WAITING, satisfaction 75
+  3. Seat Customer 3 (Critic): WAITING, satisfaction 76
+Host action: 0
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+End of turn 9: served 0, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 9/18
+
+--- Turn 10 of 18 ---
+Ding! Customer 4 (Regular) has arrived.
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 1 (Regular), Customer 2 (VIP), Customer 3 (Critic), Customer 4 (Regular)
+Customers:
+  Customer 1 (Regular): WAITING, satisfaction 28
+  Customer 2 (VIP): WAITING, satisfaction 70
+  Customer 3 (Critic): WAITING, satisfaction 64
+  Customer 4 (Regular): WAITING, satisfaction 100
+Start Happy Hour? It can be used once per game and lasts 2 turns: 20% off orders taken, and customers waiting for a table or food recover 15 satisfaction each turn.
+  1. Start Happy Hour now
+  2. Not now
+Happy Hour action: 2
+Happy Hour: available (once per game)
+Host tasks:
+  0. Wait
+  1. Seat Customer 1 (Regular): WAITING, satisfaction 28
+  2. Seat Customer 2 (VIP): WAITING, satisfaction 70
+  3. Seat Customer 3 (Critic): WAITING, satisfaction 64
+  4. Seat Customer 4 (Regular): WAITING, satisfaction 100
+Host action: 0
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+End of turn 10: served 0, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 10/18
+
+--- Turn 11 of 18 ---
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 1 (Regular), Customer 2 (VIP), Customer 3 (Critic), Customer 4 (Regular)
+Customers:
+  Customer 1 (Regular): WAITING, satisfaction 20
+  Customer 2 (VIP): WAITING, satisfaction 65
+  Customer 3 (Critic): WAITING, satisfaction 52
+  Customer 4 (Regular): WAITING, satisfaction 92
+Start Happy Hour? It can be used once per game and lasts 2 turns: 20% off orders taken, and customers waiting for a table or food recover 15 satisfaction each turn.
+  1. Start Happy Hour now
+  2. Not now
+Happy Hour action: 2
+Happy Hour: available (once per game)
+Host tasks:
+  0. Wait
+  1. Seat Customer 1 (Regular): WAITING, satisfaction 20
+  2. Seat Customer 2 (VIP): WAITING, satisfaction 65
+  3. Seat Customer 3 (Critic): WAITING, satisfaction 52
+  4. Seat Customer 4 (Regular): WAITING, satisfaction 92
+Host action: 0
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+End of turn 11: served 0, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 11/18
+
+--- Turn 12 of 18 ---
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 1 (Regular), Customer 2 (VIP), Customer 3 (Critic), Customer 4 (Regular)
+Customers:
+  Customer 1 (Regular): WAITING, satisfaction 12
+  Customer 2 (VIP): WAITING, satisfaction 60
+  Customer 3 (Critic): WAITING, satisfaction 40
+  Customer 4 (Regular): WAITING, satisfaction 84
+Start Happy Hour? It can be used once per game and lasts 2 turns: 20% off orders taken, and customers waiting for a table or food recover 15 satisfaction each turn.
+  1. Start Happy Hour now
+  2. Not now
+Happy Hour action: 2
+Happy Hour: available (once per game)
+Host tasks:
+  0. Wait
+  1. Seat Customer 1 (Regular): WAITING, satisfaction 12
+  2. Seat Customer 2 (VIP): WAITING, satisfaction 60
+  3. Seat Customer 3 (Critic): WAITING, satisfaction 40
+  4. Seat Customer 4 (Regular): WAITING, satisfaction 84
+Host action: 0
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+End of turn 12: served 0, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 12/18
+
+--- Turn 13 of 18 ---
+Ding! Customer 5 (Regular) has arrived.
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 1 (Regular), Customer 2 (VIP), Customer 3 (Critic), Customer 4 (Regular), Customer 5 (Regular)
+Customers:
+  Customer 1 (Regular): WAITING, satisfaction 4
+  Customer 2 (VIP): WAITING, satisfaction 55
+  Customer 3 (Critic): WAITING, satisfaction 28
+  Customer 4 (Regular): WAITING, satisfaction 76
+  Customer 5 (Regular): WAITING, satisfaction 100
+Start Happy Hour? It can be used once per game and lasts 2 turns: 20% off orders taken, and customers waiting for a table or food recover 15 satisfaction each turn.
+  1. Start Happy Hour now
+  2. Not now
+Happy Hour action: 2
+Happy Hour: available (once per game)
+Host tasks:
+  0. Wait
+  1. Seat Customer 1 (Regular): WAITING, satisfaction 4
+  2. Seat Customer 2 (VIP): WAITING, satisfaction 55
+  3. Seat Customer 3 (Critic): WAITING, satisfaction 28
+  4. Seat Customer 4 (Regular): WAITING, satisfaction 76
+  5. Seat Customer 5 (Regular): WAITING, satisfaction 100
+Host action: 0
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+Customer 1 (Regular) ran out of patience and left.
+End of turn 13: served 0, unhappy departures 1, revenue $0.00, average satisfaction N/A, turns used 13/18
+
+--- Turn 14 of 18 ---
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 2 (VIP), Customer 3 (Critic), Customer 4 (Regular), Customer 5 (Regular)
+Customers:
+  Customer 1 (Regular): LEFT, satisfaction 0
+  Customer 2 (VIP): WAITING, satisfaction 50
+  Customer 3 (Critic): WAITING, satisfaction 16
+  Customer 4 (Regular): WAITING, satisfaction 68
+  Customer 5 (Regular): WAITING, satisfaction 92
+Start Happy Hour? It can be used once per game and lasts 2 turns: 20% off orders taken, and customers waiting for a table or food recover 15 satisfaction each turn.
+  1. Start Happy Hour now
+  2. Not now
+Happy Hour action: 2
+Happy Hour: available (once per game)
+Host tasks:
+  0. Wait
+  1. Seat Customer 2 (VIP): WAITING, satisfaction 50
+  2. Seat Customer 3 (Critic): WAITING, satisfaction 16
+  3. Seat Customer 4 (Regular): WAITING, satisfaction 68
+  4. Seat Customer 5 (Regular): WAITING, satisfaction 92
+Host action: 0
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+End of turn 14: served 0, unhappy departures 1, revenue $0.00, average satisfaction N/A, turns used 14/18
+
+--- Turn 15 of 18 ---
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 2 (VIP), Customer 3 (Critic), Customer 4 (Regular), Customer 5 (Regular)
+Customers:
+  Customer 1 (Regular): LEFT, satisfaction 0
+  Customer 2 (VIP): WAITING, satisfaction 45
+  Customer 3 (Critic): WAITING, satisfaction 4
+  Customer 4 (Regular): WAITING, satisfaction 60
+  Customer 5 (Regular): WAITING, satisfaction 84
+Start Happy Hour? It can be used once per game and lasts 2 turns: 20% off orders taken, and customers waiting for a table or food recover 15 satisfaction each turn.
+  1. Start Happy Hour now
+  2. Not now
+Happy Hour action: 2
+Happy Hour: available (once per game)
+Host tasks:
+  0. Wait
+  1. Seat Customer 2 (VIP): WAITING, satisfaction 45
+  2. Seat Customer 3 (Critic): WAITING, satisfaction 4
+  3. Seat Customer 4 (Regular): WAITING, satisfaction 60
+  4. Seat Customer 5 (Regular): WAITING, satisfaction 84
+Host action: 0
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+Customer 3 (Critic) ran out of patience and left.
+End of turn 15: served 0, unhappy departures 2, revenue $0.00, average satisfaction N/A, turns used 15/18
+
+--- Turn 16 of 18 ---
+Ding! Customer 6 (Regular) has arrived.
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 2 (VIP), Customer 4 (Regular), Customer 5 (Regular), Customer 6 (Regular)
+Customers:
+  Customer 1 (Regular): LEFT, satisfaction 0
+  Customer 2 (VIP): WAITING, satisfaction 40
+  Customer 3 (Critic): LEFT, satisfaction 0
+  Customer 4 (Regular): WAITING, satisfaction 52
+  Customer 5 (Regular): WAITING, satisfaction 76
+  Customer 6 (Regular): WAITING, satisfaction 100
+Start Happy Hour? It can be used once per game and lasts 2 turns: 20% off orders taken, and customers waiting for a table or food recover 15 satisfaction each turn.
+  1. Start Happy Hour now
+  2. Not now
+Happy Hour action: 2
+Happy Hour: available (once per game)
+Host tasks:
+  0. Wait
+  1. Seat Customer 2 (VIP): WAITING, satisfaction 40
+  2. Seat Customer 4 (Regular): WAITING, satisfaction 52
+  3. Seat Customer 5 (Regular): WAITING, satisfaction 76
+  4. Seat Customer 6 (Regular): WAITING, satisfaction 100
+Host action: 0
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+End of turn 16: served 0, unhappy departures 2, revenue $0.00, average satisfaction N/A, turns used 16/18
+
+--- Turn 17 of 18 ---
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 2 (VIP), Customer 4 (Regular), Customer 5 (Regular), Customer 6 (Regular)
+Customers:
+  Customer 1 (Regular): LEFT, satisfaction 0
+  Customer 2 (VIP): WAITING, satisfaction 35
+  Customer 3 (Critic): LEFT, satisfaction 0
+  Customer 4 (Regular): WAITING, satisfaction 44
+  Customer 5 (Regular): WAITING, satisfaction 68
+  Customer 6 (Regular): WAITING, satisfaction 92
+Start Happy Hour? It can be used once per game and lasts 2 turns: 20% off orders taken, and customers waiting for a table or food recover 15 satisfaction each turn.
+  1. Start Happy Hour now
+  2. Not now
+Happy Hour action: 2
+Happy Hour: available (once per game)
+Host tasks:
+  0. Wait
+  1. Seat Customer 2 (VIP): WAITING, satisfaction 35
+  2. Seat Customer 4 (Regular): WAITING, satisfaction 44
+  3. Seat Customer 5 (Regular): WAITING, satisfaction 68
+  4. Seat Customer 6 (Regular): WAITING, satisfaction 92
+Host action: 0
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+End of turn 17: served 0, unhappy departures 2, revenue $0.00, average satisfaction N/A, turns used 17/18
+
+--- Turn 18 of 18 ---
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
+Tables:
+  Table 1: free
+  Table 2: free
+Waiting queue: Customer 2 (VIP), Customer 4 (Regular), Customer 5 (Regular), Customer 6 (Regular)
+Customers:
+  Customer 1 (Regular): LEFT, satisfaction 0
+  Customer 2 (VIP): WAITING, satisfaction 30
+  Customer 3 (Critic): LEFT, satisfaction 0
+  Customer 4 (Regular): WAITING, satisfaction 36
+  Customer 5 (Regular): WAITING, satisfaction 60
+  Customer 6 (Regular): WAITING, satisfaction 84
+Start Happy Hour? It can be used once per game and lasts 2 turns: 20% off orders taken, and customers waiting for a table or food recover 15 satisfaction each turn.
+  1. Start Happy Hour now
+  2. Not now
+Happy Hour action: 2
+Happy Hour: available (once per game)
+Host tasks:
+  0. Wait
+  1. Seat Customer 2 (VIP): WAITING, satisfaction 30
+  2. Seat Customer 4 (Regular): WAITING, satisfaction 36
+  3. Seat Customer 5 (Regular): WAITING, satisfaction 60
+  4. Seat Customer 6 (Regular): WAITING, satisfaction 84
+Host action: 0
+Waiter tasks:
+  1. Seat a customer
+  4. Wait
+Waiter action: 4
+The Chef has nothing to cook.
+End of turn 18: served 0, unhappy departures 2, revenue $0.00, average satisfaction N/A, turns used 18/18
+
+=================================
+           GAME OVER             
+=================================
+Final Stats:
+- Paid Customers: 0 / 4
+- Revenue: $0.00 / $45.00
+- Average Satisfaction: N/A / 60
+Result: Defeat
+
+You did not meet all the required targets. Better luck next rush!
