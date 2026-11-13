@@ -6,12 +6,12 @@ import java.util.List;
 import boundary.ConsoleUI;
 import boundary.InputReader;
 import entity.Customer;
-import entity.Menu;
 import entity.MenuItem;
 import entity.Order;
 import entity.Restaurant;
 import entity.Table;
 import enums.CustomerState;
+import enums.PricingPolicy;
 import enums.WaiterTask;
 import util.InvalidActionException;
 
@@ -19,8 +19,9 @@ import util.InvalidActionException;
  * Runs a game of Restaurant Rush: owns the game state and the turn sequence.
  *
  * <p>Each turn follows the order set out in the README: arrivals, the
- * manager's choices, kitchen and serving (Waiter before Chef), eating and
- * payment, then waiting and abandonment. After the last turn the result is
+ * restaurant state, the Happy Hour offer and recovery, the Host, the Waiter,
+ * the Chef (always after the Waiter), eating and payment, then waiting and
+ * abandonment. After the last turn the result is
  * Victory if every target in {@link GameConfig} is met, otherwise Defeat.
  *
  * <p>This class never prints or reads the console itself. It shows things
@@ -34,11 +35,12 @@ public class GameController {
     private final InputReader input;
     private final GameConfig config;
     private final Restaurant restaurant;
+    private final HappyHour happyHour;
     private int nextCustomerId = 1;
 
     /**
      * Creates a controller for one game, with an empty restaurant that has the
-     * number of tables in the setting and the standard menu.
+     * number of tables and the menu in the setting, and an unused Happy Hour.
      *
      * @param ui     the console boundary used for all output
      * @param input  reads the manager's numbered choices
@@ -48,7 +50,8 @@ public class GameController {
         this.ui = ui;
         this.input = input;
         this.config = config;
-        this.restaurant = new Restaurant(config.getTables(), Menu.standard());
+        this.restaurant = new Restaurant(config.getTables(), config.getMenu());
+        this.happyHour = new HappyHour(config.getHappyHourTurns());
     }
 
     /**
@@ -77,10 +80,13 @@ public class GameController {
      */
     public void playTurn(int turn) {
         restaurant.getWaiter().startTurn();
+        restaurant.getHost().startTurn();
         ui.showTurnHeader(turn, config.getTurns());
         handleArrivals(turn);
         ui.showTurnStatus(getRevenueCents(), getPaidCustomers(), getAverageSatisfaction());
         ui.showRestaurantState(restaurant);
+        happyHourPhase(turn);
+        hostAction();
         waiterAction(turn);
         chefAction();
         eatingAndPayment(turn);
@@ -199,6 +205,69 @@ public class GameController {
     }
 
     /**
+     * Offers to start Happy Hour while it is still unused, then shows its status.
+     * The offer comes after the restaurant state, so the manager can see who is
+     * waiting before deciding. Happy Hour lasts the setting's number of turns,
+     * starting with this one. The discount shown is read from
+     * {@link PricingPolicy}, so it is written in one place only.
+     *
+     * <p>On every Happy Hour turn, each customer still waiting for a table or
+     * food recovers the setting's recovery points here, at the start of the
+     * turn and before any staff act, as {@code Customer.recoverSatisfaction}
+     * describes. Satisfaction never goes above the maximum. The restaurant
+     * state is then shown again, so the manager sees the recovered numbers.
+     *
+     * @param turn the current turn number
+     */
+    private void happyHourPhase(int turn) {
+        if (happyHour.isAvailable()) {
+            int discountPercent = 100 - PricingPolicy.HAPPY_HOUR.apply(100);
+            ui.showHappyHourOffer(discountPercent, config.getHappyHourRecovery(),
+                    config.getHappyHourTurns());
+            if (input.readChoice("Happy Hour action: ", 1, 2) == 1) {
+                happyHour.start(turn);
+            }
+        }
+        ui.showHappyHourStatus(happyHour.turnsLeft(turn), !happyHour.isAvailable());
+        if (happyHour.isActive(turn)) {
+            for (Customer customer : restaurant.getCustomers()) {
+                if (isUnserved(customer)) {
+                    customer.recoverSatisfaction(config.getHappyHourRecovery());
+                }
+            }
+            ui.showRestaurantState(restaurant);
+        }
+    }
+
+    /**
+     * Lets the Host seat one waiting customer at the first free table, or wait.
+     * This runs before the Waiter, so the Waiter can still seat another customer
+     * in the same turn. If nobody is waiting or no table is free, the Host is idle.
+     */
+    private void hostAction() {
+        List<Customer> queue = restaurant.getWaitingQueue();
+        List<Table> freeTables = restaurant.freeTables();
+        if (queue.isEmpty() || freeTables.isEmpty()) {
+            ui.showHostIdle();
+            return;
+        }
+        while (true) {
+            ui.showHostChoices(queue);
+            int choice = input.readChoice("Host action: ", 0, queue.size());
+            try {
+                if (choice == 0) {
+                    restaurant.getHost().waitTurn();
+                } else {
+                    restaurant.getHost().seat(restaurant, queue.get(choice - 1), freeTables.get(0));
+                }
+                return;
+            } catch (InvalidActionException e) {
+                ui.showError(e.getMessage());
+            }
+        }
+    }
+
+    /**
      * Phases 2 and 3 for the Waiter: asks for one task and carries it out.
      *
      * <p>Only the tasks possible this turn are listed, but each keeps its fixed
@@ -258,7 +327,7 @@ public class GameController {
     private void doWaiterTask(WaiterTask task, int turn) throws InvalidActionException {
         switch (task) {
             case SEAT -> seatCustomer();
-            case TAKE_ORDER -> takeOrder();
+            case TAKE_ORDER -> takeOrder(turn);
             case SERVE -> serveCustomer(turn);
             case WAIT -> restaurant.getWaiter().waitTurn();
         }
@@ -279,15 +348,20 @@ public class GameController {
 
     /**
      * Asks whose order to take, then takes it. The customer picks the dish, and
-     * the price is locked now, after any discount the customer gets.
+     * the price is locked now: the customer's own discount first (a VIP pays 90%),
+     * then the Happy Hour discount if Happy Hour is on this turn. An order taken
+     * before Happy Hour keeps its price.
      *
+     * @param turn the current turn number, used to check Happy Hour
      * @throws InvalidActionException if the customer cannot order now
      */
-    private void takeOrder() throws InvalidActionException {
+    private void takeOrder(int turn) throws InvalidActionException {
         Customer customer = chooseCustomer("Whose order should the Waiter take?",
                 restaurant.customersToTakeOrder());
         MenuItem item = customer.chooseItem(restaurant.getMenu());
-        Order order = new Order(item, customer.applyDiscount(item.getPriceCents()));
+        int price = customer.applyDiscount(item.getPriceCents());
+        price = PricingPolicy.of(happyHour.isActive(turn)).apply(price);
+        Order order = new Order(item, price);
         restaurant.getWaiter().takeOrder(customer, order);
     }
 
@@ -376,7 +450,8 @@ public class GameController {
     /**
      * Phase 5: every customer not yet served (WAITING, SEATED or ORDERED) loses
      * satisfaction. Served customers lose no more. A customer who reaches 0
-     * leaves for good.
+     * leaves for good. (Happy Hour recovery happens earlier, at the start of
+     * the turn, in {@link #happyHourPhase(int)}.)
      */
     private void waitingAndAbandonment() {
         for (Customer customer : restaurant.getCustomers()) {
