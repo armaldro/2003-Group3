@@ -1,5 +1,6 @@
 package entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,5 +48,33 @@ public class Menu {
         return items;
     }
 
-    // TODO 5 (later, after talking to Rifqi): who decides what a customer orders?
+        /**
+     * Creates the Stage 3 menu: the standard dishes followed by one combo meal
+     * (Salad + Pasta).
+     *
+     * <p>Customers choose by position in the list, so the combo is chosen the
+     * same way as any other dish. It sits at the END so that the standard
+     * dishes keep their positions. {@link #standard()} is unchanged, so the
+     * Stage 1 and Stage 2 runs stay the same.
+     *
+     * <p>creates new MenuItems for combo instead of reading out from Menu.standard()
+     * in case standard menu items are reordered.
+     * 
+     * @return a menu with Salad, Burger, Pasta and the Salad + Pasta combo
+     */
+    public static Menu withCombos() {
+
+        // create new MenuItems objects for Salad and Pasta
+        MenuItem salad = new MenuItem("Salad", 900, 1);
+        MenuItem pasta = new MenuItem("Pasta", 1800, 2);
+
+        // create a ComboMeal item based on new menu item objects created earlier
+        ComboMeal comboMeal = new ComboMeal(salad, pasta);
+
+        // make a list of the standard dishes with the combo added at the end
+        List<MenuItem> items = new ArrayList<>(Menu.standard().getItems());
+        items.add(comboMeal);
+
+        return new Menu(items); 
+    }
 }
