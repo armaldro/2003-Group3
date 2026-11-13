@@ -23,26 +23,30 @@ The game always offers this setting, so that the TA can reproduce our runs.
 | -------- | ----- |
 | Turns    | 18 (the game always runs all 18) |
 | Tables   | 2 |
-| Staff    | 1 Waiter (one task per turn), 1 Chef (one preparation unit per turn), 1 Cashier (one payment per turn) |
-| Arrivals | One customer at the start of turns 1, 4, 7, 10, 13 and 16. From Stage 2, turn 4 is a VIP and turn 10 is a Critic; the rest are Regular |
+| Staff    | 1 Waiter (one task per turn), 1 Chef (one preparation unit per turn), 1 Cashier (one payment per turn). From Stage 3, 1 Host (seats one waiting customer per turn) |
+| Arrivals | One customer at the start of turns 1, 4, 7, 10, 13 and 16. In Stage 2, turn 4 is a VIP and turn 10 is a Critic. From Stage 3, the Critic arrives on turn 7 instead (see below). The rest are Regular |
+| Happy Hour | From Stage 3. The manager can start it once per game, at the start of any turn. It lasts 2 turns, starting with that one. Orders taken during Happy Hour are 20% off, after any VIP discount. At the start of each Happy Hour turn, every customer still waiting for a table or food recovers 15 satisfaction, up to 100 |
 | Victory  | After turn 18: at least 4 paid customers, revenue of at least $45, and average satisfaction of paid customers of at least 60 |
 
-| Menu item | Price  | Preparation units |
-| --------- | ------ | ----------------- |
-| Salad     | $9.00  | 1 |
-| Burger    | $15.00 | 1 |
-| Pasta     | $18.00 | 2 |
+| Menu item | Price  | Preparation units | From |
+| --------- | ------ | ----------------- | ---- |
+| Salad     | $9.00  | 1 | Stage 1 |
+| Burger    | $15.00 | 1 | Stage 1 |
+| Pasta     | $18.00 | 2 | Stage 1 |
+| Salad + Pasta combo | $24.30 (90% of $27.00) | 3 (1 + 2) | Stage 3 |
+
+Customer n orders menu item n, counting round the menu, so with four items customer 5 orders the Salad again.
 
 | Customer | Satisfaction lost per unserved turn | Pays | From |
 | -------- | ----------------------------------- | ---- | ---- |
 | Regular  | 8  | Full price | Stage 1 |
 | VIP      | 5  | 10% off (a $15.00 Burger bills $13.50) | Stage 2 |
-| Critic   | 12 | Full price. Always orders the dish that takes longest to cook (Pasta on the standard menu) | Stage 2 |
+| Critic   | 12 | Full price. Always orders the dish that takes longest to cook: Pasta in Stage 2, the Salad + Pasta combo from Stage 3 | Stage 2 |
 
 ### Turn sequence
 
 1. **Arrivals:** the scheduled customer joins the waiting queue with satisfaction 100.
-2. **Manager choices:** the Waiter seats a customer, takes an order, serves a READY dish or waits. The Chef advances one order by one unit or waits.
+2. **Manager choices:** from Stage 3, the manager is first offered Happy Hour while it is unused, then the Host may seat one waiting customer at the first free table. The Waiter then seats a customer, takes an order, serves a READY dish or waits. The Chef advances one order by one unit or waits.
 3. **Kitchen and serving:** the Waiter acts before the Chef. A dish finished this turn is served next turn at the earliest.
 4. **Eating and payment:** a served customer eats for one turn, then becomes READY_TO_PAY. The Cashier takes one payment per turn, oldest first.
 5. **Waiting and abandonment:** unserved customers lose satisfaction at turn end. A customer who reaches 0 leaves without paying.
@@ -95,7 +99,39 @@ Stage 2 adds VIP and Critic customers. Each type's behaviour lives in its own cl
 
 ### Stage 2 → Stage 3
 
-_To be filled in when `stage-3` is tagged: new files, existing files changed or deleted (with reasons), and the compare link._
+Stage 3 adds the Host, the Salad + Pasta combo and Happy Hour. The Host is a new `Staff` subclass, the combo is a new `MenuItem` subclass, and the Happy Hour price is a separate `PricingPolicy` applied after the customer's own discount, so `Waiter`, `Chef`, `Cashier` and `Order` did not change. The turn sequence gains two steps before the Waiter: the Happy Hour offer and recovery, then the Host. Compare: https://github.com/armaldro/2003-Group3/compare/stage-2...stage-3
+
+**New files**
+
+| File | Owner | Why |
+| ---- | ----- | --- |
+| `src/main/java/entity/Host.java` | Kenz | The Host: a second member of staff who can seat one waiting customer per turn, so the Waiter is free to take an order on the same turn |
+| `src/main/java/entity/ComboMeal.java` | Danial | A menu item made of two dishes: 90% of their combined price, and their preparation units added together |
+| `src/main/java/enums/PricingPolicy.java` | Danial | Normal price or Happy Hour price (80%), applied when an order is taken |
+| `src/main/java/control/HappyHour.java` | Soon How | Happy Hour timing: whether it has been used, and whether it is on during a turn, with the turns left |
+| `testing/HostCheck.java` | Kenz | Checks the Host's seating and waiting |
+| `testing/ComboMealCheck.java`, `testing/MenuCombosCheck.java`, `testing/PricingPolicyCheck.java` | Danial | Check the combo's price and units, the Stage 3 menu, and the Happy Hour price |
+| `testing/CustomerCheck.java`, `testing/SatisfactionRecoveryCheck.java` | Rifqi | Check the customer's states and satisfaction, and the Happy Hour recovery up to 100 |
+| `testing/HappyHourCheck.java` | Soon How | Checks Happy Hour timing: unused at first, on for 2 turns, then off, and only once per game |
+| `testing/stage3-victory-input.txt`, `testing/stage3-victory-output.txt` | Soon How | A reproducible winning Stage 3 game. Happy Hour starts on turn 7, when the Critic arrives, and the Host seats each new customer: 5 paid, $75.24, average satisfaction 83 |
+| `testing/stage3-defeat-input.txt`, `testing/stage3-defeat-output.txt` | Soon How | A reproducible losing Stage 3 game: Happy Hour is never used, the Host and Waiter wait every turn, the Regular on turn 1 and the Critic run out of patience, and nobody pays |
+
+**Changed files**
+
+| File | Owner | Why |
+| ---- | ----- | --- |
+| `src/main/java/control/GameConfig.java` | Soon How | The setting now holds the menu, Happy Hour's length (2 turns) and its recovery (15). The Critic moves from turn 10 to turn 7: with four menu items a Regular customer 4 would also order the combo, so on turn 10 the Critic's twist would not show. As customer 3 the Critic orders the combo where a Regular would order the Pasta |
+| `src/main/java/control/GameController.java` | Soon How | The Happy Hour step (offer while unused, recovery at the start of each Happy Hour turn) and the Host step, both before the Waiter. The Happy Hour price is applied when an order is taken. The restaurant now uses the menu from the setting |
+| `src/main/java/entity/Menu.java` | Danial | `withCombos()`: the standard dishes with the Salad + Pasta combo added at the end, so the standard dishes keep their positions |
+| `src/main/java/entity/Customer.java` | Rifqi | `recoverSatisfaction(points)` and `MAX_SATISFACTION`, for the Happy Hour recovery |
+| `src/main/java/entity/Restaurant.java` | Kenz | Holds the Host, through `getHost()` |
+| `src/main/java/boundary/ConsoleUI.java` | Kenz | Shows the Host's choices, the Happy Hour offer and the Happy Hour status |
+| `testing/GameControllerCheck.java` | Soon How | The Stage 1 and 2 checks now decline Happy Hour and let the Host wait, so they test the same rules. New checks for the Host, Happy Hour, the recovery, the Critic on turn 7 and a full winning and losing Stage 3 game |
+| `README.md` | Soon How | The Stage 3 rules, and this section |
+
+**Deleted files:** none.
+
+**Stage 2 evidence:** the `testing/stage2-*` replays match the game at the `stage-2` tag. They no longer fit the Stage 3 game, because each turn now starts with the Happy Hour offer and the Host. To replay them, check out `stage-2` first.
 
 ## Repository Structure
 
@@ -120,6 +156,8 @@ _To be filled in when `stage-3` is tagged: new files, existing files changed or 
 
 Requires JDK 17 or later.
 
+In Git Bash, macOS or Linux:
+
 ```bash
 # compile
 javac -d out $(find src/main/java -name "*.java")
@@ -127,8 +165,21 @@ javac -d out $(find src/main/java -name "*.java")
 # run
 java -cp out Main
 
+# replay a recorded run
+java -cp out Main < testing/stage3-victory-input.txt
+
 # generate Javadoc
 javadoc -d docs/javadoc -sourcepath src/main/java -subpackages entity:control:boundary:enums:util
+```
+
+In Windows PowerShell, the compile and replay commands are different. The run and Javadoc commands are the same as above.
+
+```powershell
+# compile
+javac -d out (Get-ChildItem src\main\java -Recurse -Filter *.java).FullName
+
+# replay a recorded run
+Get-Content testing\stage3-victory-input.txt | java -cp out Main
 ```
 
 ## Submission Deadline

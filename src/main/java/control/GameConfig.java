@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entity.CriticCustomer;
+import entity.Menu;
 import entity.RegularCustomer;
 import entity.VIPCustomer;
 
@@ -19,6 +20,9 @@ import entity.VIPCustomer;
  */
 public final class GameConfig {
 
+    private final Menu menu;
+    private final int happyHourTurns;
+    private final int happyHourRecovery;
     private final int turns;
     private final int tables;
     private final List<Arrival> arrivals;
@@ -32,6 +36,10 @@ public final class GameConfig {
      * @param turns                     number of turns the game runs
      * @param tables                    number of tables in the restaurant
      * @param arrivals                  who arrives at the start of which turn, in turn order
+     * @param menu                      the dishes and combos customers can order
+     * @param happyHourTurns            how many turns Happy Hour lasts once started
+     * @param happyHourRecovery         satisfaction an unserved customer recovers
+     *                                  each Happy Hour turn
      * @param targetPaidCustomers       fewest paid customers needed for victory
      * @param targetRevenueCents        least revenue needed for victory, in cents
      * @param targetAverageSatisfaction least average satisfaction of paid
@@ -39,12 +47,16 @@ public final class GameConfig {
      * @throws IllegalArgumentException if there is no turn, the arrivals are not
      *                                  in turn order, or one arrives after the last turn
      */
-    private GameConfig(int turns, int tables, List<Arrival> arrivals,
+    private GameConfig(int turns, int tables, List<Arrival> arrivals, Menu menu,
+            int happyHourTurns, int happyHourRecovery,
             int targetPaidCustomers, int targetRevenueCents, int targetAverageSatisfaction) {
         this.arrivals = List.copyOf(arrivals);
         checkArrivals(this.arrivals, turns);
         this.turns = turns;
         this.tables = tables;
+        this.menu = menu;
+        this.happyHourTurns = happyHourTurns;
+        this.happyHourRecovery = happyHourRecovery;
         this.targetPaidCustomers = targetPaidCustomers;
         this.targetRevenueCents = targetRevenueCents;
         this.targetAverageSatisfaction = targetAverageSatisfaction;
@@ -53,12 +65,15 @@ public final class GameConfig {
     /**
      * Returns the base setting: 18 turns, 2 tables, and one customer at the start
      * of turns 1, 4, 7, 10, 13 and 16. The customer on turn 4 is a VIP, the one on
-     * turn 10 is a Critic, and the rest are Regular. Victory needs at least 4 paid
+     * turn 7 is a Critic, and the rest are Regular. Victory needs at least 4 paid
      * customers, $45.00 revenue and an average satisfaction of 60.
      *
-     * <p>The Critic arrives on turn 10 as customer 4, who would order a Salad as a
-     * Regular customer. A Critic always orders the dish that takes longest to cook,
-     * so customer 4 orders a Pasta, and the Critic's twist shows in the game.
+     * <p>The menu has the three dishes and the Salad + Pasta combo. Happy Hour lasts
+     * 2 turns, and each Happy Hour turn an unserved customer recovers 15 satisfaction.
+     *
+     * <p>The Critic arrives on turn 7 as customer 3. A Regular customer 3 would
+     * order the Pasta, but a Critic always orders the dish that takes longest to
+     * cook, the Salad + Pasta combo, so the Critic's twist shows in the game.
      *
      * <p>The schedule is fixed, so every run with the same input gives the same result.
      *
@@ -68,11 +83,38 @@ public final class GameConfig {
         List<Arrival> arrivals = List.of(
                 new Arrival(1, RegularCustomer::new),
                 new Arrival(4, VIPCustomer::new),
-                new Arrival(7, RegularCustomer::new),
-                new Arrival(10, CriticCustomer::new),
+                new Arrival(7, CriticCustomer::new),
+                new Arrival(10, RegularCustomer::new),
                 new Arrival(13, RegularCustomer::new),
                 new Arrival(16, RegularCustomer::new));
-        return new GameConfig(18, 2, arrivals, 4, 4500, 60);
+        return new GameConfig(18, 2, arrivals, Menu.withCombos(), 2, 15, 4, 4500, 60);
+    }
+
+    /**
+     * Returns the menu for this game, including the combo meal.
+     *
+     * @return the menu
+     */
+    public Menu getMenu() {
+        return menu;
+    }
+
+    /**
+     * Returns how many turns Happy Hour lasts once it starts.
+     *
+     * @return the Happy Hour duration, in turns
+     */
+    public int getHappyHourTurns() {
+        return happyHourTurns;
+    }
+
+    /**
+     * Returns the satisfaction an unserved customer recovers each Happy Hour turn.
+     *
+     * @return the recovery points per turn
+     */
+    public int getHappyHourRecovery() {
+        return happyHourRecovery;
     }
 
     /**
