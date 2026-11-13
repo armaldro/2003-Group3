@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 /**
  * Reads the manager's choices from the console, or from a file piped in with
- * {@code java -cp out Main < testing/stage1-victory.txt}.
+ * {@code java -cp out Main < testing/stage1-victory-input.txt}.
  *
  * <p>It only checks that the input is a number in range. Whether the choice is
  * allowed by the game rules is decided by the entity and control classes.
