@@ -173,6 +173,62 @@ public class ConsoleUI {
     }
 
     /**
+     * Displays the Host's choices (Stage 3): 0 to wait, then each queued
+     * customer the Host could seat, starting at 1.
+     *
+     * @param queued the customers waiting for a table, first arrival first
+     */
+    public void showHostChoices(List<Customer> queued) {
+        System.out.println("Host tasks:");
+        System.out.println("  0. Wait");
+        for (int i = 0; i < queued.size(); i++) {
+            System.out.println("  " + (i + 1) + ". Seat " + describe(queued.get(i)));
+        }
+    }
+
+    /**
+     * Displays that the Host cannot seat anyone this turn, because nobody is
+     * waiting or no table is free.
+     */
+    public void showHostIdle() {
+        System.out.println("The Host has nobody to seat.");
+    }
+
+    /**
+     * Displays the Happy Hour status at the start of a turn (Stage 3).
+     *
+     * @param turnsLeft how many turns Happy Hour still covers, counting this
+     *                  one; 0 if it is not active
+     * @param used      true if Happy Hour has already been started this game
+     */
+    public void showHappyHourStatus(int turnsLeft, boolean used) {
+        if (turnsLeft > 0) {
+            System.out.println("Happy Hour: ON, " + turnsLeft + " turn(s) left");
+        } else if (used) {
+            System.out.println("Happy Hour: used");
+        } else {
+            System.out.println("Happy Hour: available (once per game)");
+        }
+    }
+
+    /**
+     * Offers the manager the chance to start Happy Hour this turn (Stage 3).
+     * The numbers come from the game setting, so this method holds no rules.
+     *
+     * @param discountPercent the discount on orders taken during Happy Hour, e.g. 20
+     * @param recoveryPoints  the satisfaction waiting customers recover each
+     *                        Happy Hour turn, e.g. 15
+     * @param durationTurns   how many turns Happy Hour lasts, e.g. 2
+     */
+    public void showHappyHourOffer(int discountPercent, int recoveryPoints, int durationTurns) {
+        System.out.println("Start Happy Hour? It can be used once per game and lasts " + durationTurns
+                + " turns: " + discountPercent + "% off orders taken, and customers waiting for a table"
+                + " or food recover " + recoveryPoints + " satisfaction each turn.");
+        System.out.println("  1. Start Happy Hour now");
+        System.out.println("  2. Not now");
+    }
+
+    /**
      * Displays why the manager's choice was refused.
      *
      * @param message the reason the choice is not allowed
