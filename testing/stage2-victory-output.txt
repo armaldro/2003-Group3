@@ -5,6 +5,7 @@
 
 --- Turn 1 of 18 ---
 Ding! Customer 1 (Regular) has arrived.
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
 Tables:
   Table 1: free
   Table 2: free
@@ -23,8 +24,10 @@ Which table?
   2. Table 2
 Table: 1
 The Chef has nothing to cook.
+End of turn 1: served 0, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 1/18
 
 --- Turn 2 of 18 ---
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
 Tables:
   Table 1: Customer 1 (Regular)
   Table 2: free
@@ -42,8 +45,10 @@ Chef tasks:
   0. Wait
   1. Cook Customer 1 (Regular)'s Salad (1 unit(s) left)
 Chef action: 1
+End of turn 2: served 0, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 2/18
 
 --- Turn 3 of 18 ---
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
 Tables:
   Table 1: Customer 1 (Regular)
   Table 2: free
@@ -58,9 +63,11 @@ Who should be served?
   1. Customer 1 (Regular): ORDERED, satisfaction 84, Salad (Ready)
 Customer: 1
 The Chef has nothing to cook.
+End of turn 3: served 1, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 3/18
 
 --- Turn 4 of 18 ---
 Ding! Customer 2 (VIP) has arrived.
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
 Tables:
   Table 1: Customer 1 (Regular)
   Table 2: free
@@ -79,8 +86,10 @@ Which table?
   1. Table 2
 Table: 1
 The Chef has nothing to cook.
+End of turn 4: served 1, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 4/18
 
 --- Turn 5 of 18 ---
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
 Tables:
   Table 1: Customer 1 (Regular)
   Table 2: Customer 2 (VIP)
@@ -100,8 +109,10 @@ Chef tasks:
   1. Cook Customer 2 (VIP)'s Burger (1 unit(s) left)
 Chef action: 1
 Customer 1 (Regular) paid $9.00.
+End of turn 5: served 1, unhappy departures 0, revenue $9.00, average satisfaction 84, turns used 5/18
 
 --- Turn 6 of 18 ---
+Revenue: $9.00 | Average satisfaction of paid customers: 84
 Tables:
   Table 1: free
   Table 2: Customer 2 (VIP)
@@ -117,9 +128,11 @@ Who should be served?
   1. Customer 2 (VIP): ORDERED, satisfaction 90, Burger (Ready)
 Customer: 1
 The Chef has nothing to cook.
+End of turn 6: served 2, unhappy departures 0, revenue $9.00, average satisfaction 84, turns used 6/18
 
 --- Turn 7 of 18 ---
 Ding! Customer 3 (Regular) has arrived.
+Revenue: $9.00 | Average satisfaction of paid customers: 84
 Tables:
   Table 1: free
   Table 2: Customer 2 (VIP)
@@ -139,8 +152,10 @@ Which table?
   1. Table 1
 Table: 1
 The Chef has nothing to cook.
+End of turn 7: served 2, unhappy departures 0, revenue $9.00, average satisfaction 84, turns used 7/18
 
 --- Turn 8 of 18 ---
+Revenue: $9.00 | Average satisfaction of paid customers: 84
 Tables:
   Table 1: Customer 3 (Regular)
   Table 2: Customer 2 (VIP)
@@ -161,8 +176,10 @@ Chef tasks:
   1. Cook Customer 3 (Regular)'s Pasta (2 unit(s) left)
 Chef action: 1
 Customer 2 (VIP) paid $13.50.
+End of turn 8: served 2, unhappy departures 0, revenue $22.50, average satisfaction 87, turns used 8/18
 
 --- Turn 9 of 18 ---
+Revenue: $22.50 | Average satisfaction of paid customers: 87
 Tables:
   Table 1: Customer 3 (Regular)
   Table 2: free
@@ -178,9 +195,11 @@ Chef tasks:
   0. Wait
   1. Cook Customer 3 (Regular)'s Pasta (1 unit(s) left)
 Chef action: 1
+End of turn 9: served 2, unhappy departures 0, revenue $22.50, average satisfaction 87, turns used 9/18
 
 --- Turn 10 of 18 ---
 Ding! Customer 4 (Critic) has arrived.
+Revenue: $22.50 | Average satisfaction of paid customers: 87
 Tables:
   Table 1: Customer 3 (Regular)
   Table 2: free
@@ -199,8 +218,10 @@ Who should be served?
   1. Customer 3 (Regular): ORDERED, satisfaction 76, Pasta (Ready)
 Customer: 1
 The Chef has nothing to cook.
+End of turn 10: served 3, unhappy departures 0, revenue $22.50, average satisfaction 87, turns used 10/18
 
 --- Turn 11 of 18 ---
+Revenue: $22.50 | Average satisfaction of paid customers: 87
 Tables:
   Table 1: Customer 3 (Regular)
   Table 2: free
@@ -221,8 +242,10 @@ Which table?
   1. Table 2
 Table: 1
 The Chef has nothing to cook.
+End of turn 11: served 3, unhappy departures 0, revenue $22.50, average satisfaction 87, turns used 11/18
 
 --- Turn 12 of 18 ---
+Revenue: $22.50 | Average satisfaction of paid customers: 87
 Tables:
   Table 1: Customer 3 (Regular)
   Table 2: Customer 4 (Critic)
@@ -244,9 +267,11 @@ Chef tasks:
   1. Cook Customer 4 (Critic)'s Pasta (2 unit(s) left)
 Chef action: 1
 Customer 3 (Regular) paid $18.00.
+End of turn 12: served 3, unhappy departures 0, revenue $40.50, average satisfaction 83, turns used 12/18
 
 --- Turn 13 of 18 ---
 Ding! Customer 5 (Regular) has arrived.
+Revenue: $40.50 | Average satisfaction of paid customers: 83
 Tables:
   Table 1: free
   Table 2: Customer 4 (Critic)
@@ -271,8 +296,10 @@ Chef tasks:
   0. Wait
   1. Cook Customer 4 (Critic)'s Pasta (1 unit(s) left)
 Chef action: 1
+End of turn 13: served 3, unhappy departures 0, revenue $40.50, average satisfaction 83, turns used 13/18
 
 --- Turn 14 of 18 ---
+Revenue: $40.50 | Average satisfaction of paid customers: 83
 Tables:
   Table 1: Customer 5 (Regular)
   Table 2: Customer 4 (Critic)
@@ -292,8 +319,10 @@ Who should be served?
   1. Customer 4 (Critic): ORDERED, satisfaction 52, Pasta (Ready)
 Customer: 1
 The Chef has nothing to cook.
+End of turn 14: served 4, unhappy departures 0, revenue $40.50, average satisfaction 83, turns used 14/18
 
 --- Turn 15 of 18 ---
+Revenue: $40.50 | Average satisfaction of paid customers: 83
 Tables:
   Table 1: Customer 5 (Regular)
   Table 2: Customer 4 (Critic)
@@ -315,9 +344,11 @@ Chef tasks:
   0. Wait
   1. Cook Customer 5 (Regular)'s Burger (1 unit(s) left)
 Chef action: 1
+End of turn 15: served 4, unhappy departures 0, revenue $40.50, average satisfaction 83, turns used 15/18
 
 --- Turn 16 of 18 ---
 Ding! Customer 6 (Regular) has arrived.
+Revenue: $40.50 | Average satisfaction of paid customers: 83
 Tables:
   Table 1: Customer 5 (Regular)
   Table 2: Customer 4 (Critic)
@@ -338,8 +369,10 @@ Who should be served?
 Customer: 1
 The Chef has nothing to cook.
 Customer 4 (Critic) paid $18.00.
+End of turn 16: served 5, unhappy departures 0, revenue $58.50, average satisfaction 76, turns used 16/18
 
 --- Turn 17 of 18 ---
+Revenue: $58.50 | Average satisfaction of paid customers: 76
 Tables:
   Table 1: Customer 5 (Regular)
   Table 2: free
@@ -362,8 +395,10 @@ Which table?
   1. Table 2
 Table: 1
 The Chef has nothing to cook.
+End of turn 17: served 5, unhappy departures 0, revenue $58.50, average satisfaction 76, turns used 17/18
 
 --- Turn 18 of 18 ---
+Revenue: $58.50 | Average satisfaction of paid customers: 76
 Tables:
   Table 1: Customer 5 (Regular)
   Table 2: Customer 6 (Regular)
@@ -381,6 +416,7 @@ Waiter tasks:
 Waiter action: 4
 The Chef has nothing to cook.
 Customer 5 (Regular) paid $15.00.
+End of turn 18: served 5, unhappy departures 0, revenue $73.50, average satisfaction 76, turns used 18/18
 
 =================================
            GAME OVER             

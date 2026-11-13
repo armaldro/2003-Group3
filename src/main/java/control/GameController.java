@@ -79,11 +79,14 @@ public class GameController {
         restaurant.getWaiter().startTurn();
         ui.showTurnHeader(turn, config.getTurns());
         handleArrivals(turn);
+        ui.showTurnStatus(getRevenueCents(), getPaidCustomers(), getAverageSatisfaction());
         ui.showRestaurantState(restaurant);
         waiterAction(turn);
         chefAction();
         eatingAndPayment(turn);
         waitingAndAbandonment();
+        ui.showTurnResults(turn, config.getTurns(), getServedCustomers(), getUnhappyDepartures(),
+                getRevenueCents(), getPaidCustomers(), getAverageSatisfaction());
     }
 
     /**
@@ -93,6 +96,39 @@ public class GameController {
      */
     public int getPaidCustomers() {
         return paidCustomers().size();
+    }
+
+    /**
+     * Returns how many customers have been served so far: those eating, ready
+     * to pay or paid.
+     *
+     * @return the number of customers served
+     */
+    public int getServedCustomers() {
+        int served = 0;
+        for (Customer customer : restaurant.getCustomers()) {
+            CustomerState state = customer.getState();
+            if (state == CustomerState.EATING || state == CustomerState.READY_TO_PAY
+                    || state == CustomerState.PAID) {
+                served++;
+            }
+        }
+        return served;
+    }
+
+    /**
+     * Returns how many customers ran out of patience and left without paying.
+     *
+     * @return the number of unhappy departures
+     */
+    public int getUnhappyDepartures() {
+        int departures = 0;
+        for (Customer customer : restaurant.getCustomers()) {
+            if (customer.getState() == CustomerState.LEFT) {
+                departures++;
+            }
+        }
+        return departures;
     }
 
     /**

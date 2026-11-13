@@ -5,6 +5,7 @@
 
 --- Turn 1 of 18 ---
 Ding! Customer 1 (Regular) has arrived.
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
 Tables:
   Table 1: free
   Table 2: free
@@ -16,8 +17,10 @@ Waiter tasks:
   4. Wait
 Waiter action: 4
 The Chef has nothing to cook.
+End of turn 1: served 0, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 1/18
 
 --- Turn 2 of 18 ---
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
 Tables:
   Table 1: free
   Table 2: free
@@ -29,8 +32,10 @@ Waiter tasks:
   4. Wait
 Waiter action: 4
 The Chef has nothing to cook.
+End of turn 2: served 0, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 2/18
 
 --- Turn 3 of 18 ---
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
 Tables:
   Table 1: free
   Table 2: free
@@ -42,9 +47,11 @@ Waiter tasks:
   4. Wait
 Waiter action: 4
 The Chef has nothing to cook.
+End of turn 3: served 0, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 3/18
 
 --- Turn 4 of 18 ---
 Ding! Customer 2 (VIP) has arrived.
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
 Tables:
   Table 1: free
   Table 2: free
@@ -57,8 +64,10 @@ Waiter tasks:
   4. Wait
 Waiter action: 4
 The Chef has nothing to cook.
+End of turn 4: served 0, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 4/18
 
 --- Turn 5 of 18 ---
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
 Tables:
   Table 1: free
   Table 2: free
@@ -71,8 +80,10 @@ Waiter tasks:
   4. Wait
 Waiter action: 4
 The Chef has nothing to cook.
+End of turn 5: served 0, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 5/18
 
 --- Turn 6 of 18 ---
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
 Tables:
   Table 1: free
   Table 2: free
@@ -85,9 +96,11 @@ Waiter tasks:
   4. Wait
 Waiter action: 4
 The Chef has nothing to cook.
+End of turn 6: served 0, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 6/18
 
 --- Turn 7 of 18 ---
 Ding! Customer 3 (Regular) has arrived.
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
 Tables:
   Table 1: free
   Table 2: free
@@ -101,8 +114,10 @@ Waiter tasks:
   4. Wait
 Waiter action: 4
 The Chef has nothing to cook.
+End of turn 7: served 0, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 7/18
 
 --- Turn 8 of 18 ---
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
 Tables:
   Table 1: free
   Table 2: free
@@ -116,8 +131,10 @@ Waiter tasks:
   4. Wait
 Waiter action: 4
 The Chef has nothing to cook.
+End of turn 8: served 0, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 8/18
 
 --- Turn 9 of 18 ---
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
 Tables:
   Table 1: free
   Table 2: free
@@ -131,9 +148,11 @@ Waiter tasks:
   4. Wait
 Waiter action: 4
 The Chef has nothing to cook.
+End of turn 9: served 0, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 9/18
 
 --- Turn 10 of 18 ---
 Ding! Customer 4 (Critic) has arrived.
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
 Tables:
   Table 1: free
   Table 2: free
@@ -148,8 +167,10 @@ Waiter tasks:
   4. Wait
 Waiter action: 4
 The Chef has nothing to cook.
+End of turn 10: served 0, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 10/18
 
 --- Turn 11 of 18 ---
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
 Tables:
   Table 1: free
   Table 2: free
@@ -164,8 +185,10 @@ Waiter tasks:
   4. Wait
 Waiter action: 4
 The Chef has nothing to cook.
+End of turn 11: served 0, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 11/18
 
 --- Turn 12 of 18 ---
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
 Tables:
   Table 1: free
   Table 2: free
@@ -180,9 +203,11 @@ Waiter tasks:
   4. Wait
 Waiter action: 4
 The Chef has nothing to cook.
+End of turn 12: served 0, unhappy departures 0, revenue $0.00, average satisfaction N/A, turns used 12/18
 
 --- Turn 13 of 18 ---
 Ding! Customer 5 (Regular) has arrived.
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
 Tables:
   Table 1: free
   Table 2: free
@@ -199,8 +224,10 @@ Waiter tasks:
 Waiter action: 4
 The Chef has nothing to cook.
 Customer 1 (Regular) ran out of patience and left.
+End of turn 13: served 0, unhappy departures 1, revenue $0.00, average satisfaction N/A, turns used 13/18
 
 --- Turn 14 of 18 ---
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
 Tables:
   Table 1: free
   Table 2: free
@@ -216,8 +243,10 @@ Waiter tasks:
   4. Wait
 Waiter action: 4
 The Chef has nothing to cook.
+End of turn 14: served 0, unhappy departures 1, revenue $0.00, average satisfaction N/A, turns used 14/18
 
 --- Turn 15 of 18 ---
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
 Tables:
   Table 1: free
   Table 2: free
@@ -233,9 +262,11 @@ Waiter tasks:
   4. Wait
 Waiter action: 4
 The Chef has nothing to cook.
+End of turn 15: served 0, unhappy departures 1, revenue $0.00, average satisfaction N/A, turns used 15/18
 
 --- Turn 16 of 18 ---
 Ding! Customer 6 (Regular) has arrived.
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
 Tables:
   Table 1: free
   Table 2: free
@@ -252,8 +283,10 @@ Waiter tasks:
   4. Wait
 Waiter action: 4
 The Chef has nothing to cook.
+End of turn 16: served 0, unhappy departures 1, revenue $0.00, average satisfaction N/A, turns used 16/18
 
 --- Turn 17 of 18 ---
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
 Tables:
   Table 1: free
   Table 2: free
@@ -270,8 +303,10 @@ Waiter tasks:
   4. Wait
 Waiter action: 4
 The Chef has nothing to cook.
+End of turn 17: served 0, unhappy departures 1, revenue $0.00, average satisfaction N/A, turns used 17/18
 
 --- Turn 18 of 18 ---
+Revenue: $0.00 | Average satisfaction of paid customers: N/A
 Tables:
   Table 1: free
   Table 2: free
@@ -289,6 +324,7 @@ Waiter tasks:
 Waiter action: 4
 The Chef has nothing to cook.
 Customer 4 (Critic) ran out of patience and left.
+End of turn 18: served 0, unhappy departures 2, revenue $0.00, average satisfaction N/A, turns used 18/18
 
 =================================
            GAME OVER             
@@ -296,7 +332,7 @@ Customer 4 (Critic) ran out of patience and left.
 Final Stats:
 - Paid Customers: 0 / 4
 - Revenue: $0.00 / $45.00
-- Average Satisfaction: 0 / 60
+- Average Satisfaction: N/A / 60
 Result: Defeat
 
 You did not meet all the required targets. Better luck next rush!
