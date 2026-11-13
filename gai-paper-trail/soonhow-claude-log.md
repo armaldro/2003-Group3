@@ -36,6 +36,12 @@ Anything below that ends up in the submission needs a footnote or in-text refere
 - `src/main/java/control/Arrival.java`, the arrival schedule in `GameConfig.base()`, the new `handleArrivals`, and the Stage 2 checks in `testing/GameControllerCheck.java`: written by Claude (entry 37), following the user's Stage 2 rules and design.
 - The README's customer table, Stage 2 arrivals line and "Stage 1 → Stage 2" draft (entry 37).
 - The Stage 2 design decisions in entry 37, if the report uses them.
+- Claude's review of the user's own Stage 3 code (entries 46 to 48), where the user adopted its points: the `HappyHour.start` guard for a turn below 1, the Happy Hour offer shown after the restaurant state, and the recovery applied at the start of the turn. `HappyHour`, the Stage 3 settings in `GameConfig`, and the Happy Hour and Host phases in `GameController` are the user's.
+- `GameConfig.base()`: Claude swapped the turn 7 and turn 10 customer types and updated the Javadoc (entry 48), on the user's choice of turn 7 for the Critic.
+- `src/main/java/control/GameController.java`: three review fixes made by Claude (entry 49): the "Happy Hour action: " prompt, the restaurant state shown again after the recovery on Happy Hour turns, and the Javadoc wording on Happy Hour's length.
+- `testing/GameControllerCheck.java` (rewritten for Stage 3), `testing/HappyHourCheck.java`, and the Stage 3 replay files `testing/stage3-victory-*` and `stage3-defeat-*`: written or recorded by Claude (entries 48 and 49).
+- The README's Stage 3 rules, "Stage 2 → Stage 3" file list and replay commands (entry 49).
+- The points for the user's individual reflection (entry 50): Claude listed what the record shows for each part of the brief. The reflection's wording is the user's own.
 
 
 ## Before the log started (Sat 31 Oct 2026)
@@ -2249,3 +2255,87 @@ Not committed: your report drafts and `Claude outputs/`.
 **Tell the team:** the Critic now arrives on turn 7, not turn 10. Anything in the report or design discussions that says turn 10 or "the Critic orders Pasta" applies to Stage 2 only.
 
 This is entry 49 of the paper-trail log.
+
+### 50. Points for my individual reflection (Fri 13 Nov 2026)
+
+> Help me think of my individual reflection based on the work completed thus far, what are the difficult parts, managing the turns and so on
+
+The user pasted section 7 of the report with the message: the guidance line (one paragraph, about 150 words, covering what you built, one thing you learned about OO design, one difficulty and how you solved it, and what you would do differently), Rifqi's and Danial's finished reflections, and the empty slots for Kenz and the user. Claude read the user's commits, this log, `report/design-discussion/soonhow.md` and the Stage 3 `GameController`, and compared the controller at the `stage-2` tag with the current branch. It did not write the reflection and changed no report or code files.
+
+Claude's reply:
+
+Here is material for your reflection, taken from the record of what you did. The brief asks for four things in about 150 words, so you need one point for each, not all of them.
+
+**1. What you built**
+- The turn sequence and scoring in `GameController`, the settings in `GameConfig`, and the `HappyHour` class.
+- The integration work: getting `dev` to compile on 7 Nov, merging the team's pull requests, the `stage-1` and `stage-2` tags, and the README.
+- Be exact about authorship, because your GAI acknowledgement is in the same report. It says Claude wrote the Stage 1 turn sequence to your plan. The Stage 3 work (`HappyHour`, the Happy Hour phase and the Host phase) you wrote yourself and I only reviewed it. "I designed the turn sequence and wrote the Stage 3 phases" is accurate. "I wrote GameController" is not.
+
+**2. One difficulty and how you solved it: "this turn or next turn?"**
+This is your "managing the turns" theme, and I think it is your strongest point. Almost every problem in your area was about when something takes effect. Pick one:
+- **Happy Hour timing in Stage 3 (recommended, because the code is yours).** Your first version offered Happy Hour before the restaurant state was shown, so the manager decided without seeing who was waiting. The +15 was given after the loss, but Rifqi's Javadoc said "at turn start". You moved both. The state is now shown again after the recovery, so the numbers on screen match.
+- **A dish finished this turn must not be served until next turn.** Danial's TODO 15 asked where this rule should live. It needs no extra field: the Waiter always acts before the Chef, so any READY dish the Waiter sees was finished earlier. The risk is that swapping two lines breaks it, so the check was run once against a copy with the two swapped, and it printed FAIL. Entry 19 of your log shows I suggested this ordering first, and entry 28 shows you reasoning it through against Danial's TODO. Describe it as a rule you understood and verified, not one you invented.
+- **Eating and paying.** A customer served on turn 3 is ready to pay on turn 4 and pays on turn 5. At Stage 1 nobody could pay sooner than four turns after arriving, so Customer 6 (turn 16) could never pay. That only became clear from working a table by hand.
+
+Other difficulties, if you prefer one of these:
+- **Two Scanners.** You noticed that `ConsoleUI` and `InputReader` each had a Scanner on `System.in` and asked if piped replay files would break. They did: the first Scanner took the whole file. One shared `InputReader` fixed it.
+- **A small change moving the whole game.** Adding the combo as menu item 4 changed what customers order, so the Critic on turn 10 would have looked like a Regular customer. The Critic moved to turn 7. The victory game had to be planned and recorded again at each stage ($66.00, $73.50, $75.24).
+- **Building on unmerged work.** Your Stage 3 code would not compile until Danial's `Menu.withCombos()` and Rifqi's `recoverSatisfaction` were merged in.
+
+**3. One thing you learned about OO design**
+Rifqi already uses the abstract class and Danial uses OCP through `ComboMeal`, so a different point reads better across the four reflections.
+- **Recommended: one method per phase.** Your first `GameController` had everything inside `start()`. The split came from my review (entry 20), so present it as something you learned, which is what the brief asks for. The payoff is your own work: Stage 3 was two new methods (`happyHourPhase`, `hostAction`), two calls in `playTurn` and one pricing line in `takeOrder`. The Stage 1 phases stayed as they were.
+- **Or: the controller passes data, the boundary chooses the words.** Your first version printed "Ding! A new customer has arrived." from the controller through `showMessage(String)`. You replaced it yourself with `showWelcome()`, `showTurnHeader(...)` and `showResults(...)`.
+- **Or: work the scores out from the records.** Revenue is the sum of the paid customers' locked prices, so the VIP discount and the Happy Hour price needed no change to the scoring.
+
+**4. What you would do differently**
+Only you can answer this. The record suggests:
+- Agree the timing rules with the team before coding. The Critic's turn (7 or 10) and when the recovery applies were both settled on 13 Nov, the deadline day.
+- Write the check together with the turn sequence. Each new prompt in Stage 3 broke every saved move script.
+- Merge into `dev` earlier and in smaller pieces. Stage 2 was merged and tagged on 13 Nov, and Stage 3 is going in the same day.
+
+**A shape for the 150 words**
+1. One sentence on what you built.
+2. Two or three sentences on the difficulty, with one real example and its turn numbers.
+3. Two sentences on the OO lesson, naming the methods.
+4. One sentence on what you would do differently.
+
+Write it in your own words, the way Rifqi and Danial did, and send it to me. I will check it against the code and the word count.
+
+**Two things to watch when you write it**
+- Stage 3 is not tagged yet. PR #31 is still open, so describe Stage 3 as work done, not as tagged.
+- `report/report-draft.md` section 7 and the acknowledgement in `report/design-discussion/soonhow.md` still name `claude-conversation-log.md`. The file is now `soonhow-claude-log.md`.
+
+This is entry 50 of the paper-trail log.
+
+### 51. Tagging Stage 3 (Fri 13 Nov 2026)
+
+> done wiht merge and pull successful
+
+Claude confirmed PR #31 and Rifqi's PR #14 were merged and `dev` was at `6e00590` (also containing Kenz's PR #32, documents only). It checked a clean copy of `6e00590`: it compiles with no errors, all 17 check classes pass (286 OK, 0 FAIL), both Stage 3 replays match their saved output (Victory and Defeat), and Javadoc gives 0 warnings. It then created the annotated tag `stage-3` on `6e00590` with the message "Stage 3: Host, combo meal and Happy Hour" and pushed it.
+
+Claude's reply: the checks, the tag and its links, and what is left before submission, as given in the chat.
+
+This is entry 51 of the paper-trail log.
+
+### 52. PR from dev into main (Fri 13 Nov 2026)
+
+> open a PR from dev into main once the team's last documents are in
+
+> go to main
+
+Claude checked GitHub: no PRs were open, and the only branch with commits not in `dev` was `danial/menu-item`, an early `MenuItem` that `dev` has since replaced. `dev` merges into `main` with no conflicts. Still missing from `dev`: the generated Javadoc HTML (`docs/javadoc/` holds only `.gitkeep`), the user's design discussion, Kenz's and the user's reflections, the report PDF and the signed forms. Claude opened PR #33 from `dev` into `main`, with a checklist of those items, noting that the PR follows `dev` and should be merged after the last documents are in.
+
+Claude's reply: the PR link, the checklist of what is still missing, and that the PR should be merged only once those are in `dev`, as given in the chat.
+
+This is entry 52 of the paper-trail log.
+
+### 53. Getting the Javadoc into dev (Fri 13 Nov 2026)
+
+> do again, java doc is in dev now
+
+Claude fetched GitHub: `dev` had not changed since the `stage-3` merge, and `docs/javadoc/` there held only `.gitkeep`. The Javadoc was generated on the user's machine but never committed: 28 class pages for the 28 source files, including the Stage 3 classes, all newer than the last code change. Claude created the branch `docs/javadoc` from `origin/dev`, committed the Javadoc and the GAI log entries 50 to 53 as two commits, pushed the branch, and opened a PR into `dev`. Once it is merged, PR #33 (`dev` into `main`) includes it.
+
+Claude's reply: the Javadoc was only local, the new PR link, and the order to merge (the Javadoc PR into `dev`, then PR #33 into `main`), as given in the chat.
+
+This is entry 53 of the paper-trail log.
