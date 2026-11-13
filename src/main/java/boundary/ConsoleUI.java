@@ -51,7 +51,7 @@ public class ConsoleUI {
      * @param customer the customer who arrived
      */
     public void showCustomerArrived(Customer customer) {
-        System.out.println("Ding! Customer " + customer.getId() + " has arrived.");
+        System.out.println("Ding! " + label(customer) + " has arrived.");
     }
 
     /**
@@ -63,7 +63,7 @@ public class ConsoleUI {
     public void showRestaurantState(Restaurant restaurant) {
         System.out.println("Tables:");
         for (Table table : restaurant.getTables()) {
-            String occupant = table.isFree() ? "free" : "Customer " + table.getOccupant().getId();
+            String occupant = table.isFree() ? "free" : label(table.getOccupant());
             System.out.println("  Table " + table.getNumber() + ": " + occupant);
         }
         System.out.println("Waiting queue: " + customerIds(restaurant.getWaitingQueue()));
@@ -123,7 +123,7 @@ public class ConsoleUI {
         for (int i = 0; i < customers.size(); i++) {
             Customer customer = customers.get(i);
             Order order = customer.getOrder();
-            System.out.println("  " + (i + 1) + ". Cook Customer " + customer.getId() + "'s "
+            System.out.println("  " + (i + 1) + ". Cook " + label(customer) + "'s "
                     + order.getItem().getName() + " (" + order.getUnitsLeft() + " unit(s) left)");
         }
     }
@@ -151,7 +151,7 @@ public class ConsoleUI {
      * @param amountCents the amount paid, in cents
      */
     public void showPayment(Customer customer, int amountCents) {
-        System.out.println("Customer " + customer.getId() + " paid " + Money.format(amountCents) + ".");
+        System.out.println(label(customer) + " paid " + Money.format(amountCents) + ".");
     }
 
     /**
@@ -160,7 +160,7 @@ public class ConsoleUI {
      * @param customer the customer who left
      */
     public void showCustomerLeft(Customer customer) {
-        System.out.println("Customer " + customer.getId() + " ran out of patience and left.");
+        System.out.println(label(customer) + " ran out of patience and left.");
     }
 
     /**
@@ -195,10 +195,10 @@ public class ConsoleUI {
      * Describes one customer on one line: id, state, satisfaction and order.
      *
      * @param customer the customer to describe
-     * @return for example "Customer 3: ORDERED, satisfaction 84, Pasta (Not ready)"
+     * @return for example "Customer 3 (VIP): ORDERED, satisfaction 84, Pasta (Not ready)"
      */
     private String describe(Customer customer) {
-        String text = "Customer " + customer.getId() + ": " + customer.getState()
+        String text = label(customer) + ": " + customer.getState()
                 + ", satisfaction " + customer.getSatisfaction();
         Order order = customer.getOrder();
         if (order != null) {
@@ -208,7 +208,7 @@ public class ConsoleUI {
     }
 
     /**
-     * Lists customers by id, for example "Customer 2, Customer 3".
+     * Lists customers by id and type, for example "Customer 2 (VIP), Customer 3 (Critic)".
      *
      * @param customers the customers to list
      * @return the ids joined by commas, or "none" if the list is empty
@@ -222,8 +222,20 @@ public class ConsoleUI {
             if (text.length() > 0) {
                 text.append(", ");
             }
-            text.append("Customer ").append(customer.getId());
+            text.append(label(customer));
         }
         return text.toString();
+    }
+
+    /**
+     * Names a customer with their type, for example "Customer 2 (VIP)". The type
+     * comes from the customer object itself, so a new customer type needs no
+     * change here.
+     *
+     * @param customer the customer to name
+     * @return the customer's number followed by their type in brackets
+     */
+    private String label(Customer customer) {
+        return "Customer " + customer.getId() + " (" + customer.getTypeName() + ")";
     }
 }

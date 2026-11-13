@@ -37,7 +37,7 @@ what would have gone wrong without it. Leave out any that do not apply.
 
 ## 4. How the player's choices change the result
 
-**A combo on the menu (ComboMeal, Menu.withCombos)**: With one combo at the end of the menu, customer 4 orders it. it's $24.30 but needs 3 units, more than any other dish, so it takes up the chef for three turns. [4] Choosing to cook it first can delay the others. Menu class creates a list of menu items and Rifqi's customer class choose to order from it based on the index of the menu item. e.g. customer 1 orders menu item at index 0 (e.g pasta) and customer 2 orders the next menu item in the list.
+**A combo on the menu (ComboMeal, Menu.withCombos)**: With one combo at the end of the menu, customer 4 orders it. it's $24.30 but needs 3 units, more than any other dish, so it takes up the chef for three turns. [4] Choosing to cook it first can delay the others. For example, if a player chooses to cook burger, then combo, burger will take up 1 turn while combo will take up 4 turns for a total of 5 turns whereas if the player chooses to cook combo first, burger will take up 4 turns and combo will take 3 turns for a total of 7 turns.
 
 ## 5. Open points with teammates
 
