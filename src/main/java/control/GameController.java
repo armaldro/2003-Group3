@@ -9,7 +9,6 @@ import entity.Customer;
 import entity.Menu;
 import entity.MenuItem;
 import entity.Order;
-import entity.RegularCustomer;
 import entity.Restaurant;
 import entity.Table;
 import enums.CustomerState;
@@ -148,14 +147,16 @@ public class GameController {
     }
 
     /**
-     * Phase 1: if a customer is due this turn, a new Regular customer joins the
-     * waiting queue. Customer ids start at 1 and go up by one per arrival.
+     * Phase 1: every customer the schedule in {@link GameConfig} has due this
+     * turn joins the waiting queue. The schedule decides the customer's type, so
+     * this method never needs to change when a new type of customer is added.
+     * Customer ids start at 1 and go up by one per arrival.
      *
      * @param turn the current turn number
      */
     private void handleArrivals(int turn) {
-        if (config.getArrivalTurns().contains(turn)) {
-            Customer customer = new RegularCustomer(nextCustomerId++);
+        for (Arrival arrival : config.arrivalsOn(turn)) {
+            Customer customer = arrival.createCustomer(nextCustomerId++);
             restaurant.addArrival(customer);
             ui.showCustomerArrived(customer);
         }
