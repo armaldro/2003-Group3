@@ -7,11 +7,11 @@ The global file is written for WorkSAFE at SMRT. Most of it does not apply here:
 - This is a **university assignment on GitHub** (`armaldro/2003-Group3`), not a WorkSAFE repo. Ignore the GitLab, `glab`, runner, Azure, SMRT template, Promi and Standards Baseline rules.
 - The repo lives in **OneDrive on purpose**. The "never use OneDrive" rule does not apply to this repo.
 - Use `git` from the **Bash** tool. It is not on the PowerShell PATH. `gh` is installed and logged in as `armaldro`, so PRs can be read and opened with it; opening or merging a PR still needs the user's go-ahead.
-- **JDK 25 is installed** (`javac` and `java` 25.0.5, run from the Bash tool), so compile and run the code rather than reasoning about it. Compile with the README command; for the checks, compile `src/main/java` and `testing/` into one folder outside the repo and run each check class. Checked on 12 Nov 2026: the project compiles and every check passes (155 OK, 0 FAIL on `feature/stage-2-arrivals`).
+- **JDK 25 is installed** (`javac` and `java` 25.0.5, run from the Bash tool), so compile and run the code rather than reasoning about it. Compile with the README command; for the checks, compile `src/main/java` and `testing/` into one folder outside the repo and run each check class. Checked on 13 Nov 2026: the project compiles and every check passes (286 OK, 0 FAIL on `feature/stage-3`).
 
 ## Academic integrity (NTU GAI policy)
-- Every use of Claude must be recorded in `gai-paper-trail/claude-conversation-log.md`: the prompt quoted exactly, Claude's reply in full, and personal details replaced with [brackets]. Add an entry after each request and keep the "To acknowledge in the submission" list up to date.
-- The user is **Teo Soon How**: turn sequence, scoring, Happy Hour timing, stage tags, README and report. Other members' areas belong to them: customers (Rifqi), menu/order/chef/cashier/money (Danial), tables/waiter/host/console (Kenz). Explain or review their code, but don't write it unless asked, and say who owns a file before editing it.
+- Every use of Claude must be recorded in the user's own log, `gai-paper-trail/soonhow-claude-log.md`: the prompt quoted exactly, Claude's reply in full, and personal details replaced with [brackets]. Add an entry after each request and keep the "To acknowledge in the submission" list up to date.
+- The user owns the turn sequence, scoring, Happy Hour timing, stage tags, README and report. Other members' areas belong to them: customers (Rifqi), menu/order/chef/cashier/money (Danial), tables/waiter/host/console (Kenz). Explain or review their code, but don't write it unless asked, and say who owns a file before editing it.
 - Prefer explaining and guiding over writing large amounts of code. The marks reward the group's own design.
 
 ## Code conventions

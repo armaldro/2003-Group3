@@ -4,8 +4,12 @@ GAI paper trail for CT2003 Restaurant Rush, lab group COMP1, Group 3.
 
 - **Tool:** Claude Code, using Claude Opus 5.5 (`claude-opus-5-5`)
 - **Used by:** Teo Soon How
-- **Format:** one entry per request, starting from entry 9. Each prompt is quoted exactly as typed and Claude's reply is copied in full. Local file paths and other personal details are replaced with [brackets].
-- **Earlier entries:** entries 1 to 8, from earlier on Sat 31 Oct 2026, are kept privately outside this repository. The "To acknowledge" list below still covers them.
+- **Format:** one entry per request. Each prompt is quoted exactly as typed. Local file paths and other personal details are replaced with [brackets].
+  - Entries 1 to 7 only summarise Claude's reply. They were written after the fact, before the log was started.
+  - Entries 8 to 31 hold Claude's reply in full.
+  - Entries 32 to 44 summarise Claude's reply. The full replies are in the Claude Code session transcripts kept on my laptop.
+- **Entries 1 to 8:** these were moved out of this file on 31 Oct 2026 (entry 11) and put back on 13 Nov 2026 (entry 45), with the same wording and numbers as in commit `9b165cc`.
+- **Records lost:** [date, to fill in] my laptop was wiped and set up again because of an IT fault outside my control. Two records were lost and could not be recovered: the Claude Code session transcript for Sat 31 Oct 2026, which held the full replies for entries 1 to 7, and the private copy of entries 1 to 8. The prompts and the summaries of entries 1 to 7 survived because they had already been committed to this repository. No other part of the paper trail is affected: the transcripts on the laptop start again on Tue 3 Nov 2026.
 
 ## To acknowledge in the submission
 
@@ -34,7 +38,133 @@ Anything below that ends up in the submission needs a footnote or in-text refere
 - The Stage 2 design decisions in entry 37, if the report uses them.
 
 
+## Before the log started (Sat 31 Oct 2026)
+
+These requests came before the log was started, so their responses are summarised after the fact.
+
+### 1. Wrong project title on GitHub
+
+> why is there a NTU placement for 2003 course? can you resolve and name it properly after 2003 assignment. Do you have my full content for the course from Blackboard in my local folder?
+
+Claude found that the README described an internship placement system from an earlier semester's brief, not this semester's assignment, and checked which course files were available locally.
+
+### 2. Course materials
+
+> [local CT2003 course folder] use this folder to store everything from 2003 [NTULearn course link]
+
+> can you read through what is available first
+
+> i put it here already [local CT2003 course folder]
+
+Claude could not open NTULearn because the browser extension was not connected, so the files were downloaded by hand. Claude then read the assignment brief, the deliverables sheet, the group list, the NTU GAI policy documents and the GradeWay guide.
+
+### 3. README and repository clean-up
+
+> for the assignment can you help me update Github to reflect the correct title first? now some NTU placement internship title
+
+Claude rewrote the README for Restaurant Rush (game rules, stages, repository structure, build commands, submission checklist and marks), removed the old internship data files, added empty folders for the project layout and updated the repository description.
+
+Files: `README.md`, `.gitignore`, `.gitkeep` files in each folder, `data/` removed.
+
+> delete all history and record prior to this
+
+After the user confirmed, Claude replaced the history with a single commit, "Set up Restaurant Rush project structure", and force-pushed it to `main` and `dev`.
+
+> put the final date of submission here too
+
+(Sent with a screenshot of the NTULearn due date.) Claude added the deadline to the README: Fri 13 Nov 2026, 11:59 PM (UTC+8).
+
+> so is this live now?
+
+Claude confirmed the changes were live on GitHub and noted that teammates need to clone the repository again.
+
+### 4. Kickoff deck
+
+> Can you also help me start to study the assignment, list down what needs to be done, propose an allocation to each team member, propose the timeline for us (with enough time to study and review) then propose the milestones for the team. 1st meeting will be today 31st October. make this ppt slide not the [work] template one for sharing later
+
+Claude made a 14-slide kickoff deck covering the brief, the rules that are easy to get wrong, the three stages, the deliverables, a first sketch of the classes, the proposed split of work, a timeline from 31 Oct to 13 Nov and eight milestones.
+
+Output: "Restaurant Rush Kickoff" deck (claude.ai artifact).
+
+### 5. Stage-by-stage plan
+
+> give me the exact details of what needs to be done at which stage, what files etc
+
+Claude listed every file to create or change at each stage with its owner, the tests with their expected numbers, the hand-in folders, how to tag a stage, and five design decisions to settle by Mon 2 Nov.
+
+> make this as a ppt to share with the tema
+
+Claude turned the plan into a 17-slide deck.
+
+Output: "Restaurant Rush Build Plan" deck (claude.ai artifact).
+
+> is this ppt sharable
+
+Claude explained that the decks stay private until they are shared from the Share menu, and that they can be exported as PowerPoint or PDF.
+
+### 6. Team table and Main.java
+
+> ok plan is confirm. can we put the plan consideration simply in readme? just the team member informationw will do.
+> You should not help me write any impoant code. to get us started, can you help me write the main file template so that we can use that as a base for each of us to get started working?
+
+Claude added a Group Members table to the README with names, lab group and responsibilities. Matric numbers were left out because the repository is public. Claude also wrote a placeholder `Main.java` that prints a title line and has a TODO for starting the game; it contains no game logic. It compiled and ran with the README's build commands.
+
+Files: `README.md`, `src/main/java/Main.java`.
+
+> ok now base on this base, teach me what I should do
+
+The user interrupted this request before Claude replied.
+
 ## Log (from Sat 31 Oct 2026)
+
+### 7. Conversation log
+
+> from now on keep an md file on the conversation we have regarding the project
+
+Claude created this log and will add an entry after each request about the project.
+
+Files: `gai-paper-trail/claude-conversation-log.md`.
+
+### 8. Checking the declarations
+
+> can you understand what was the instruction and the declaration that I will underatke, ensure that I do not breach any of those clauses
+
+Claude read the Declaration of Original Work form, the Declaration on Use of GAI Assistance, NTU's GAI guidelines, the brief and the deliverables sheet. It changed this log to record replies in full and added the "To acknowledge in the submission" list.
+
+Files: `gai-paper-trail/claude-conversation-log.md`.
+
+Claude's reply:
+
+I read both forms you'll sign, NTU's GAI guidelines, the brief and the deliverables sheet. This is my reading; the instructor's word is final.
+
+**What you're agreeing to**
+
+- **Declaration of Original Work** (one form, signed by all four of you): the work is the group's own collective effort, and you upheld academic integrity and the Student Code of Academic Conduct, which includes NTU's GAI rules. Plagiarism means lower or no marks and possible disciplinary action. Names must match your matric cards exactly.
+- **Declaration on Use of GAI** (each of you, separately): you tick which GAI use applies (i: key ideas, ii: first text, iii: grammar only, iv: no GAI at all). You also declare that (a) you submitted the full paper trail, (b) every word, paraphrase, significant idea or fact that came from GAI is footnoted, and (c) everything else is your own work.
+- **NTU's GAI guidelines**, the rules behind that form:
+  - The instructor must state which use is allowed.
+  - GAI may never produce the whole submission.
+  - The paper trail must hold both your prompts and the GAI's output, and be kept until the end of the next academic year.
+  - A missing or late paper trail can be presumed improper, and can itself be a violation.
+  - You may be questioned on the work orally.
+
+**Where you could breach them**
+
+Nothing is breached yet, because the declarations are signed at submission. These are the gaps to close before then:
+
+1. **Nobody has said what GAI use is allowed.** Neither the brief nor the deliverables sheet states it. You can't tick option iv, because you've already used me. Ask the instructor in writing which option applies, and say what you've used me for.
+2. **I wrote some of what you'll submit:** the README text, which is already public on GitHub, and the placeholder `Main.java`. If only ideas are allowed (option i), rewrite them in your own words. If first drafts are allowed (option ii), revise them yourselves. Either way, acknowledge them.
+3. **My ideas will end up in the design.** The class structure, the food-choice rule, the Critic options, the test cases and the stage plan came from me. Whatever the team adopts needs a footnote in the report.
+4. **The paper trail is incomplete.** The log only summarises my earlier replies. The full replies exist only in Claude Code's transcript on this computer, which Claude Code deletes after 30 days by default.
+5. **Your teammates sign the originality form too.** Tell them what you've used me for, so they sign knowing it and each declare their own GAI use honestly.
+
+**What I've changed**
+
+- From now on the log records my replies in full, not as summaries. This reply is entry 8 of the log.
+- The top of the log now lists everything that needs acknowledging in the submission.
+- Until the instructor answers, I'll explain, review and answer questions, but I won't write code, README text or report text for the submission. If a request would cross that line, I'll say so before doing anything.
+
+I can draft the email to the instructor, and copy the full session transcript to a private folder on your OneDrive, outside the public repo, so it's kept. Do you want either?
 
 ### 9. How to write Main.java
 
@@ -1913,3 +2043,209 @@ It then merged the latest `origin/dev`, reran the checks, pushed the branch and 
 Claude's reply: the pull request link, the check results, and a message for the team, as given in the chat.
 
 This is entry 43 of the paper-trail log.
+
+### 44. Merging the Stage 2 pull request (Fri 13 Nov 2026)
+
+> help to merge it
+
+Claude checked that `dev` had not moved and that PR #24's head was the commit it had already tested, merged PR #24 with the GitHub CLI (`6cc2f2c`), then built a clean copy of the new `dev` and ran every check (0 FAIL). The `stage-2` tag waits for Kenz's Stage 2 replays.
+
+Claude's reply: the merge result and a message for Kenz, as given in the chat.
+
+This is entry 44 of the paper-trail log.
+
+### 45. Putting entries 1 to 8 back, and the lost records (Fri 13 Nov 2026)
+
+> put in 1 to 9
+>
+> there was a laptop wipe incident due to [work IT] issue. help to include that information without disclosing company information on the declaration
+
+Two earlier requests in this session are not logged, at the user's instruction: a study write-up of the class design, and a question on whether the GAI use so far fits the declaration. This request followed from Claude's answer to the second, which listed entries 1 to 8 as missing from the submitted log.
+
+Claude looked for the private copy of entries 1 to 8 (not found), took their text from commit `9b165cc`, and put them back in this log above entry 9 with their original wording and numbers. It checked the dates of the session transcripts on the laptop (the earliest is Tue 3 Nov 2026). It rewrote the log's header to say which entries hold the reply in full and which summarise it, and added a "Records lost" note. It did not change any code and did not commit.
+
+Files: `gai-paper-trail/claude-conversation-log.md`.
+
+Claude's reply:
+
+Entries 1 to 8 are back in the log, above entry 9, and the incident is noted in the log's header. Nothing is committed. I read "1 to 9" as entries 1 to 8, because entry 9 was already there.
+
+**Entries 1 to 8**
+- The private copy from entry 11 is not in your course folder any more, so I took the text from the first commit that held it (`9b165cc`). The wording and numbers are unchanged.
+- Entries 1 to 7 are summaries of my replies, as they always were. Entry 8 has the reply in full.
+
+**The lost records**
+
+The header now has a "Records lost" note. It says your laptop was wiped and set up again because of an IT fault outside your control, and names no company. It lists what was lost:
+- the session transcript for Sat 31 Oct, which held my full replies for entries 1 to 7;
+- the private copy of entries 1 to 8.
+
+I wrote this from what I can see on the laptop, not from knowing the incident: the earliest transcript here starts on Tue 3 Nov, and the private file is gone. Please check both points are true, and fill in the date of the wipe where the note says "[date, to fill in]".
+
+**Wording for the declaration**
+
+The form has no space for this, so attach it as a note, or write it under declaration (a):
+
+> Note to declaration (a): My laptop was wiped and set up again on [date] because of an IT fault outside my control. The AI tool's own transcript of my first session (Sat 31 Oct 2026) was lost. For that session my paper trail holds every prompt I typed and a summary of each reply, which had already been saved to the group repository. From entry 8 onwards the paper trail is unaffected.
+
+**Two corrections to what I told you earlier**
+- I said ten entries lack the full reply. It is thirteen: entries 32 to 44. The header now says so.
+- The header no longer claims every reply is copied in full. I have not checked each of entries 8 to 31 line by line against the transcripts.
+
+**Still open**
+- The full replies for entries 32 to 44 are in the transcripts on this laptop and can be copied in. The declaration note above is only fully true once that is done.
+- The header names Claude Opus 5.5 as the tool. This session runs on Claude Fable 5.2, so add that if you want the header exact.
+- The instructor's email, Kenz's and Rifqi's logs, and the footnotes in the report.
+
+This is entry 45 of the paper-trail log.
+
+### 45. Starting Stage 3, then tagging Stage 2 (Fri 13 Nov 2026)
+
+> send lets work on stage 3
+
+Claude fetched GitHub and read every Stage 3 branch: Kenz's `kenz/host` (`Host`, `Restaurant.getHost()`, Host and Happy Hour displays), Danial's `danial/stage-3/menu` and `danial/stage-3/happy-hour-pricing` (`ComboMeal`, `Menu.withCombos()`, `PricingPolicy`), and Rifqi's PR #14 (`Customer.recoverSatisfaction`). All merge into `dev` without conflicts. It then asked the user to confirm the Happy Hour, Host and menu rules; the user declined the question and sent the next request.
+
+> Kenz have completed the critic, help to do the necessary and tag stage 2
+
+Claude fetched GitHub and reviewed Kenz's PRs #25 (Stage 2 victory and defeat replays, and the README file list) and #26 (a running score and end-of-turn results; in `GameController` only two display calls in `playTurn` and two read-only counters). It built a clean copy of `dev` at `07aadcc` and checked it: it compiles with no errors (one old `serialVersionUID` lint warning in `InvalidActionException`), every check passes (171 OK, 0 FAIL), both Stage 2 replays end as expected (Victory with 5 paid, $73.50, average 76; Defeat) and match their saved outputs exactly, and Javadoc gives 0 warnings. The `stage1-*` outputs are the Stage 1 evidence (Victory, $66.00) and no longer match the Stage 2 game, as the README explains. Claude then created the annotated tag `stage-2` on `07aadcc` with the message "Stage 2: VIP and Critic customers" and pushed it.
+
+Claude's reply: the checks, the tag, and the Stage 3 next steps, as given in the chat.
+
+This is entry 45 of the paper-trail log.
+
+### 46. Stage 3 branch, GameConfig and HappyHour review (Fri 13 Nov 2026)
+
+> done for GameConfig
+
+> pull latest
+
+> created HappyHour.java
+
+The user had written the Stage 3 settings in `GameConfig` (the menu, how long Happy Hour lasts, and how much satisfaction it gives back) and a new `HappyHour` class for its timing. Claude found that `GameConfig` would not compile on `feature/stage-2-arrivals`, because `Menu.withCombos()` was only on `dev`. Since `stage-2`, `dev` had gained Danial's PRs #27, #28 and #29 (`ComboMeal`, `PricingPolicy`, `Menu.withCombos()`), Kenz's PR #30 (`Host`) and Rifqi's PR #15. None of them touched the user's uncommitted files. Claude created the local branch `feature/stage-3` from `origin/dev`, carrying those files across, then compiled the code, ran every check and ran Javadoc.
+
+Claude's reply:
+
+Pulled. `feature/stage-2-arrivals` didn't have `Menu.withCombos()`, so I started `feature/stage-3` from the latest `dev`, with your two files carried across. Nothing is committed or pushed.
+
+| Check | Result |
+| ----- | ------ |
+| Compile | No errors. Only the old `serialVersionUID` warning |
+| All checks | 248 OK, 0 FAIL |
+| Javadoc | 0 warnings |
+
+Both files look right. Four points:
+
+1. Nothing uses them yet. `GameController` line 51 still builds the restaurant with `Menu.standard()`, and nothing creates a `HappyHour`. That's why `GameControllerCheck` still passes. Once the controller uses `config.getMenu()`, the menu has 4 items instead of 3, so customers 5 and 6 order different dishes and the Critic orders the combo (3 units). The Stage 2 victory moves and expected numbers in `GameControllerCheck` will then need updating.
+2. `HappyHour` uses `startTurn == 0` to mean "not used", so `start(0)` or a negative turn would leave it unused and let it start again. Add `if (turn < 1) throw new IllegalArgumentException(...)` to `start`, with an `@throws` line.
+3. `GameConfig` line 89 needs a blank line between `base()` and the `getMenu()` Javadoc.
+4. `HappyHour` needs its own check, for example `testing/HappyHourCheck.java`: not yet used, active on the start turn, `turnsLeft` counting down, off after its duration, and an error if started twice.
+
+To wire Happy Hour into the controller, I need to know how the manager starts it. Kenz's `showHappyHourOffer` suggests an offer at the start of each turn until it's used. Is that the rule, and does the +15 apply on the start turn too?
+
+This is entry 46 of the paper-trail log.
+
+### 47. GameController review for Stage 3 (Fri 13 Nov 2026)
+
+> done for GameController
+
+The user had wired Stage 3 into `GameController`: the menu from the setting, a `HappyHour` object, a Happy Hour phase after arrivals (offered each turn until used), a Host phase before the Waiter (seats at the first free table), the Happy Hour price after the customer's own discount when an order is taken, and +15 recovery after the satisfaction loss in phase 5 while Happy Hour is on. Claude compiled it: it failed because `Customer.recoverSatisfaction` was only on Rifqi's draft PR #14. Claude merged `origin/feature/happy-hour-recovery` into the local `feature/stage-3` branch without committing (it adds only `recoverSatisfaction`, `MAX_SATISFACTION` and `SatisfactionRecoveryCheck`). Everything then compiled, Javadoc gave 0 warnings, and every check passed except `GameControllerCheck`, whose Stage 2 move scripts don't answer the new Happy Hour and Host prompts. Claude played turns 1 to 3 by hand: Happy Hour started on turn 1, showed "ON, 2 turn(s) left", then "1 turn(s) left", then "used"; the Host seated Customer 1; satisfaction stayed at 100 while Happy Hour was on.
+
+Claude's reply:
+
+Your controller works. I played the first three turns by hand: Happy Hour starts, counts down 2 → 1 → used, the Host seats the customer, and satisfaction holds at 100 while Happy Hour is on.
+
+**What I did to get it compiling.** `recoverSatisfaction` is only on Rifqi's draft PR #14, so I merged his branch into `feature/stage-3` without committing. It adds just that method, `MAX_SATISFACTION` and his `SatisfactionRecoveryCheck`. When our Stage 3 PR merges, his commits go in with it and PR #14 will show as merged.
+
+| Check | Result |
+| ----- | ------ |
+| Compile | No errors |
+| Javadoc | 0 warnings |
+| Other checks | All pass |
+| `GameControllerCheck` | Fails, as expected. Its scripted moves don't answer the new Happy Hour and Host prompts, so they run out of input |
+
+**Points to decide or fix**
+
+1. **Offer before the state.** The Happy Hour offer comes before the turn status and restaurant state, so the manager decides without seeing who is waiting. I'd move `happyHourPhase(turn)` to after `ui.showRestaurantState(restaurant)`.
+2. **Recovery timing.** You recover in phase 5, after the loss. Rifqi's Javadoc on `recoverSatisfaction` says "at turn start". Either is fine, but they should match: ask Rifqi to change his wording, or move the recovery.
+3. **Prompt wording.** The prompt "Happy Hour: " is followed straight away by the "Happy Hour: ON" status line. "Start Happy Hour? " reads better.
+4. **Tidy-ups:** the class Javadoc's phase list doesn't mention Happy Hour or the Host; there's an extra blank line after `hostAction`; and there's no newline at the end of the file. From before: the `HappyHour.start(turn < 1)` guard, and the blank line at `GameConfig` line 89.
+
+**Next:** `GameControllerCheck` needs its move scripts updated for Stage 3, plus a `HappyHourCheck`, the Stage 3 victory and defeat replays, and the README section. I wrote the original check, so I can update it. Tell me to go ahead, and whether you want point 1 changed first, because it doesn't change the inputs but it does change the saved replay output.
+
+This is entry 47 of the paper-trail log.
+
+### 48. Stage 3 checks, the Critic moved to turn 7, and review (Fri 13 Nov 2026)
+
+> updated.
+
+The user had moved the Happy Hour offer after the restaurant state, moved the recovery to the start of the turn (as Rifqi's Javadoc says), changed the prompt to "Start Happy Hour? ", updated the class Javadoc, and added the `start(turn < 1)` guard and the blank line in `GameConfig`. Claude compiled it: everything passed except `GameControllerCheck`. Before rewriting its scripts, Claude found that with the combo as menu item 4, a Regular customer 4 would also order the combo, so the Critic on turn 10 would look like a Regular customer. It asked how the base schedule should show the Critic's twist. The user chose "Critic on turn 7 (Recommended)".
+
+Claude swapped the turn 7 and turn 10 customer types in `GameConfig.base()` and updated its Javadoc. It planned a winning Stage 3 game by hand (Happy Hour started on turn 7 for the Critic, the Host seating each new customer), played it through `Main`, and got the predicted result: Victory, 5 paid, $75.24, average 83. It rewrote `testing/GameControllerCheck.java` for Stage 3 and added `testing/HappyHourCheck.java`. It checked that the new checks can fail by compiling a scratch copy with no recovery and no discount: 7 checks failed. It then ran the `code-review` skill (medium) on the diff.
+
+Claude's reply:
+
+**What I changed**
+- `GameConfig.base()`: the Critic is now on turn 7 and the Regular customer on turn 10, as you chose. The Javadoc says a Regular customer 3 would order the Pasta, but the Critic orders the combo.
+- `testing/GameControllerCheck.java` (mine): every Stage 1 and 2 group is kept, with scripts that decline Happy Hour and have the Host wait, so they still test the same rules. New groups: the Host, Happy Hour (offered until used, 2 turns, 20% off), Happy Hour recovery, and the full Stage 3 victory and defeat games.
+- `testing/HappyHourCheck.java` (new): your class on its own.
+
+| Check | Result |
+| ----- | ------ |
+| All checks | 286 OK, 0 FAIL (17 classes) |
+| Javadoc | 0 warnings |
+| Stage 3 victory moves | Victory: 5 paid, $75.24, average 83 |
+| Can the checks fail? | With no recovery and no discount, 7 checks fail, as they should |
+
+In the winning game the Critic pays $19.44 (20% off the $24.30 combo, ordered in Happy Hour) at 76 satisfaction. Without Happy Hour's recovery it would have been 64.
+
+**Review findings for you (`GameController`, your file)**
+1. **The question shows twice.** Kenz's offer text already starts "Start Happy Hour?", so the prompt repeats it. That was my suggestion, and it was wrong. Use `"Happy Hour action: "`, which matches "Host action:" and "Waiter action:".
+2. **The state block shows satisfaction from before the recovery.** On a Happy Hour turn, the restaurant state prints first and the +15 comes after, so the Host and Waiter lists show different numbers from the state block. I'd print `ui.showRestaurantState(restaurant)` again after the recovery, on Happy Hour turns only. That's two turns per game, and it makes the effect visible.
+3. **The Javadoc fixes a number the setting holds.** Line 210 says "lasts the turn it starts and the next". The length comes from `GameConfig`, so say "lasts the setting's number of turns, starting with this one".
+
+**Not code**
+- The README's new replay commands use `stage2-victory-input.txt`. That file no longer fits the Stage 3 game, so the replay crashes. Stage 3 needs its own replay files. Kenz recorded the Stage 2 ones; I can record Stage 3's from the moves in the check if you prefer.
+- `CLAUDE.md` line 13 still names `claude-conversation-log.md`, which is deleted locally. Line 14 lost "The user is Teo Soon How:" and now starts mid-sentence. When you commit, include both the deletion and the new `soonhow-claude-log.md`.
+
+**Minor, teammates' files**
+- Rifqi: the `recoverSatisfaction` Javadoc hard-codes "15", and the method accepts negative points. His `SatisfactionRecoveryCheck.main` has no Javadoc. Checks aren't in the graded Javadoc, so this is low priority.
+- Danial: `PricingPolicy` has no getter for its percentage, so the controller works it out as `100 - apply(100)`. That's correct at 80%.
+
+Nothing is committed or pushed. Rifqi's branch is merged locally and staged.
+
+This is entry 48 of the paper-trail log.
+
+### 49. Stage 3 fixes, replays, README, push and PR (Fri 13 Nov 2026)
+
+> proceed with this first and help me organise to push out
+
+> check if ready to tag stage 3
+
+Claude made the three review fixes in `GameController`: the Happy Hour prompt is now "Happy Hour action: " (Kenz's offer text already asks the question); on Happy Hour turns the restaurant state is shown again after the recovery; and the Javadoc no longer fixes Happy Hour's length at 2 turns. It recorded `testing/stage3-victory-input.txt` and `-output.txt` (Victory: 5 paid, $75.24, average 83) and `testing/stage3-defeat-input.txt` and `-output.txt` (Defeat: Happy Hour never used, the Host and Waiter wait every turn, customer 1 and the Critic leave, nobody pays). It updated the README with the Stage 3 rules (Host, Happy Hour, the combo, the Critic on turn 7), the Stage 2 → Stage 3 file list and the replay commands. In `CLAUDE.md` it pointed the GAI rule at `soonhow-claude-log.md`, repaired the ownership line, and updated the last-checked line. It committed in four commits (Rifqi's PR #14 merge, the turn sequence, the checks and replays, the README), checked a clean copy of the commit (compiles, 286 OK, 0 FAIL, both replays match exactly, Javadoc 0 warnings), pushed `feature/stage-3`, and opened PR #31 into `dev`. It then committed the GAI log rename, this entry and `CLAUDE.md`, and pushed them to the same PR.
+
+Claude's reply:
+
+**Stage 3 is ready to tag once PR #31 is merged.** https://github.com/armaldro/2003-Group3/pull/31
+
+| Check (clean copy of the branch) | Result |
+| ----- | ------ |
+| Compile | No errors |
+| All checks | 286 OK, 0 FAIL (17 classes) |
+| Stage 3 victory replay | Victory: 5 paid, $75.24, average 83. Matches the saved output |
+| Stage 3 defeat replay | Defeat. Matches the saved output |
+| Javadoc | 0 warnings |
+
+**What's in the PR** (five commits)
+1. Rifqi's PR #14, merged in. Merging #31 merges #14 too.
+2. The turn sequence: Happy Hour and Host phases, and the three review fixes.
+3. The Stage 3 checks and the two Stage 3 replays.
+4. The README: the Stage 3 rules, the Stage 2 → Stage 3 file list, and the replay commands now using the Stage 3 files.
+5. Your GAI log rename (`claude-conversation-log.md` → `soonhow-claude-log.md`, entries up to 49) and `CLAUDE.md`.
+
+Not committed: your report drafts and `Claude outputs/`.
+
+**To tag:** merge PR #31, then tag the merge commit on `dev` as `stage-3` and push the tag. Say the word and I'll do both.
+
+**Tell the team:** the Critic now arrives on turn 7, not turn 10. Anything in the report or design discussions that says turn 10 or "the Critic orders Pasta" applies to Stage 2 only.
+
+This is entry 49 of the paper-trail log.
