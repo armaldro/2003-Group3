@@ -18,3 +18,6 @@ nbproject/
 # OS
 .DS_Store
 Thumbs.db
+
+# Claude Code instructions (local only, not part of the submission)
+CLAUDE.md
