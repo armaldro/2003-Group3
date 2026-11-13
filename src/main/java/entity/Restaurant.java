@@ -23,6 +23,7 @@ public class Restaurant {
     private final Waiter waiter = new Waiter();
     private final Chef chef = new Chef();
     private final Cashier cashier = new Cashier();
+    private final Host host = new Host();
 
     /**
      * Creates a restaurant with empty tables numbered 1 to tableCount.
@@ -211,5 +212,15 @@ public class Restaurant {
      */
     public Cashier getCashier() {
         return cashier;
+    }
+
+    /**
+     * Returns the Host, who seats at most one queued customer per turn on top
+     * of the Waiter's task (Stage 3).
+     *
+     * @return the Host
+     */
+    public Host getHost() {
+        return host;
     }
 }
