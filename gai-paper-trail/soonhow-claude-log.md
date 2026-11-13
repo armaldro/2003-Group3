@@ -2339,3 +2339,179 @@ Claude fetched GitHub: `dev` had not changed since the `stage-3` merge, and `doc
 Claude's reply: the Javadoc was only local, the new PR link, and the order to merge (the Javadoc PR into `dev`, then PR #33 into `main`), as given in the chat.
 
 This is entry 53 of the paper-trail log.
+
+### 54. Adding the presentation slides (Fri 13 Nov 2026)
+
+> include the presentation slide
+
+Claude read the text and speaker notes of all 11 slides in `presentation_slide/Restaurant Rush - CT2003 Group 3 Presentation (Filled).pptx` and scanned them for emails, phone numbers and matriculation numbers (none; only first names). It committed the deck to the `docs/javadoc` branch, pushed it, and renamed PR #34 to "Add generated Javadoc and presentation slides". It compared the slides with the `stage-3` game and listed the places where they still describe Stage 1 or 2.
+
+Claude's reply: the deck is in PR #34, and these slides need updating for the `stage-3` build used in the demo:
+- Slide 6 (Rifqi): the Critic arrives on turn 7, orders the Salad + Pasta combo, and a Regular customer 3 would order Pasta (not "turn 10, Pasta, a Regular would get Salad").
+- Slide 8 (Kenz): the `stage1-*` replays no longer run on the `stage-3` build. Use `testing/stage3-victory-input.txt` (5 paid, $75.24, average 83) and `testing/stage3-defeat-input.txt`. The defeat's average shows as N/A, not 0.
+- Slide 9 (Soon How): at `stage-2` the Critic arrived on turn 10. It moved to turn 7 in Stage 3, because with the combo on the menu a Regular customer 4 would also order the combo.
+- Slides 2, 4 and 5: the turns quoted come from the Stage 1 run (Customer 3's Pasta on turn 10, Customer 1's Salad on turns 2 to 5). On the `stage-3` build each turn also asks about Happy Hour and the Host, so rehearse with the new inputs.
+- Slide 10: the Restaurant now also creates the Host.
+
+This is entry 54 of the paper-trail log.
+
+### 55. Preparing the submission zip (Fri 13 Nov 2026)
+
+> can you help me to prepare for submission to NTU Learn? I need to zip soon, we are working on the final report
+
+> once done which folder should i put in?
+
+Claude fetched GitHub: `stage-1`, `stage-2` and `stage-3` are all pushed, `stage-3` is in `main`, and no pull request is open. It exported `main` at `0310a12` into a new folder `COMP1_Grp3` next to the repository (no `.git`, no `out/`, no `Claude outputs/`), compiled that copy and ran every check and both Stage 3 replays from it. It copied the latest version of this log from disk into the folder, because `main` stops at entry 53, and zipped the folder as `COMP1_Grp3.zip`. It did not commit, push or upload anything.
+
+Claude's reply:
+
+The submission folder is ready except for the report and the forms. It is 23:15 and the deadline is 23:59.
+
+**Where to put the files**
+- Final report PDF: `COMP1_Grp3\report\`
+- Signed Declaration of Original Work and each member's Declaration on Use of GAI Assistance: `COMP1_Grp3\forms\`
+
+Then zip the folder again and upload `COMP1_Grp3.zip` to "Group Assignment Submission" on NTULearn.
+
+| Check (clean copy of `main` at `0310a12`) | Result |
+| ----- | ------ |
+| Compile | No errors (one old `serialVersionUID` warning) |
+| All checks | 286 OK, 0 FAIL (17 classes) |
+| Stage 3 victory and defeat replays | Both match the saved outputs |
+| Javadoc | In `docs/javadoc/`, 101 files |
+| Tags | `stage-1`, `stage-2`, `stage-3` on GitHub. The repository is public |
+
+**Still missing**
+1. The PDF report. `report/` has only the drafts.
+2. The signed forms. `forms/` is empty.
+3. Your reflection. Rifqi, Danial and Kenz have files in `report/reflections/`. Yours is not there, so make sure it is in the PDF.
+4. Your design discussion file is not on `main` and is out of date, so I left it out. The PDF carries the final text.
+5. `main` on GitHub stops at entry 53 of this log. The zip has the latest copy from your disk.
+
+**Zip name:** the brief says `COMP1_Grp3.zip` and the deliverables sheet says `CT2003_AssignmentGroupNumber.zip`. Rename it if the TA told you otherwise.
+
+**My advice:** upload the zip as it is now, as a safety attempt. Attempts are unlimited and the last one counts. Upload again once the PDF and forms are in.
+
+This is entry 55 of the paper-trail log.
+
+### 56. Adding the forms and rebuilding the zip (Fri 13 Nov 2026)
+
+> I updated the GAI form and the pdf is in
+
+Claude looked in the submission folder, the repository and Downloads, and fetched GitHub. The user's signed GAI declaration was in the repository's `forms/` folder, and the Declaration of Original Work was in the submission folder. Rifqi's and Kenz's GAI declarations and the Declaration of Original Work had been pushed to `main` at 23:28 (`af64baa`); nothing else on `main` had changed since the first zip. No report PDF was found. Claude read the user's GAI declaration and the Declaration of Original Work, copied the user's declaration and the two teammates' declarations into the submission folder, copied the latest version of this log, and rebuilt `COMP1_Grp3.zip`. It did not change any form, and did not commit, push or upload anything.
+
+Claude's reply:
+
+The zip is rebuilt with the forms. The report PDF is not in it, and the deadline is 23:59.
+
+**The report PDF is still missing.** I found no report PDF in the submission folder, the repo or Downloads. The newest report file is a Word file in Downloads, `Restaurant Rush - CT2003 Group 3 Report v2.docx` (22:57). Export the final report to PDF and save it in `COMP1_Grp3\report\`.
+
+**What I did**
+- Your GAI declaration was saved in the repo's `forms` folder, not the submission folder. I copied the PDF across.
+- Rifqi and Kenz pushed their GAI declarations to `main` at 23:28. I added both. Nothing else on `main` changed, so the code in the zip is still the checked copy.
+- I rebuilt `COMP1_Grp3.zip` with the latest copy of this log.
+
+| Item | Status |
+| ----- | ------ |
+| Declaration of Original Work | In. All four signatures, dated 13-11-2026 |
+| GAI declaration: Soon How | In |
+| GAI declaration: Rifqi | In (from `main`) |
+| GAI declaration: Kenz | In (from `main`) |
+| GAI declaration: Danial | Missing. It is not on GitHub either |
+| Report PDF | Missing |
+
+**Two typos on page 1 of your GAI declaration**
+- The NTU email has no `@`. It reads `[user ID]e.ntu.edu.sg`.
+- The title reads "Restaurant Rush Group Attendance". I think you mean "Group Assignment".
+
+Fix them in the Word file and export the PDF over the one in `COMP1_Grp3\forms\`, with the same file name.
+
+**What to do now**
+1. Upload the zip as it is now, as a safety attempt.
+2. Save the report PDF in `COMP1_Grp3\report\` and Danial's declaration in `COMP1_Grp3\forms\`.
+3. Tell me "zip" and I will rebuild it, then upload again.
+
+Your GAI declaration and entries 54 to 56 of this log are in the zip but not on GitHub. Nothing is committed or pushed.
+
+This is entry 56 of the paper-trail log.
+
+### 57. Checking Danial's GAI declaration (Fri 13 Nov 2026)
+
+> check danial GAI
+>
+> [path to the submission folder's forms folder]
+
+Claude read `Declaration_GAI_Danial.docx` in the submission folder's `forms` folder: its text, its tick boxes and the one picture in it. It did not change the form. It copied the latest version of this log into the submission folder and rebuilt `COMP1_Grp3.zip`. It did not commit, push or upload anything.
+
+Claude's reply:
+
+Danial's declaration is complete, and it is in the rebuilt zip. The report PDF is still missing.
+
+| Part of Danial's form | Result |
+| ----- | ------ |
+| Name and NTU email | Filled. The email has its `@` |
+| Course, code, instructor, title | Filled |
+| Options | i, ii and iii ticked. iv not ticked. The same as yours |
+| Signature | A signature picture above his name. It is the same signature as on the Declaration of Original Work |
+| Date | 13/11/2026 |
+| Optional reflection questions (page 2) | Blank. They are optional |
+
+**One point:** it is a Word file. The other three declarations are PDFs. It can go in as it is. If there is time, open it in Word, use Save As PDF and save it in the same folder, so the layout and signature cannot shift.
+
+**Still missing:** the report PDF. `COMP1_Grp3\report\` has no PDF.
+
+**Still to fix, if you have not yet:** the two typos on page 1 of your own declaration (the email without `@`, and "Group Attendance").
+
+This is entry 57 of the paper-trail log.
+
+### 58. Naming the zip grp3.zip (Fri 13 Nov 2026)
+
+> grp<assignment_grp#>.<ext> E.g., grp3.pdf [<ext.> can be pdf, doc, zip,]
+
+The user pasted the file-naming rule from the submission page. Claude rebuilt the zip as `grp3.zip`, with the latest version of this log, and removed the old `COMP1_Grp3.zip` so that only one zip is left to upload. The submission folder keeps its name. It did not commit, push or upload anything.
+
+Claude's reply:
+
+The zip is now named `grp3.zip`. I removed `COMP1_Grp3.zip`, so there is only one zip to upload.
+
+- The folder you save files into is unchanged: `COMP1_Grp3\report\` and `COMP1_Grp3\forms\`.
+- The contents are the same as before: the code, the Javadoc, all four GAI declarations, the Declaration of Original Work and the GAI logs.
+- The report PDF is still not in the folder. Name it `grp3.pdf` when you export it, so it follows the same rule if it is opened or uploaded on its own.
+
+Save the PDF into `COMP1_Grp3\report\` and tell me "zip". Upload `grp3.zip` now as a safety attempt if you have not uploaded yet.
+
+This is entry 58 of the paper-trail log.
+
+### 59. Adding the report PDF to the zip (Fri 13 Nov 2026)
+
+> I waiting for the report, hold on
+
+> i placed the files in already
+
+Claude watched the submission folder, the repository and Downloads for the report. At 23:38 the report PDF and its Word file were saved in the repository's `report/` folder. Claude copied the PDF into the submission folder as `report/grp3.pdf`, rebuilt `grp3.zip`, and read the PDF's text (25 pages): the headings, the reflections, the GAI table, the last page and the key numbers. It did not change the report, and did not commit, push or upload anything.
+
+Claude's reply:
+
+`grp3.zip` is complete. Upload it now.
+
+**What I did**
+- The report was saved in the repo's `report` folder, not the submission folder. I copied the PDF into the submission folder as `report\grp3.pdf` and rebuilt the zip. I left the Word file out.
+
+| Check on the report (25 pages) | Result |
+| ----- | ------ |
+| Sections 1 to 8 | All there |
+| Reflections 7.1 to 7.4 | All four filled |
+| Placeholders such as "[ ]" or "TO DO" | None left |
+| Numbers | Match the code: $66.00, $73.50 and average 76, $75.24 and average 83, the Critic on turn 10 in Stage 2 and turn 7 in Stage 3 |
+| GAI table | Names `soonhow-claude-log.md`, the right file |
+
+**Three small things on the last page (section 8.3, the checklist)**
+- It says "Zip name: COMP1_Grp3.zip". The zip is `grp3.zip`.
+- It says "(HappyHour still to add)" about the class diagram.
+- "Four reflections in" is cut off.
+
+This is a working checklist, and the report reads better without it. Only fix it if it takes under five minutes: delete section 8.3 in Word, export the PDF again and tell me "zip". Do not risk the deadline for it.
+
+**Also still open:** the two typos on page 1 of your own GAI declaration.
+
+This is entry 59 of the paper-trail log.
