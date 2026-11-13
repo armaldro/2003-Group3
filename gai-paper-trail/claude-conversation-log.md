@@ -29,6 +29,9 @@ Anything below that ends up in the submission needs a footnote or in-text refere
 - `src/main/java/Main.java`: the single `InputReader` and the private constructor (entry 31).
 - `testing/GameControllerCheck.java` and the Stage 1 replay files `testing/stage1-victory-*`, `stage1-defeat-*` and `stage1-bad-input*`: written by Claude (entry 31). The victory move list is the user's.
 - The Stage 1 design decisions in entry 31, if the report uses them.
+- `src/main/java/control/Arrival.java`, the arrival schedule in `GameConfig.base()`, the new `handleArrivals`, and the Stage 2 checks in `testing/GameControllerCheck.java`: written by Claude (entry 37), following the user's Stage 2 rules and design.
+- The README's customer table, Stage 2 arrivals line and "Stage 1 → Stage 2" draft (entry 37).
+- The Stage 2 design decisions in entry 37, if the report uses them.
 
 
 ## Log (from Sat 31 Oct 2026)
@@ -1647,3 +1650,266 @@ It compiled the project after each code commit and reran `GameControllerCheck`, 
 Claude's reply: the push result, the compare URL, and the steps for the `stage-1` tag once the pull request is merged, as given in the chat.
 
 This is entry 32 of the paper-trail log.
+
+### 33. Opening, merging and tagging Stage 1 (Wed 11 Nov 2026)
+
+> pull
+
+Claude fetched from GitHub. Nothing had changed, and the Stage 1 pull request had not been opened yet.
+
+> how do i tag it
+
+Claude explained the steps: merge the pull request, pull `dev`, build and run the victory replay, then `git tag -a stage-1 -m "Stage 1: basic operation"` and `git push origin stage-1`, and how to delete a tag made on the wrong commit.
+
+> proceed
+
+Claude asked whether to open the pull request and wait for Kenz's review, open, merge and tag straight away, or leave it to the user. The user chose "Open, merge and tag now". Claude opened PR #13 ("Stage 1 turn sequence and scoring", `feature/game-controller` into `dev`) with the GitHub CLI and merged it as merge commit `5609a16`.
+
+> why is it not ready to tag stage 1
+
+Claude explained that the tag goes on `dev`'s merge commit, which did not exist until PR #13 was merged. It built a clean copy of `5609a16` and reran everything: all 8 checks passed (116 OK, 0 FAIL), the victory replay ended in Victory (5 paid, $66.00, average 79) and the defeat replay in Defeat (0 paid).
+
+> tag it
+
+Claude checked that `dev` was still at `5609a16`, created the annotated tag `stage-1` on it with the message "Stage 1: basic operation", and pushed the tag to GitHub.
+
+This is entry 33 of the paper-trail log.
+
+### 34. Team message after the Stage 1 tag (Wed 11 Nov 2026)
+
+> help me draft the message to my team
+
+Claude checked on GitHub that `feature/choose-item` is already in `dev`, that `feature/vip-customer` is 22 commits behind `dev`, and which TODOs are still in the code. It drafted a Teams message for the user to send. It did not send anything.
+
+Claude's reply: the draft message in the chat (the Stage 1 tag, how to pull and run it, and points for Kenz, Danial and Rifqi).
+
+This is entry 34 of the paper-trail log.
+
+### 35. The team message for WhatsApp (Wed 11 Nov 2026)
+
+> format for Whatsapp
+
+Claude reformatted the entry 34 draft for WhatsApp (single-asterisk bold, triple-backtick code, no Markdown headings). The wording is unchanged.
+
+This is entry 35 of the paper-trail log.
+
+### 36. Stage 2 plan: finding the brief (Wed 11 Nov 2026)
+
+> # Task: Stage 2 (VIP and Critic customers), my part only, ready to tag `stage-2`
+>
+> Read README.md and CLAUDE.md first. I'm Teo Soon How. For Stage 2 my part is the arrival schedule, any turn-sequence or scoring change the new customers need, the replay evidence, the README "Stage 1 → Stage 2" section and the `stage-2` tag. The customer classes themselves are Rifqi's.
+>
+> ## Where things stand (checked Wed 11 Nov, 23:00)
+>
+> - `stage-1` is on `5609a16`, which is also `origin/dev`. It compiles, all checks pass, and the victory and defeat replays end as expected.
+> - Rifqi's `feature/vip-customer` adds only `VIPCustomer.java`, which loses 5 satisfaction per turn and takes 10% off via `applyDiscount`. It merges into dev cleanly and compiles.
+> - **There's no Critic yet.** No branch or class exists. Stage 2 can't be tagged without it.
+> - **Arrivals are hard-coded to RegularCustomer.** `GameController.handleArrivals` always creates one, and `GameConfig` only knows arrival turns, not types. That's the main Stage 2 change in my files.
+> - `ConsoleUI.showCustomerArrived` prints "Customer 3 has arrived" with no type, and nothing in `Customer` returns a type label.
+> - GAI log entry 33 is still uncommitted from the stage-1 tag. Include it in this PR.
+>
+> ## Step 0: read the brief and stop
+>
+> Open the assignment brief on this PC and quote me the exact Stage 2 rules for:
+> 1. VIP: satisfaction loss, discount, and anything else, such as priority seating or patience.
+> 2. Critic: every rule, including anything that changes scoring or victory, such as a review that counts extra, a revenue or satisfaction penalty, or a bonus.
+> 3. Stage 2 arrivals: which turns bring which customer type, and whether the base setting changes or a new setting is added.
+> 4. Anything Stage 2 changes in the turn sequence.
+>
+> Compare VIPCustomer with the brief and list any mismatches. Then **stop and wait for me**. Don't write code before I confirm the rules.
+>
+> ## Scope: what to write after I confirm
+>
+> Only my files: `control/` (GameController, GameConfig), `Main.java` if the setting choice needs it, `testing/`, README, and the GAI log. For anyone else's file, stop, say who owns it and what exact change it needs, and wait. Expected cases:
+> - `CriticCustomer.java` is Rifqi's to write. If he hasn't pushed it, give me the class contract (what it must override and what it returns) so I can send it to him.
+> - If Customer needs a type label for display, that's a Rifqi change. A one-line ConsoleUI change to show the type is Kenz's area; I'll approve it if it's needed.
+>
+> ### 1. Arrival schedule with customer types (GameConfig)
+> - Replace `List<Integer> arrivalTurns` with an ordered schedule saying which type of customer arrives on which turn.
+> - Keep it easy to read in the report. My preference: a small `CustomerType` enum (REGULAR, VIP, CRITIC) and an arrival entry holding turn + type. Turning a type into an object happens in **one** place, a factory method in control. No `instanceof` or type switches anywhere else.
+> - If you think `IntFunction<Customer>` (for example `VIPCustomer::new`) is cleaner, show me both and say why.
+> - Keep `GameConfig.base()` reproducible. If the brief's Stage 2 arrivals differ from the base setting, follow the brief and say which you did.
+> - Adding a new customer type must touch only the enum, the factory and the new class, never the turn sequence. Say so in the Javadoc and in the design-decisions note.
+>
+> ### 2. Turn sequence
+> - `handleArrivals` uses the schedule and the factory.
+> - VIP needs no other controller change: its satisfaction loss and discount already work through `getSatisfactionLoss()` and `applyDiscount()`. Confirm this, and confirm the VIP price is what gets added to revenue.
+> - Only add what the brief's Critic rules need. Put a rule in the Critic class if it's customer behaviour (Rifqi), and in the controller if it's scoring or turn order (me). For each rule, tell me which side it goes on and why before writing it.
+>
+> ### 3. Scoring
+> - If the Critic changes scoring or victory, put it in `GameController`'s scoring methods. Keep `getPaidCustomers`, `getRevenueCents` and `getAverageSatisfaction` honest, and add a separate method for the Critic effect rather than hiding it inside the average.
+> - `showResults` must show any new figure. If that needs a ConsoleUI change, tell me.
+>
+> ## Evaluations (all must pass before I tag)
+>
+> 1. **Compile:** the README `javac` command gives no errors and no warnings.
+> 2. **Checks:** all of `testing/` prints OK, with no FAIL lines. Give me the counts per check class.
+> 3. **GameControllerCheck additions:**
+>    - The schedule creates the right type on the right turn.
+>    - A VIP loses 5 per unserved turn and pays 90% of the price, rounded by `Money.percentOf`, and that price is the one counted in revenue.
+>    - Each Critic rule from the brief has one check.
+>    - Existing stage 1 rules still pass.
+> 4. **Stage 2 victory replay:** `testing/stage2-victory-input.txt` and its output, ending in Victory. Work the plan out by hand first, as we did for stage 1, and show me the payment turns, prices and satisfaction table before building the file.
+> 5. **Stage 2 defeat replay:** input and output, ending in Defeat. If the brief has a Critic-specific failure, show it, for example a Critic leaving or giving a bad review.
+> 6. **Stage 1 replays:** if the base setting is unchanged, `stage1-*` replays must still give the same result. If it changed, say so. The stage-1 evidence stays valid at the `stage-1` tag, and the README needs to explain this.
+> 7. **Javadoc:** `javadoc -Xdoclint:all ...` gives no errors. List any warnings by file and owner.
+> 8. **Ownership:** `git diff origin/dev --stat`. Every file must be mine or approved.
+>
+> ## Finishing
+>
+> - **README:** fill in "Stage 1 → Stage 2":
+>   - new files, plus existing files changed or deleted, each with a one-line reason;
+>   - the compare link `https://github.com/armaldro/2003-Group3/compare/stage-1...stage-2`.
+>   Draft it now and fill in the final file list after Rifqi's merge.
+> - **GAI log:** add the entries and update the "To acknowledge" list. End with a "Stage 2 design decisions" note I can copy into the report.
+> - **Stop and show me the results.** Don't commit, push or tag until I approve. Then:
+>   1. Make small commits.
+>   2. Push a `feature/stage-2-arrivals` branch off dev and give me the compare URL.
+>   3. After Rifqi's VIP and Critic PRs and my PR are all merged, check out a clean copy of `origin/dev` and rerun every evaluation.
+>   4. Only then: `git tag -a stage-2 origin/dev -m "Stage 2: VIP and Critic customers"`, then `git push origin stage-2`. Show me the hash and the tag URL.
+
+Claude looked for the assignment brief in the course folder, Downloads, Desktop and Documents, and listed the names of the files inside two downloaded zip archives. The brief was not there (only the lecture chapters). It also read `VIPCustomer.java` on `feature/vip-customer` and checked GitHub for a Critic branch. It did not write any code and stopped at Step 0, as the plan asks.
+
+Claude's reply: that the brief is not on this PC, what it found about `VIPCustomer` and the Critic, and what it needs from the user to finish Step 0, as given in the chat.
+
+This is entry 36 of the paper-trail log.
+
+### 37. Stage 2: the arrival schedule (Wed 11 Nov 2026)
+
+> Here are the Stage 2 rules. Use these:
+>
+> VIP
+> - Loses 5 satisfaction per unserved turn.
+> - Gets 10% off the bill. A $15.00 Burger bills $13.50, and revenue counts $13.50.
+>
+> Critic
+> - Loses 12 satisfaction per unserved turn.
+> - Pays full price.
+> - Has one extra behaviour (the "twist"). Rifqi is still deciding it. It must work through the Critic class, not if-checks in the game loop.
+>
+> Arrivals
+> - Still 6 arrivals, on turns 1, 4, 7, 10, 13 and 16.
+> - Turn 4 is a VIP, turn 7 is a Critic, the rest are Regular.
+> - The run must be reproducible, with at least 1 VIP and 1 Critic.
+>
+> Design rules
+> - No instanceof or type checks anywhere. Each customer type's behaviour comes from its own class.
+> - Display shows the type through a getTypeName() method on Customer (Rifqi adds it).
+> - GameController, Waiter, Chef, Cashier and Order should stay untouched where possible, to show new customer types plug in without changing the game loop.
+> - Same win and lose rules as stage 1.
+>
+> My part for Stage 2, and only this:
+> 1. Arrival schedule in control/: each arrival is a turn plus a constructor reference (IntFunction<Customer>, e.g. VIPCustomer::new). No enum, no switch.
+> 2. GameController.handleArrivals gets the customer from the schedule. This is the only GameController change, because stage 1 hard-coded RegularCustomer. Give me one README line explaining that.
+> 3. GameControllerCheck: the right type arrives on turns 4 and 7; a VIP Burger bills $13.50 and revenue counts $13.50; a Critic loses 12 per turn.
+> 4. Draft the README "Stage 1 -> Stage 2" section, then the stage-2 tag at the end.
+>
+> Not mine, so contracts only, no code:
+> - Rifqi: CriticCustomer (loses 12, full price, his twist) and getTypeName() on Customer.
+> - Kenz: showing the type in ConsoleUI using getTypeName(), and the win/loss run files.
+>
+> Write and test my part against VIPCustomer now. Add the Critic arrival once Rifqi pushes. Stop before committing and show me the results.
+
+Claude made a local branch `feature/stage-2-arrivals` off `origin/dev` and copied Rifqi's `VIPCustomer.java` from `feature/vip-customer` into the working tree, untracked, so the code could be compiled and tested against it. It wrote `control/Arrival.java`, changed `GameConfig` to hold a list of arrivals (turn 7 stays Regular, marked with a TODO, until `CriticCustomer` exists), changed `GameController.handleArrivals` to create each customer from the schedule, added Stage 2 checks to `testing/GameControllerCheck.java`, and drafted the README's customer table, base-setting arrivals and "Stage 1 → Stage 2" section. It compiled and ran every check, ran the stage 1 replays on the new schedule, tried the check against a scratch copy with `RegularCustomer` hard-coded back into `handleArrivals`, ran Javadoc into a temporary folder, and ran the ownership check. It did not commit or push.
+
+Claude's reply: the results, the contracts for Rifqi and Kenz, and what is left before the `stage-2` tag, as given in the chat.
+
+#### Stage 2 design decisions (for the report)
+
+1. **Each arrival is a turn plus a constructor reference.** `Arrival` holds the turn and an `IntFunction<Customer>`, for example `new Arrival(4, VIPCustomer::new)`. Turning a type into an object happens in one place, `Arrival.createCustomer(id)`. There is no enum, no `switch` and no `instanceof`.
+2. **Adding a customer type needs only the new class and one schedule entry.** `GameController.handleArrivals` asks each due `Arrival` to create its customer, so the turn sequence does not change when a type is added. This is the open-closed principle: the game loop is closed to change but open to new customer types.
+3. **Each type's behaviour lives in its own class.** The VIP needed no controller change: its satisfaction loss comes through `getSatisfactionLoss()` and its price through `applyDiscount()`, which the controller already called in Stage 1. The discounted price is locked in the `Order`, so revenue counts $13.50 for a VIP Burger. This is polymorphism replacing type checks.
+4. **The only `GameController` change is in `handleArrivals`,** because Stage 1 hard-coded `new RegularCustomer(...)`. `Waiter`, `Chef`, `Cashier`, `Order` and `Restaurant` did not change.
+5. **The schedule is fixed in `GameConfig.base()`,** so every run with the same input gives the same result, with one VIP (turn 4) and one Critic (turn 7).
+6. **The checks recognise a customer's type by its behaviour,** such as satisfaction lost per turn, not by its class, so the tests follow the same no-type-check rule as the game.
+7. **The stage 1 evidence stays valid at the `stage-1` tag.** On the Stage 2 schedule the same moves still win, but the VIP's lower price and slower satisfaction loss change the revenue and the average, so the check confirms the outcome and the exact Stage 1 scores stay with the `stage-1` tag.
+
+This is entry 37 of the paper-trail log.
+
+### 38. Is Stage 2 ready to tag? (Thu 12 Nov 2026)
+
+The user ran `/code-review` on the uncommitted Stage 2 changes, which reported 9 findings, then asked:
+
+> are we ready to tag for stage 2?
+
+Claude fetched from GitHub and checked what had changed: Kenz's PRs #16 and #18 on `dev` (`Restaurant.getCashier()`, `GameController` switched to it, regenerated stage 1 outputs, echoed piped input), Rifqi's open PR #7 (`VIPCustomer`, `CriticCustomer`, `VIPCriticCheck`), and whether `getTypeName()` or any Stage 2 replay files exist yet. It did not change any code.
+
+Claude's reply: not yet, with the list of what blocks the tag and which review findings to fix in the user's files, as given in the chat.
+
+This is entry 38 of the paper-trail log.
+
+### 39. Stage 2: review fixes and catching up with dev (Thu 12 Nov 2026)
+
+The user pasted a plan titled "Stage 2 Completion and Release Preparation". It listed the six blockers from entry 38, asked Claude to correct CLAUDE.md (JDK 25 is installed), and asked for review findings 2, 4, 7, 8 and 9 now, with findings 1 and 6 (the Critic on turn 7, and type checks on all six turns) after Rifqi's PR #7 is merged. It ended: "Do not create the stage-2 tag until all of the following are true: PR #7 has been merged. ConsoleUI displays customer types. Stage 2 replay files exist. Critic integration is complete. All review findings have been resolved. All tests pass. A clean checkout of dev verifies successfully."
+
+Claude pointed out that deleting the untracked `VIPCustomer` copy would stop the branch compiling, because `GameConfig.base()` uses `VIPCustomer::new`. It asked how to proceed, and the user chose "Merge Rifqi's branch (Recommended)".
+
+Claude then:
+- deleted the copy, fast-forwarded `feature/stage-2-arrivals` to the latest `origin/dev` (`133b622`), and merged `origin/feature/vip-customer` (`ac00608`), so Rifqi's `VIPCustomer`, `CriticCustomer` and `VIPCriticCheck` come in under his own commits
+- updated `CLAUDE.md`: JDK 25 is installed, `gh` is installed, and the date and result of the last full check run
+- `GameConfig`: added `arrivalsOn(turn)`, and constructor checks that refuse a schedule with no turns, out of turn order, or past the last turn; corrected the `base()` Javadoc to match the code (turn 7 is still Regular until PR #7 is merged)
+- `GameController.handleArrivals`: now uses `config.arrivalsOn(turn)`
+- `Arrival` Javadoc: reworded so it does not claim a new type touches nothing else
+- `GameControllerCheck`: pinned the full-game revenue ($64.50) and average (80), checked the type of all six arrivals by behaviour, checked `arrivalsOn`, guarded the list lookups, and narrowed the VIP revenue check to the payment turn
+- `README.md`: rewrote the Stage 2 parts to describe only what is merged and checked, including Kenz's Stage 1 follow-up changes
+
+It compiled the project, ran every check, the stage 1 replays and Javadoc, tested two invalid schedules on a scratch copy, ran a code review and fixed the findings that held up. It did not commit or push, and it did not switch turn 7 to the Critic.
+
+Claude's reply: the results, which review findings were fixed or left and why, and the remaining steps, as given in the chat.
+
+This is entry 39 of the paper-trail log.
+
+### 40. What to ask Rifqi and Kenz for (Thu 12 Nov 2026)
+
+> what do I need to do for Rifqi and Kenz
+
+Claude checked GitHub (no new pushes: PR #7 still has no `getTypeName()`, and there are no Stage 2 replay files), ran the stage 1 moves on a scratch copy with the Critic on turn 7 to get the numbers Kenz needs (Victory with $64.50 and an average of 78; in the defeat moves Customers 1 and 3 leave), and drafted a WhatsApp message for each of them. It did not send anything or change any repo files apart from this log.
+
+Claude's reply: the order of work, and the two draft messages, as given in the chat.
+
+This is entry 40 of the paper-trail log.
+
+### 41. Merging Rifqi's PR #7 and the Critic on turn 10 (Fri 13 Nov 2026)
+
+> from rifqi, help to pull and merge
+
+The user attached a screenshot of the team chat. Rifqi wrote that `getTypeName()` was pushed to PR #7 with a check that a Critic as customer 4 orders Pasta where a Regular would order Salad, and asked: "Critic on turn 10, right? Your DM said 7." and "i can just merge?"
+
+Claude fetched PR #7, read Rifqi's `getTypeName()` commit, built and tested `dev` with PR #7 merged in a scratch copy (every check passed), then merged PR #7 with the GitHub CLI (`063d6a5`) and merged the new `dev` into `feature/stage-2-arrivals` (`457cda5`). It ran the game on scratch copies with the Critic on turn 7 and on turn 10, and found a winning turn-10 game. It asked which turn to use: on turn 7 the Critic is customer 3, who orders Pasta anyway, so the twist never shows; on turn 10 it is customer 4, who would order Salad. The user chose "Turn 10 (Recommended)".
+
+Claude then put the Critic on turn 10 in `GameConfig.base()`, added `criticCheck` and a winning Stage 2 move list to `GameControllerCheck` (5 paid, $73.50, average 76), checked the type of all six arrivals, checked that the Critic leaves in the defeat moves, and updated the README. It ran every check (171 OK, 0 FAIL before the review fixes), Javadoc (0 warnings), and a scratch copy with turn 10 turned back into a Regular (10 checks fail). It ran a code review and fixed three findings: `GameConfig` now validates its own copy of the schedule, `Arrival.createCustomer` refuses a null customer, and the check's class Javadoc no longer says the Critic comes later. It did not commit or push.
+
+#### Stage 2 design decision added
+8. **The Critic arrives on turn 10, not turn 7.** Customers order by the rule (id - 1) mod 3, so customer 3 orders Pasta anyway and a Critic there would look no different. On turn 10 the Critic is customer 4, who would order a Salad, so its Pasta order shows the Critic's twist in the game and in the replays. The stage 1 moves no longer fit, because the Pasta needs a second unit of cooking, so Stage 2 has its own winning moves.
+
+Claude's reply: the merge, the results, and what is left for Kenz and the tag, as given in the chat.
+
+This is entry 41 of the paper-trail log.
+
+### 42. Checking the latest on GitHub (Fri 13 Nov 2026)
+
+> check latest
+
+Claude fetched from GitHub and listed what had been merged into `dev` since the Stage 2 branch was last updated: Kenz's PRs #19 (customer type shown in `ConsoleUI` with `getTypeName()`, and the matching one-line update in `GameControllerCheck`) and #20 (the `InputReader` Javadoc file name), and Danial's PRs #21 to #23 (his reflection, design discussion and GAI paper trail). It checked that the Stage 2 replay files do not exist yet, that Kenz has started `kenz/host` for Stage 3, and that `dev` merges into `feature/stage-2-arrivals` without conflicts. It did not change any code.
+
+Claude's reply: the status and the next steps, as given in the chat.
+
+This is entry 42 of the paper-trail log.
+
+### 43. Pushing Stage 2 and opening the pull request (Fri 13 Nov 2026)
+
+While Claude was answering entry 42, the user sent two screenshots of the team chat. In them Kenz asks Soon How to push the Critic-on-turn-10 branch and open the pull request so he can record the Stage 2 replays, the team agrees to meet at 8 or 8:30 pm, and Rifqi has updated the class diagram and his part of the report.
+
+Claude asked whether to merge the latest `dev`, commit, push and open the pull request. The user chose "Commit, push, open PR (Recommended)", without merging it.
+
+Claude made four commits on `feature/stage-2-arrivals`, each ending with a `Co-Authored-By: Claude` line:
+- "Add arrival schedule with VIP and Critic to GameConfig"
+- "Add Stage 2 checks to GameControllerCheck"
+- "Update README and CLAUDE.md for Stage 2"
+- "Add GAI log entries 33 to 43"
+
+It then merged the latest `origin/dev`, reran the checks, pushed the branch and opened a pull request into `dev`. It did not merge the pull request. `Claude outputs/`, `report/design-discussion/soonhow.md` and `report/report-draft.md` were left out of the commits.
+
+Claude's reply: the pull request link, the check results, and a message for the team, as given in the chat.
+
+This is entry 43 of the paper-trail log.

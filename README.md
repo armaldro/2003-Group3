@@ -24,7 +24,7 @@ The game always offers this setting, so that the TA can reproduce our runs.
 | Turns    | 18 (the game always runs all 18) |
 | Tables   | 2 |
 | Staff    | 1 Waiter (one task per turn), 1 Chef (one preparation unit per turn), 1 Cashier (one payment per turn) |
-| Arrivals | One customer at the start of turns 1, 4, 7, 10, 13 and 16 |
+| Arrivals | One customer at the start of turns 1, 4, 7, 10, 13 and 16. From Stage 2, turn 4 is a VIP and turn 10 is a Critic; the rest are Regular |
 | Victory  | After turn 18: at least 4 paid customers, revenue of at least $45, and average satisfaction of paid customers of at least 60 |
 
 | Menu item | Price  | Preparation units |
@@ -32,6 +32,12 @@ The game always offers this setting, so that the TA can reproduce our runs.
 | Salad     | $9.00  | 1 |
 | Burger    | $15.00 | 1 |
 | Pasta     | $18.00 | 2 |
+
+| Customer | Satisfaction lost per unserved turn | Pays | From |
+| -------- | ----------------------------------- | ---- | ---- |
+| Regular  | 8  | Full price | Stage 1 |
+| VIP      | 5  | 10% off (a $15.00 Burger bills $13.50) | Stage 2 |
+| Critic   | 12 | Full price. Always orders the dish that takes longest to cook (Pasta on the standard menu) | Stage 2 |
 
 ### Turn sequence
 
@@ -54,7 +60,38 @@ Each stage is a separate runnable version, tagged in this repository.
 
 ### Stage 1 → Stage 2
 
-_To be filled in when `stage-2` is tagged: new files, existing files changed or deleted (with reasons), and the compare link._
+Stage 2 adds VIP and Critic customers. Each type's behaviour lives in its own class, so the new types needed no change to `Waiter`, `Chef`, `Cashier` or `Order`, and the only turn-sequence change is in `handleArrivals`. Compare: https://github.com/armaldro/2003-Group3/compare/stage-1...stage-2
+
+**New files**
+
+| File | Owner | Why |
+| ---- | ----- | --- |
+| `src/main/java/entity/VIPCustomer.java` | Rifqi | The VIP: loses 5 satisfaction per turn and gets 10% off |
+| `src/main/java/entity/CriticCustomer.java` | Rifqi | The Critic: loses 12 satisfaction per turn, pays full price, and always orders the dish that takes longest to cook |
+| `src/main/java/control/Arrival.java` | Soon How | One scheduled arrival: the turn and which type of customer arrives |
+| `testing/VIPCriticCheck.java` | Rifqi | Checks the VIP's and the Critic's satisfaction loss, prices, dish choice and type names |
+| `testing/stage2-victory-input.txt`, `testing/stage2-victory-output.txt` | Kenz | A reproducible winning Stage 2 game with the VIP (turn 4) and the Critic (turn 10): 5 paid, $73.50, average satisfaction 76. Replay with `java -cp out Main < testing/stage2-victory-input.txt` |
+| `testing/stage2-defeat-input.txt`, `testing/stage2-defeat-output.txt` | Kenz | A reproducible losing Stage 2 game: the Waiter waits every turn, the Critic runs out of patience and leaves, and nobody pays |
+
+**Changed files**
+
+| File | Owner | Why |
+| ---- | ----- | --- |
+| `src/main/java/control/GameConfig.java` | Soon How | The arrival schedule now says which type of customer arrives on each turn: a VIP on turn 4 and a Critic on turn 10. The Critic is customer 4, who would order a Salad as a Regular, so its Pasta order shows the Critic's twist. The setting also refuses a schedule that is out of turn order or runs past the last turn |
+| `src/main/java/control/GameController.java` | Soon How, Kenz | `handleArrivals` now asks the arrival schedule to create each customer, because Stage 1 hard-coded `new RegularCustomer(...)`. Nothing else in the turn sequence changed. Kenz also switched the payment step to `Restaurant.getCashier()`, and added `getServedCustomers()` and `getUnhappyDepartures()` so the turn displays can show them |
+| `src/main/java/entity/Restaurant.java` | Kenz | Holds the Cashier, through `getCashier()`, alongside the Waiter and Chef |
+| `src/main/java/boundary/ConsoleUI.java` | Kenz | Shows each customer's type, for example "Customer 4 (Critic)", by calling `getTypeName()` on the customer, with no type checks. Adds the running score at the start of each turn (revenue and average satisfaction of paid customers), the end-of-turn results (served, unhappy departures, revenue, average, turns used), and "N/A" for the average until someone pays, which the brief requires (sections 3.1 and 3.5) |
+| `src/main/java/boundary/InputReader.java` | Kenz | Prints each choice read from a piped file, so replay outputs are readable; Javadoc names the right replay file |
+| `src/main/java/entity/Staff.java`, `Table.java`, `enums/WaiterTask.java` | Kenz | Javadoc fixes |
+| `src/main/java/entity/Customer.java`, `RegularCustomer.java` | Rifqi | `getTypeName()`, so each customer's type can be shown, and Javadoc fixes |
+| `src/main/java/enums/CustomerState.java` | Rifqi | Javadoc fixes |
+| `testing/GameControllerCheck.java` | Soon How | Checks the arrival schedule, the VIP and the Critic in play (satisfaction loss, dish, price and revenue), and a full winning and losing Stage 2 game |
+| `testing/stage1-*-output.txt` | Kenz | Regenerated with the echoed input and the customer type |
+| `README.md` | Soon How | The Stage 2 customers and arrivals, and this section |
+
+**Deleted files:** none.
+
+**Stage 1 evidence:** the `testing/stage1-*` replays were recorded when every customer was Regular, and they match the game at the `stage-1` tag. They no longer fit the Stage 2 schedule, because the Critic's Pasta on turn 10 needs a second unit of cooking. A winning Stage 2 game gives 5 paid, $73.50 and an average satisfaction of 76.
 
 ### Stage 2 → Stage 3
 

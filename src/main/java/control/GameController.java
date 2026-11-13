@@ -9,7 +9,6 @@ import entity.Customer;
 import entity.Menu;
 import entity.MenuItem;
 import entity.Order;
-import entity.RegularCustomer;
 import entity.Restaurant;
 import entity.Table;
 import enums.CustomerState;
@@ -80,11 +79,14 @@ public class GameController {
         restaurant.getWaiter().startTurn();
         ui.showTurnHeader(turn, config.getTurns());
         handleArrivals(turn);
+        ui.showTurnStatus(getRevenueCents(), getPaidCustomers(), getAverageSatisfaction());
         ui.showRestaurantState(restaurant);
         waiterAction(turn);
         chefAction();
         eatingAndPayment(turn);
         waitingAndAbandonment();
+        ui.showTurnResults(turn, config.getTurns(), getServedCustomers(), getUnhappyDepartures(),
+                getRevenueCents(), getPaidCustomers(), getAverageSatisfaction());
     }
 
     /**
@@ -94,6 +96,39 @@ public class GameController {
      */
     public int getPaidCustomers() {
         return paidCustomers().size();
+    }
+
+    /**
+     * Returns how many customers have been served so far: those eating, ready
+     * to pay or paid.
+     *
+     * @return the number of customers served
+     */
+    public int getServedCustomers() {
+        int served = 0;
+        for (Customer customer : restaurant.getCustomers()) {
+            CustomerState state = customer.getState();
+            if (state == CustomerState.EATING || state == CustomerState.READY_TO_PAY
+                    || state == CustomerState.PAID) {
+                served++;
+            }
+        }
+        return served;
+    }
+
+    /**
+     * Returns how many customers ran out of patience and left without paying.
+     *
+     * @return the number of unhappy departures
+     */
+    public int getUnhappyDepartures() {
+        int departures = 0;
+        for (Customer customer : restaurant.getCustomers()) {
+            if (customer.getState() == CustomerState.LEFT) {
+                departures++;
+            }
+        }
+        return departures;
     }
 
     /**
@@ -148,14 +183,16 @@ public class GameController {
     }
 
     /**
-     * Phase 1: if a customer is due this turn, a new Regular customer joins the
-     * waiting queue. Customer ids start at 1 and go up by one per arrival.
+     * Phase 1: every customer the schedule in {@link GameConfig} has due this
+     * turn joins the waiting queue. The schedule decides the customer's type, so
+     * this method never needs to change when a new type of customer is added.
+     * Customer ids start at 1 and go up by one per arrival.
      *
      * @param turn the current turn number
      */
     private void handleArrivals(int turn) {
-        if (config.getArrivalTurns().contains(turn)) {
-            Customer customer = new RegularCustomer(nextCustomerId++);
+        for (Arrival arrival : config.arrivalsOn(turn)) {
+            Customer customer = arrival.createCustomer(nextCustomerId++);
             restaurant.addArrival(customer);
             ui.showCustomerArrived(customer);
         }

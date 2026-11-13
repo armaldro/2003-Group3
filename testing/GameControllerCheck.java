@@ -2,10 +2,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import boundary.ConsoleUI;
 import boundary.InputReader;
+import control.Arrival;
 import control.GameConfig;
 import control.GameController;
 import entity.Customer;
@@ -17,7 +20,8 @@ import enums.CustomerState;
 import enums.OrderStatus;
 
 /**
- * Checks Soon How's Stage 1 GameController: the turn sequence and the scoring.
+ * Checks Soon How's GameController: the Stage 1 turn sequence and scoring, and
+ * the Stage 2 arrival schedule with its VIP and Critic customers.
  * Each check feeds scripted answers through a Scanner on a string, so no real
  * console is needed. The game's own output is hidden while a check plays.
  * Run from the repo root:
@@ -33,6 +37,33 @@ public class GameControllerCheck {
     private static ByteArrayOutputStream captured;
 
     /**
+     * A winning Stage 2 game, one answer per line. Each turn: the Waiter's task
+     * (1 Seat, 2 Take order, 3 Serve, 4 Wait), who and which table where asked,
+     * then the Chef's choice (0 Wait, 1 cook the first order) when there is
+     * something to cook. On turn 13 the Waiter seats customer 5 and the Chef
+     * finishes the Critic's Pasta.
+     */
+    private static final String STAGE2_VICTORY_MOVES = String.join("\n",
+            "1", "1", "1",          // t1  seat customer 1
+            "2", "1", "1",          // t2  take customer 1's order, cook the Salad
+            "3", "1",               // t3  serve customer 1
+            "1", "1", "1",          // t4  seat customer 2 (VIP)
+            "2", "1", "1",          // t5  take the VIP's order, cook the Burger
+            "3", "1",               // t6  serve the VIP
+            "1", "1", "1",          // t7  seat customer 3
+            "2", "1", "1",          // t8  take customer 3's order, cook the Pasta (1 of 2)
+            "4", "1",               // t9  Waiter waits, cook the Pasta (2 of 2)
+            "3", "1",               // t10 serve customer 3
+            "1", "1", "1",          // t11 seat customer 4 (Critic)
+            "2", "1", "1",          // t12 take the Critic's order, cook the Pasta (1 of 2)
+            "1", "1", "1", "1",     // t13 seat customer 5, cook the Critic's Pasta (2 of 2)
+            "3", "1",               // t14 serve the Critic
+            "2", "1", "1",          // t15 take customer 5's order, cook the Burger
+            "3", "1",               // t16 serve customer 5
+            "1", "1", "1",          // t17 seat customer 6
+            "4") + "\n";            // t18 Waiter waits
+
+    /**
      * Runs every check and prints a summary.
      *
      * @param args not used
@@ -45,6 +76,9 @@ public class GameControllerCheck {
         satisfactionAndLeavingCheck();
         averageCountsPaidOnlyCheck();
         invalidChoiceCheck();
+        arrivalScheduleCheck();
+        vipCheck();
+        criticCheck();
         victoryAndDefeatCheck();
 
         System.out.println(failures == 0 ? "\nAll checks passed." : "\n" + failures + " check(s) FAILED.");
@@ -163,20 +197,134 @@ public class GameControllerCheck {
         check("only one turn of satisfaction was lost", c1.getSatisfaction() == 92);
     }
 
-    /** The full victory and defeat replays end with the expected scores. */
+    /**
+     * A winning Stage 2 game. The stage 1 moves (5 paid, $66.00, 79 at the
+     * stage-1 tag) no longer fit, because the Critic on turn 10 orders a Pasta
+     * that needs a second unit of cooking. Customers pay on turns 5, 8, 12, 16
+     * and 18: $9.00 + $13.50 (VIP) + $18.00 + $18.00 (Critic) + $15.00 = $73.50,
+     * with satisfaction 84, 90, 76, 52 and 76, so the average is 75.6, rounded to 76.
+     */
     private static void victoryAndDefeatCheck() throws Exception {
-        System.out.println("-- Full games from the replay files");
-        GameController win = game(Files.readString(Path.of("testing/stage1-victory-input.txt")));
+        System.out.println("-- Full Stage 2 games");
+        GameController win = game(STAGE2_VICTORY_MOVES);
         play(win, 1, 18);
-        check("victory run: 5 paid", win.getPaidCustomers() == 5);
-        check("victory run: $66.00 revenue", win.getRevenueCents() == 6600);
-        check("victory run: average satisfaction 79", win.getAverageSatisfaction() == 79);
-        check("victory run: Victory", win.isVictory());
+        check("victory moves: 5 paid", win.getPaidCustomers() == 5);
+        check("victory moves: $73.50 revenue", win.getRevenueCents() == 7350);
+        check("victory moves: average satisfaction 76", win.getAverageSatisfaction() == 76);
+        check("victory moves: Victory", win.isVictory());
 
+        // The Waiter and Chef wait every turn.
         GameController lose = game(Files.readString(Path.of("testing/stage1-defeat-input.txt")));
         play(lose, 1, 18);
-        check("defeat run: 0 paid", lose.getPaidCustomers() == 0);
-        check("defeat run: Defeat", !lose.isVictory());
+        List<Customer> customers = lose.getRestaurant().getCustomers();
+        check("defeat moves: 0 paid", lose.getPaidCustomers() == 0);
+        check("defeat moves: Defeat", !lose.isVictory());
+        check("defeat moves: the Critic (customer 4) runs out of patience by turn 18",
+                customers.size() >= 4 && customers.get(3).getState() == CustomerState.LEFT);
+        check("defeat moves: the VIP (customer 2) is still waiting",
+                customers.size() >= 2 && customers.get(1).getState() == CustomerState.WAITING);
+    }
+
+    /**
+     * The Critic arrives on turn 10, loses 12 per unserved turn, orders the
+     * slowest dish (a Pasta, where a Regular customer 4 would order a Salad),
+     * stops losing once served, and pays full price.
+     */
+    private static void criticCheck() {
+        System.out.println("-- The Critic on turn 10");
+        GameController game = game(STAGE2_VICTORY_MOVES);
+        play(game, 1, 10);
+        List<Customer> customers = game.getRestaurant().getCustomers();
+        check("the Critic has arrived by turn 10", customers.size() == 4);
+        if (customers.size() < 4) {
+            return;
+        }
+        Customer critic = customers.get(3);
+        check("the Critic drops to 88 after its first turn waiting", critic.getSatisfaction() == 88);
+
+        play(game, 11, 12);
+        check("the Critic drops to 64 after turns 11 and 12", critic.getSatisfaction() == 64);
+        check("the Critic orders a Pasta", critic.getOrder().getItem().getName().equals("Pasta"));
+        check("a Regular customer 4 would have ordered a Salad",
+                new RegularCustomer(4).chooseItem(Menu.standard()).getName().equals("Salad"));
+        check("the Critic's Pasta is billed full price, $18.00", critic.getOrder().getPriceCents() == 1800);
+
+        play(game, 13, 15);
+        check("the Critic is at 52 and stops losing once served on turn 14", critic.getSatisfaction() == 52);
+        int revenueBefore = game.getRevenueCents();
+
+        // Turn 16 is the Critic's payment turn, and nobody else pays on it.
+        play(game, 16, 16);
+        check("the Critic pays on turn 16", critic.getState() == CustomerState.PAID);
+        check("turn 16 adds $18.00 to revenue", game.getRevenueCents() - revenueBefore == 1800);
+    }
+
+    /**
+     * The base schedule brings the right customer on the right turn. The type is
+     * recognised by its behaviour (satisfaction lost per turn), not by its class.
+     */
+    private static void arrivalScheduleCheck() {
+        System.out.println("-- The arrival schedule creates the right customer on the right turn");
+        List<Integer> turns = new ArrayList<>();
+        for (Arrival arrival : GameConfig.base().getArrivals()) {
+            turns.add(arrival.getTurn());
+        }
+        check("6 arrivals on turns 1, 4, 7, 10, 13 and 16", turns.equals(List.of(1, 4, 7, 10, 13, 16)));
+
+        // Satisfaction lost per turn for each scheduled arrival: 8 Regular, 5 VIP, 12 Critic.
+        int[] expectedLoss = {8, 5, 8, 12, 8, 8};
+        List<Arrival> arrivals = GameConfig.base().getArrivals();
+        for (int i = 0; i < arrivals.size(); i++) {
+            Arrival arrival = arrivals.get(i);
+            check("turn " + arrival.getTurn() + " brings a customer who loses " + expectedLoss[i] + " per turn",
+                    arrival.createCustomer(i + 1).getSatisfactionLoss() == expectedLoss[i]);
+        }
+        check("arrivalsOn(4) gives exactly the turn 4 arrival", GameConfig.base().arrivalsOn(4).size() == 1
+                && GameConfig.base().arrivalsOn(4).get(0).getTurn() == 4);
+        check("arrivalsOn(5) is empty", GameConfig.base().arrivalsOn(5).isEmpty());
+
+        // The Waiter waits on turns 1 to 4, so both customers are still in the queue.
+        GameController game = game("4\n4\n4\n4\n");
+        play(game, 1, 4);
+        List<Customer> customers = game.getRestaurant().getCustomers();
+        check("two customers have arrived by turn 4", customers.size() == 2);
+        if (customers.size() < 2) {
+            return;
+        }
+        check("turn 1 brings a Regular (loses 8 per turn)", customers.get(0).getSatisfactionLoss() == 8);
+        check("turn 4 brings a VIP (loses 5 per turn)", customers.get(1).getSatisfactionLoss() == 5);
+        check("customer ids follow arrival order", customers.get(0).getId() == 1 && customers.get(1).getId() == 2);
+    }
+
+    /** A VIP loses 5 per unserved turn, is billed 10% less, and revenue counts the VIP price. */
+    private static void vipCheck() {
+        System.out.println("-- A VIP loses 5 per unserved turn and pays 10% less");
+        // The stage 1 victory moves for turns 1 to 8. Customer 2 is the VIP: seated on
+        // turn 4, orders a Burger on turn 5, served on turn 6, pays on turn 8.
+        GameController game = game("1\n1\n1\n" + "2\n1\n1\n" + "3\n1\n"
+                + "1\n1\n1\n" + "2\n1\n1\n" + "3\n1\n"
+                + "1\n1\n1\n" + "2\n1\n1\n");
+        play(game, 1, 4);
+        List<Customer> customers = game.getRestaurant().getCustomers();
+        check("the VIP has arrived by turn 4", customers.size() == 2);
+        if (customers.size() < 2) {
+            return;
+        }
+        Customer vip = customers.get(1);
+        check("VIP drops to 95 after one turn seated", vip.getSatisfaction() == 95);
+
+        play(game, 5, 5);
+        check("VIP drops to 90 after a turn waiting for the Burger", vip.getSatisfaction() == 90);
+        check("VIP's Burger is billed $13.50 (1350 cents)", vip.getOrder().getPriceCents() == 1350);
+
+        play(game, 6, 7);
+        check("VIP stays at 90 once served", vip.getSatisfaction() == 90);
+        int revenueBefore = game.getRevenueCents();
+
+        // Turn 8 is the VIP's payment turn, and nobody else pays on it.
+        play(game, 8, 8);
+        check("VIP pays on turn 8", vip.getState() == CustomerState.PAID);
+        check("turn 8 adds $13.50 to revenue, not $15.00", game.getRevenueCents() - revenueBefore == 1350);
     }
 
     // ----- helpers -----
