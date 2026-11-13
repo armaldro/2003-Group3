@@ -4,13 +4,13 @@
 
 
 --- Turn 1 of 18 ---
-Ding! Customer 1 has arrived.
+Ding! Customer 1 (Regular) has arrived.
 Tables:
   Table 1: free
   Table 2: free
-Waiting queue: Customer 1
+Waiting queue: Customer 1 (Regular)
 Customers:
-  Customer 1: WAITING, satisfaction 100
+  Customer 1 (Regular): WAITING, satisfaction 100
 Waiter tasks:
   1. Seat a customer
   4. Wait
@@ -27,7 +27,7 @@ Waiter tasks:
   4. Wait
 Waiter action: 1
 Who should be seated?
-  1. Customer 1: WAITING, satisfaction 100
+  1. Customer 1 (Regular): WAITING, satisfaction 100
 Customer: 1
 Which table?
   1. Table 1
@@ -37,11 +37,11 @@ The Chef has nothing to cook.
 
 --- Turn 2 of 18 ---
 Tables:
-  Table 1: Customer 1
+  Table 1: Customer 1 (Regular)
   Table 2: free
 Waiting queue: none
 Customers:
-  Customer 1: SEATED, satisfaction 92
+  Customer 1 (Regular): SEATED, satisfaction 92
 Waiter tasks:
   2. Take an order
   4. Wait
@@ -50,11 +50,11 @@ The Chef has nothing to cook.
 
 --- Turn 3 of 18 ---
 Tables:
-  Table 1: Customer 1
+  Table 1: Customer 1 (Regular)
   Table 2: free
 Waiting queue: none
 Customers:
-  Customer 1: SEATED, satisfaction 84
+  Customer 1 (Regular): SEATED, satisfaction 84
 Waiter tasks:
   2. Take an order
   4. Wait
@@ -62,14 +62,14 @@ Waiter action: 4
 The Chef has nothing to cook.
 
 --- Turn 4 of 18 ---
-Ding! Customer 2 has arrived.
+Ding! Customer 2 (Regular) has arrived.
 Tables:
-  Table 1: Customer 1
+  Table 1: Customer 1 (Regular)
   Table 2: free
-Waiting queue: Customer 2
+Waiting queue: Customer 2 (Regular)
 Customers:
-  Customer 1: SEATED, satisfaction 76
-  Customer 2: WAITING, satisfaction 100
+  Customer 1 (Regular): SEATED, satisfaction 76
+  Customer 2 (Regular): WAITING, satisfaction 100
 Waiter tasks:
   1. Seat a customer
   2. Take an order
@@ -79,12 +79,12 @@ The Chef has nothing to cook.
 
 --- Turn 5 of 18 ---
 Tables:
-  Table 1: Customer 1
+  Table 1: Customer 1 (Regular)
   Table 2: free
-Waiting queue: Customer 2
+Waiting queue: Customer 2 (Regular)
 Customers:
-  Customer 1: SEATED, satisfaction 68
-  Customer 2: WAITING, satisfaction 92
+  Customer 1 (Regular): SEATED, satisfaction 68
+  Customer 2 (Regular): WAITING, satisfaction 92
 Waiter tasks:
   1. Seat a customer
   2. Take an order
@@ -94,12 +94,12 @@ The Chef has nothing to cook.
 
 --- Turn 6 of 18 ---
 Tables:
-  Table 1: Customer 1
+  Table 1: Customer 1 (Regular)
   Table 2: free
-Waiting queue: Customer 2
+Waiting queue: Customer 2 (Regular)
 Customers:
-  Customer 1: SEATED, satisfaction 60
-  Customer 2: WAITING, satisfaction 84
+  Customer 1 (Regular): SEATED, satisfaction 60
+  Customer 2 (Regular): WAITING, satisfaction 84
 Waiter tasks:
   1. Seat a customer
   2. Take an order
@@ -108,15 +108,15 @@ Waiter action: 4
 The Chef has nothing to cook.
 
 --- Turn 7 of 18 ---
-Ding! Customer 3 has arrived.
+Ding! Customer 3 (Regular) has arrived.
 Tables:
-  Table 1: Customer 1
+  Table 1: Customer 1 (Regular)
   Table 2: free
-Waiting queue: Customer 2, Customer 3
+Waiting queue: Customer 2 (Regular), Customer 3 (Regular)
 Customers:
-  Customer 1: SEATED, satisfaction 52
-  Customer 2: WAITING, satisfaction 76
-  Customer 3: WAITING, satisfaction 100
+  Customer 1 (Regular): SEATED, satisfaction 52
+  Customer 2 (Regular): WAITING, satisfaction 76
+  Customer 3 (Regular): WAITING, satisfaction 100
 Waiter tasks:
   1. Seat a customer
   2. Take an order
@@ -126,13 +126,13 @@ The Chef has nothing to cook.
 
 --- Turn 8 of 18 ---
 Tables:
-  Table 1: Customer 1
+  Table 1: Customer 1 (Regular)
   Table 2: free
-Waiting queue: Customer 2, Customer 3
+Waiting queue: Customer 2 (Regular), Customer 3 (Regular)
 Customers:
-  Customer 1: SEATED, satisfaction 44
-  Customer 2: WAITING, satisfaction 68
-  Customer 3: WAITING, satisfaction 92
+  Customer 1 (Regular): SEATED, satisfaction 44
+  Customer 2 (Regular): WAITING, satisfaction 68
+  Customer 3 (Regular): WAITING, satisfaction 92
 Waiter tasks:
   1. Seat a customer
   2. Take an order
@@ -142,13 +142,13 @@ The Chef has nothing to cook.
 
 --- Turn 9 of 18 ---
 Tables:
-  Table 1: Customer 1
+  Table 1: Customer 1 (Regular)
   Table 2: free
-Waiting queue: Customer 2, Customer 3
+Waiting queue: Customer 2 (Regular), Customer 3 (Regular)
 Customers:
-  Customer 1: SEATED, satisfaction 36
-  Customer 2: WAITING, satisfaction 60
-  Customer 3: WAITING, satisfaction 84
+  Customer 1 (Regular): SEATED, satisfaction 36
+  Customer 2 (Regular): WAITING, satisfaction 60
+  Customer 3 (Regular): WAITING, satisfaction 84
 Waiter tasks:
   1. Seat a customer
   2. Take an order
@@ -157,16 +157,16 @@ Waiter action: 4
 The Chef has nothing to cook.
 
 --- Turn 10 of 18 ---
-Ding! Customer 4 has arrived.
+Ding! Customer 4 (Regular) has arrived.
 Tables:
-  Table 1: Customer 1
+  Table 1: Customer 1 (Regular)
   Table 2: free
-Waiting queue: Customer 2, Customer 3, Customer 4
+Waiting queue: Customer 2 (Regular), Customer 3 (Regular), Customer 4 (Regular)
 Customers:
-  Customer 1: SEATED, satisfaction 28
-  Customer 2: WAITING, satisfaction 52
-  Customer 3: WAITING, satisfaction 76
-  Customer 4: WAITING, satisfaction 100
+  Customer 1 (Regular): SEATED, satisfaction 28
+  Customer 2 (Regular): WAITING, satisfaction 52
+  Customer 3 (Regular): WAITING, satisfaction 76
+  Customer 4 (Regular): WAITING, satisfaction 100
 Waiter tasks:
   1. Seat a customer
   2. Take an order
@@ -176,14 +176,14 @@ The Chef has nothing to cook.
 
 --- Turn 11 of 18 ---
 Tables:
-  Table 1: Customer 1
+  Table 1: Customer 1 (Regular)
   Table 2: free
-Waiting queue: Customer 2, Customer 3, Customer 4
+Waiting queue: Customer 2 (Regular), Customer 3 (Regular), Customer 4 (Regular)
 Customers:
-  Customer 1: SEATED, satisfaction 20
-  Customer 2: WAITING, satisfaction 44
-  Customer 3: WAITING, satisfaction 68
-  Customer 4: WAITING, satisfaction 92
+  Customer 1 (Regular): SEATED, satisfaction 20
+  Customer 2 (Regular): WAITING, satisfaction 44
+  Customer 3 (Regular): WAITING, satisfaction 68
+  Customer 4 (Regular): WAITING, satisfaction 92
 Waiter tasks:
   1. Seat a customer
   2. Take an order
@@ -193,14 +193,14 @@ The Chef has nothing to cook.
 
 --- Turn 12 of 18 ---
 Tables:
-  Table 1: Customer 1
+  Table 1: Customer 1 (Regular)
   Table 2: free
-Waiting queue: Customer 2, Customer 3, Customer 4
+Waiting queue: Customer 2 (Regular), Customer 3 (Regular), Customer 4 (Regular)
 Customers:
-  Customer 1: SEATED, satisfaction 12
-  Customer 2: WAITING, satisfaction 36
-  Customer 3: WAITING, satisfaction 60
-  Customer 4: WAITING, satisfaction 84
+  Customer 1 (Regular): SEATED, satisfaction 12
+  Customer 2 (Regular): WAITING, satisfaction 36
+  Customer 3 (Regular): WAITING, satisfaction 60
+  Customer 4 (Regular): WAITING, satisfaction 84
 Waiter tasks:
   1. Seat a customer
   2. Take an order
@@ -209,36 +209,36 @@ Waiter action: 4
 The Chef has nothing to cook.
 
 --- Turn 13 of 18 ---
-Ding! Customer 5 has arrived.
+Ding! Customer 5 (Regular) has arrived.
 Tables:
-  Table 1: Customer 1
+  Table 1: Customer 1 (Regular)
   Table 2: free
-Waiting queue: Customer 2, Customer 3, Customer 4, Customer 5
+Waiting queue: Customer 2 (Regular), Customer 3 (Regular), Customer 4 (Regular), Customer 5 (Regular)
 Customers:
-  Customer 1: SEATED, satisfaction 4
-  Customer 2: WAITING, satisfaction 28
-  Customer 3: WAITING, satisfaction 52
-  Customer 4: WAITING, satisfaction 76
-  Customer 5: WAITING, satisfaction 100
+  Customer 1 (Regular): SEATED, satisfaction 4
+  Customer 2 (Regular): WAITING, satisfaction 28
+  Customer 3 (Regular): WAITING, satisfaction 52
+  Customer 4 (Regular): WAITING, satisfaction 76
+  Customer 5 (Regular): WAITING, satisfaction 100
 Waiter tasks:
   1. Seat a customer
   2. Take an order
   4. Wait
 Waiter action: 4
 The Chef has nothing to cook.
-Customer 1 ran out of patience and left.
+Customer 1 (Regular) ran out of patience and left.
 
 --- Turn 14 of 18 ---
 Tables:
   Table 1: free
   Table 2: free
-Waiting queue: Customer 2, Customer 3, Customer 4, Customer 5
+Waiting queue: Customer 2 (Regular), Customer 3 (Regular), Customer 4 (Regular), Customer 5 (Regular)
 Customers:
-  Customer 1: LEFT, satisfaction 0
-  Customer 2: WAITING, satisfaction 20
-  Customer 3: WAITING, satisfaction 44
-  Customer 4: WAITING, satisfaction 68
-  Customer 5: WAITING, satisfaction 92
+  Customer 1 (Regular): LEFT, satisfaction 0
+  Customer 2 (Regular): WAITING, satisfaction 20
+  Customer 3 (Regular): WAITING, satisfaction 44
+  Customer 4 (Regular): WAITING, satisfaction 68
+  Customer 5 (Regular): WAITING, satisfaction 92
 Waiter tasks:
   1. Seat a customer
   4. Wait
@@ -249,13 +249,13 @@ The Chef has nothing to cook.
 Tables:
   Table 1: free
   Table 2: free
-Waiting queue: Customer 2, Customer 3, Customer 4, Customer 5
+Waiting queue: Customer 2 (Regular), Customer 3 (Regular), Customer 4 (Regular), Customer 5 (Regular)
 Customers:
-  Customer 1: LEFT, satisfaction 0
-  Customer 2: WAITING, satisfaction 12
-  Customer 3: WAITING, satisfaction 36
-  Customer 4: WAITING, satisfaction 60
-  Customer 5: WAITING, satisfaction 84
+  Customer 1 (Regular): LEFT, satisfaction 0
+  Customer 2 (Regular): WAITING, satisfaction 12
+  Customer 3 (Regular): WAITING, satisfaction 36
+  Customer 4 (Regular): WAITING, satisfaction 60
+  Customer 5 (Regular): WAITING, satisfaction 84
 Waiter tasks:
   1. Seat a customer
   4. Wait
@@ -263,37 +263,37 @@ Waiter action: 4
 The Chef has nothing to cook.
 
 --- Turn 16 of 18 ---
-Ding! Customer 6 has arrived.
+Ding! Customer 6 (Regular) has arrived.
 Tables:
   Table 1: free
   Table 2: free
-Waiting queue: Customer 2, Customer 3, Customer 4, Customer 5, Customer 6
+Waiting queue: Customer 2 (Regular), Customer 3 (Regular), Customer 4 (Regular), Customer 5 (Regular), Customer 6 (Regular)
 Customers:
-  Customer 1: LEFT, satisfaction 0
-  Customer 2: WAITING, satisfaction 4
-  Customer 3: WAITING, satisfaction 28
-  Customer 4: WAITING, satisfaction 52
-  Customer 5: WAITING, satisfaction 76
-  Customer 6: WAITING, satisfaction 100
+  Customer 1 (Regular): LEFT, satisfaction 0
+  Customer 2 (Regular): WAITING, satisfaction 4
+  Customer 3 (Regular): WAITING, satisfaction 28
+  Customer 4 (Regular): WAITING, satisfaction 52
+  Customer 5 (Regular): WAITING, satisfaction 76
+  Customer 6 (Regular): WAITING, satisfaction 100
 Waiter tasks:
   1. Seat a customer
   4. Wait
 Waiter action: 4
 The Chef has nothing to cook.
-Customer 2 ran out of patience and left.
+Customer 2 (Regular) ran out of patience and left.
 
 --- Turn 17 of 18 ---
 Tables:
   Table 1: free
   Table 2: free
-Waiting queue: Customer 3, Customer 4, Customer 5, Customer 6
+Waiting queue: Customer 3 (Regular), Customer 4 (Regular), Customer 5 (Regular), Customer 6 (Regular)
 Customers:
-  Customer 1: LEFT, satisfaction 0
-  Customer 2: LEFT, satisfaction 0
-  Customer 3: WAITING, satisfaction 20
-  Customer 4: WAITING, satisfaction 44
-  Customer 5: WAITING, satisfaction 68
-  Customer 6: WAITING, satisfaction 92
+  Customer 1 (Regular): LEFT, satisfaction 0
+  Customer 2 (Regular): LEFT, satisfaction 0
+  Customer 3 (Regular): WAITING, satisfaction 20
+  Customer 4 (Regular): WAITING, satisfaction 44
+  Customer 5 (Regular): WAITING, satisfaction 68
+  Customer 6 (Regular): WAITING, satisfaction 92
 Waiter tasks:
   1. Seat a customer
   4. Wait
@@ -304,14 +304,14 @@ The Chef has nothing to cook.
 Tables:
   Table 1: free
   Table 2: free
-Waiting queue: Customer 3, Customer 4, Customer 5, Customer 6
+Waiting queue: Customer 3 (Regular), Customer 4 (Regular), Customer 5 (Regular), Customer 6 (Regular)
 Customers:
-  Customer 1: LEFT, satisfaction 0
-  Customer 2: LEFT, satisfaction 0
-  Customer 3: WAITING, satisfaction 12
-  Customer 4: WAITING, satisfaction 36
-  Customer 5: WAITING, satisfaction 60
-  Customer 6: WAITING, satisfaction 84
+  Customer 1 (Regular): LEFT, satisfaction 0
+  Customer 2 (Regular): LEFT, satisfaction 0
+  Customer 3 (Regular): WAITING, satisfaction 12
+  Customer 4 (Regular): WAITING, satisfaction 36
+  Customer 5 (Regular): WAITING, satisfaction 60
+  Customer 6 (Regular): WAITING, satisfaction 84
 Waiter tasks:
   1. Seat a customer
   4. Wait
